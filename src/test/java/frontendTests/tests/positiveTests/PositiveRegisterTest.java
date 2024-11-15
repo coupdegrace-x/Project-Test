@@ -7,9 +7,12 @@ import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 import java.time.Duration;
 
 /*
@@ -20,6 +23,8 @@ import java.time.Duration;
         path = "frontendTests/testCases/registerCases/PositiveRegisterCases.md")
 public class PositiveRegisterTest extends BaseTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PositiveRegisterTest.class);
+
     private RegisterPage registerPage;
     private RegisterResultPage registerResultPage;
 
@@ -29,8 +34,10 @@ public class PositiveRegisterTest extends BaseTest {
         registerResultPage = new RegisterResultPage(getDriver());
     }
 
-    @Test(description = "Успешная регистрация пользователя на основе фейк данных, пол мужской")
+    @Test(description = "Successful user registration based on fake data, male gender")
     public void testRegisterWithMaleGenderPositive() {
+        LOGGER.info("Start testRegisterWithMaleGenderPositive");
+
         final String password = RandomUserData.getRandomPassword();
 
         registerPage.openRegisterPageChain()
@@ -50,10 +57,14 @@ public class PositiveRegisterTest extends BaseTest {
 
         Assert.assertTrue(registerResultPage.getTextPageBody().contains("Your registration completed"),
                 "Incorrect text");
+
+        LOGGER.info("Finish testRegisterWithMaleGenderPositive");
     }
 
-    @Test(description = "Успешная регистрация пользователя на основе фейк данных, пол женский")
+    @Test(description = "Successful user registration based on fake data, gender female")
     public void testRegisterWithFemaleGenderPositive() {
+        LOGGER.info("Start testRegisterWithFemaleGenderPositive");
+
         final String password = RandomUserData.getRandomPassword();
 
         registerPage.openRegisterPageChain()
@@ -73,5 +84,7 @@ public class PositiveRegisterTest extends BaseTest {
 
         Assert.assertTrue(registerResultPage.getTextPageBody().contains("Your registration completed"),
                 "Incorrect text");
+
+        LOGGER.info("Finish testRegisterWithFemaleGenderPositive");
     }
 }

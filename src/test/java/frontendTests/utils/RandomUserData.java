@@ -8,21 +8,21 @@ import com.github.javafaker.Faker;
  */
 public class RandomUserData {
 
-    private static Faker faker = new Faker();
+    private static final Faker FAKER = new Faker();
 
     public static String getRandomFirstName() {
-        return faker.name().firstName();
+        return FAKER.name().firstName();
     }
 
     public static String getRandomLastName() {
-        return faker.name().lastName();
+        return FAKER.name().lastName();
     }
 
     public static String getRandomEmail() {
-        return faker.internet().emailAddress();
+        return FAKER.internet().emailAddress();
     }
 
     public static String getRandomPassword() {
-        return faker.internet().password();
+        return FAKER.internet().password();
     }
 }

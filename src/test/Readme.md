@@ -12,6 +12,9 @@ firstProject
 - javafaker 1.0.2
 - Lombok 1.18.34
 - Apache commons-io 2.16.1
+- slf4j-api 2.0.16
+- logback-classic 1.5.7
+- logback-core 1.5.7
 
 ## Структура проекта
 - src/test/java - тестовый код
