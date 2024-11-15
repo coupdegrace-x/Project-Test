@@ -34,6 +34,19 @@ public class PositiveRegisterTest extends BaseTest {
         registerResultPage = new RegisterResultPage(getDriver());
     }
 
+    private void verifyRegistrationResult(String expectedTitle, String expectedBody, int waitingSeconds) {
+        new WebDriverWait(getDriver(), Duration.ofSeconds(waitingSeconds))
+                .until(ExpectedConditions.urlContains("registerresult/1"));
+
+        Assert.assertTrue(registerResultPage.getTextPageTitle().contains(expectedTitle),
+                "Incorrect title text");
+
+        Assert.assertTrue(registerResultPage.getTextPageBody().contains(expectedBody),
+                "Incorrect body text");
+
+        Assert.assertTrue(registerResultPage.atRegisterResultPage());
+    }
+
     @Test(description = "Successful user registration based on fake data, male gender")
     public void testRegisterWithMaleGenderPositive() {
         LOGGER.info("Start testRegisterWithMaleGenderPositive");
@@ -49,14 +62,7 @@ public class PositiveRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(password)
                 .clickRegisterButton();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.urlContains("registerresult/1"));
-
-        Assert.assertTrue(registerResultPage.getTextPageTitle().contains("Register"),
-                "Incorrect text");
-
-        Assert.assertTrue(registerResultPage.getTextPageBody().contains("Your registration completed"),
-                "Incorrect text");
+        verifyRegistrationResult("Register", "Your registration completed",10);
 
         LOGGER.info("Finish testRegisterWithMaleGenderPositive");
     }
@@ -76,15 +82,27 @@ public class PositiveRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(password)
                 .clickRegisterButton();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.urlContains("registerresult/1"));
-
-        Assert.assertTrue(registerResultPage.getTextPageTitle().contains("Register"),
-                "Incorrect text");
-
-        Assert.assertTrue(registerResultPage.getTextPageBody().contains("Your registration completed"),
-                "Incorrect text");
+        verifyRegistrationResult("Register", "Your registration completed",10);
 
         LOGGER.info("Finish testRegisterWithFemaleGenderPositive");
+    }
+
+    @Test(description = "Successful user registration based on fake data, without gender")
+    public void testRegisterWithNoGenderPositive() {
+        LOGGER.info("Start testRegisterWithNoGenderPositive");
+
+        final String password = RandomUserData.getRandomPassword();
+
+        registerPage.openRegisterPageChain()
+                .enterFirstNameChain(RandomUserData.getRandomFirstName())
+                .enterLastNameChain(RandomUserData.getRandomLastName())
+                .enterEmailChain(RandomUserData.getRandomEmail())
+                .enterPasswordChain(password)
+                .enterConfirmPasswordChain(password)
+                .clickRegisterButton();
+
+        verifyRegistrationResult("Register", "Your registration completed",10);
+
+        LOGGER.info("Finish testRegisterWithNoGenderPositive");
     }
 }
