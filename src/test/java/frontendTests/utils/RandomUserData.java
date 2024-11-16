@@ -7,7 +7,6 @@ import com.github.javafaker.Faker;
 все методы статические
  */
 public class RandomUserData {
-
     private static final Faker FAKER = new Faker();
 
     public static String getRandomFirstName() {

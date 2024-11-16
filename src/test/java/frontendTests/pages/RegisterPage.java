@@ -1,10 +1,15 @@
 package frontendTests.pages;
 
+import lombok.Getter;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Objects;
 
 /*
@@ -17,6 +22,12 @@ import java.util.Objects;
 метод: enterPassword - вводит пароль пользователя
 метод: enterConfirmPassword - вводит пароль пользователя для подтверждения
 метод: clickRegisterButton - кликает по кнопке регистрации
+метод: getTextFirstNameRequired - возвращает строку-информацию, что требуется ввести имя
+метод: getTextLastNameRequired - возвращает строку-информацию, что требуется ввести фамилию
+метод: getTextEmailRequired - возвращает строку-информацию, что требуется ввести эмаил
+метод: getTextPasswordRequired - возвращает строку-информацию, что требуется ввести пароль
+метод: getTextConfirmPasswordRequired - возвращает строку-информацию, что требуется подтвердить пароль
+метод: getTextErrorMessage - возвращает строку-информацию, что пользователь с такой почтой уже создан
 метод: atRegisterPage - проверяет находимся ли мы на нужной URL(ссылке), возвращает true или false
 конструктор: RegisterPage, кол-во конструкторов == 1
 Также для каждого метода есть постфикс Chain для цепочки вызовов
@@ -55,12 +66,42 @@ public class RegisterPage {
     @FindBy(id = "register-button")
     private WebElement registerButton;
 
+    @Getter
+    @FindBy(xpath = "//span[@for='FirstName']")
+    private WebElement firstNameRequired;
+
+    @Getter
+    @FindBy(xpath = "//span[@for='LastName']")
+    private WebElement lastNameRequired;
+
+    @Getter
+    @FindBy(xpath = "//span[@for='Email']")
+    private WebElement emailRequired;
+
+    @Getter
+    @FindBy(xpath = "//span[@for='Password']")
+    private WebElement passwordRequired;
+
+    @Getter
+    @FindBy(xpath = "//span[@for='ConfirmPassword']")
+    private WebElement confirmPasswordRequired;
+
+    @Getter
+    @FindBy(xpath = "//div[@class='validation-summary-errors']//li")
+    private WebElement errorMessage;
+
     public void openRegisterPage() {
         driver.get("https://demowebshop.tricentis.com/register");
+
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
+                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
     }
 
     public RegisterPage openRegisterPageChain() {
         driver.get("https://demowebshop.tricentis.com/register");
+
+        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
+                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
         return this;
     }
 
@@ -134,6 +175,30 @@ public class RegisterPage {
     public RegisterPage clickRegisterButtonChain() {
         registerButton.click();
         return this;
+    }
+
+    public String getTextFirstNameRequired() {
+        return firstNameRequired.getText();
+    }
+
+    public String getTextLastNameRequired() {
+        return lastNameRequired.getText();
+    }
+
+    public String getTextEmailRequired() {
+        return emailRequired.getText();
+    }
+
+    public String getTextPasswordRequired() {
+        return passwordRequired.getText();
+    }
+
+    public String getTextConfirmPasswordRequired() {
+        return confirmPasswordRequired.getText();
+    }
+
+    public String getTextErrorMessage() {
+        return errorMessage.getText();
     }
 
     public boolean atRegisterPage() {

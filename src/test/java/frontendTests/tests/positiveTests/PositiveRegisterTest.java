@@ -17,7 +17,7 @@ import java.time.Duration;
 
 /*
 Класс PositiveRegisterTest преднозначен для позитивных тестовых сценариев
-при регистрации (Вкладка Register на сайте) пользователя, связанных с UI частью.
+при регистрации (Вкладка Register на сайте) пользователя
  */
 @TestCase(infoAboutCase = "PositiveRegisterCases",
         path = "frontendTests/testCases/registerCases/PositiveRegisterCases.md")
@@ -62,7 +62,7 @@ public class PositiveRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(password)
                 .clickRegisterButton();
 
-        verifyRegistrationResult("Register", "Your registration completed",10);
+        verifyRegistrationResult("Register", "Your registration completed", 10);
 
         LOGGER.info("Finish testRegisterWithMaleGenderPositive");
     }
@@ -82,7 +82,7 @@ public class PositiveRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(password)
                 .clickRegisterButton();
 
-        verifyRegistrationResult("Register", "Your registration completed",10);
+        verifyRegistrationResult("Register", "Your registration completed", 10);
 
         LOGGER.info("Finish testRegisterWithFemaleGenderPositive");
     }
@@ -101,7 +101,7 @@ public class PositiveRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(password)
                 .clickRegisterButton();
 
-        verifyRegistrationResult("Register", "Your registration completed",10);
+        verifyRegistrationResult("Register", "Your registration completed", 10);
 
         LOGGER.info("Finish testRegisterWithNoGenderPositive");
     }
