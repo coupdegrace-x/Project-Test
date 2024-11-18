@@ -29,7 +29,7 @@ public class PositiveRegisterTest extends BaseTest {
     private RegisterResultPage registerResultPage;
 
     @BeforeMethod
-    public void setUpRegisterPage() {
+    public void setUpRegisterAndResultPage() {
         registerPage = new RegisterPage(getDriver());
         registerResultPage = new RegisterResultPage(getDriver());
     }
