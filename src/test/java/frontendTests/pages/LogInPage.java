@@ -21,6 +21,8 @@ import java.util.Objects;
 метод: clickForgotPassword - кликает по строке, которая ведет на страницу для восстановления пароля
 метод: clickLogIn - кликает по кнопе log in
 метод: atLogInPage - проверяет находися ли мы на странице авторизации, возвращает true либо false
+метод: getTextCommonValidationError - возвращает общий текст с ошибкой авторизации
+метод: getTextSpecificValidationError - возвращает конкретизированный текст об ошибки при авторизации
 конструктор: LogInPage, кол-во конструкторов == 1
 Также для каждого метода есть постфикс Chain для цепочки вызовов
  */
@@ -58,17 +60,25 @@ public class LogInPage {
     @FindBy(className = "register-button")
     private WebElement registerButton;
 
+    @Getter
+    @FindBy(xpath = "//div[@class='validation-summary-errors']//span")
+    private WebElement commonValidationError;
+
+    @Getter
+    @FindBy(xpath = "//div[@class='validation-summary-errors']//li")
+    private WebElement specificMessageError;
+
     public void openLogInPage() {
         driver.get("https://demowebshop.tricentis.com/login");
 
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
+        new WebDriverWait(driver, Duration.ofSeconds(25)).until(ExpectedConditions.
                 visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
     }
 
     public LogInPage openLogInPageChain() {
         driver.get("https://demowebshop.tricentis.com/login");
 
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
+        new WebDriverWait(driver, Duration.ofSeconds(25)).until(ExpectedConditions.
                 visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
         return this;
     }
@@ -126,6 +136,14 @@ public class LogInPage {
     public LogInPage clickRegisterChain() {
         registerButton.click();
         return this;
+    }
+
+    public String getTextCommonValidationError() {
+        return commonValidationError.getText();
+    }
+
+    public String getTextSpecificValidationError() {
+        return specificMessageError.getText();
     }
 
     public boolean atLogInPage() {

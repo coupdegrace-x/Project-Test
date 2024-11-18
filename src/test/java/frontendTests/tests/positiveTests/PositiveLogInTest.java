@@ -36,8 +36,8 @@ public class PositiveLogInTest extends BaseTest {
     }
 
     @Test(description = "Authorization without the Remember me button")
-    public void testLogInWithoutRememberMePositive() {
-        LOGGER.info("Start testLogInWithoutRememberMePositive");
+    public void testLogInWithoutRememberMe() {
+        LOGGER.info("Start positive testLogInWithoutRememberMe");
 
         final String emailUser = ExistingUser.getEmailExistingUser();
 
@@ -52,12 +52,12 @@ public class PositiveLogInTest extends BaseTest {
                 15
         ));
 
-        LOGGER.info("Finish testLogInWithoutRememberMePositive");
+        LOGGER.info("Finish positive testLogInWithoutRememberMe");
     }
 
     @Test(description = "Authorization with the remember me button")
-    public void testLogInWithRememberMePositive() {
-        LOGGER.info("Start testLogInWithRememberMePositive");
+    public void testLogInWithRememberMe() {
+        LOGGER.info("Start positive testLogInWithRememberMe");
 
         final String emailUser = ExistingUser.getEmailExistingUser();
 
@@ -73,6 +73,6 @@ public class PositiveLogInTest extends BaseTest {
                 15
         ));
 
-        LOGGER.info("Finish testLogInWithRememberMePositive");
+        LOGGER.info("Finish positive testLogInWithRememberMe");
     }
 }

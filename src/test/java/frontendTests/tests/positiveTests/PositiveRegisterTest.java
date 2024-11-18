@@ -48,8 +48,8 @@ public class PositiveRegisterTest extends BaseTest {
     }
 
     @Test(description = "Successful user registration based on fake data, male gender")
-    public void testRegisterWithMaleGenderPositive() {
-        LOGGER.info("Start testRegisterWithMaleGenderPositive");
+    public void testRegisterWithMaleGender() {
+        LOGGER.info("Start positive testRegisterWithMaleGender");
 
         final String password = RandomUserData.getRandomPassword();
 
@@ -64,12 +64,12 @@ public class PositiveRegisterTest extends BaseTest {
 
         verifyRegistrationResult("Register", "Your registration completed", 10);
 
-        LOGGER.info("Finish testRegisterWithMaleGenderPositive");
+        LOGGER.info("Finish positive testRegisterWithMaleGender");
     }
 
     @Test(description = "Successful user registration based on fake data, gender female")
-    public void testRegisterWithFemaleGenderPositive() {
-        LOGGER.info("Start testRegisterWithFemaleGenderPositive");
+    public void testRegisterWithFemaleGender() {
+        LOGGER.info("Start positive testRegisterWithFemaleGender");
 
         final String password = RandomUserData.getRandomPassword();
 
@@ -84,12 +84,12 @@ public class PositiveRegisterTest extends BaseTest {
 
         verifyRegistrationResult("Register", "Your registration completed", 10);
 
-        LOGGER.info("Finish testRegisterWithFemaleGenderPositive");
+        LOGGER.info("Finish positive testRegisterWithFemaleGender");
     }
 
     @Test(description = "Successful user registration based on fake data, without gender")
-    public void testRegisterWithNoGenderPositive() {
-        LOGGER.info("Start testRegisterWithNoGenderPositive");
+    public void testRegisterWithNoGender() {
+        LOGGER.info("Start positive testRegisterWithNoGender");
 
         final String password = RandomUserData.getRandomPassword();
 
@@ -103,6 +103,6 @@ public class PositiveRegisterTest extends BaseTest {
 
         verifyRegistrationResult("Register", "Your registration completed", 10);
 
-        LOGGER.info("Finish testRegisterWithNoGenderPositive");
+        LOGGER.info("Finish positive testRegisterWithNoGender");
     }
 }

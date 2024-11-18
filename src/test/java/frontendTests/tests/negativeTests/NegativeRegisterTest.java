@@ -39,8 +39,8 @@ public class NegativeRegisterTest extends BaseTest {
     }
 
     @Test(description = "Unsuccessful user registration with empty registration fields")
-    public void testRegisterEmptyFieldsNegative() {
-        LOGGER.info("Start testRegisterEmptyFieldsNegative");
+    public void testRegisterEmptyFields() {
+        LOGGER.info("Start negative testRegisterEmptyFields");
 
         registerPage.openRegisterPageChain()
                 .clickRegisterButton();
@@ -57,12 +57,12 @@ public class NegativeRegisterTest extends BaseTest {
         Assert.assertTrue(registerPage.getTextPasswordRequired().contains("Password is required"));
         Assert.assertTrue(registerPage.getTextConfirmPasswordRequired().contains("Password is required"));
 
-        LOGGER.info("Finish testRegisterEmptyFieldsNegative");
+        LOGGER.info("Finish negative testRegisterEmptyFields");
     }
 
     @Test(description = "Unsuccessful registration of a user with an empty registration field first name")
-    public void testRegisterEmptyFirstNameNegative() {
-        LOGGER.info("Start testRegisterEmptyFirstNameNegative");
+    public void testRegisterEmptyFirstName() {
+        LOGGER.info("Start negative testRegisterEmptyFirstName");
 
         final String password = RandomUserData.getRandomPassword();
 
@@ -78,12 +78,12 @@ public class NegativeRegisterTest extends BaseTest {
 
         Assert.assertTrue(registerPage.getTextFirstNameRequired().contains("First name is required"));
 
-        LOGGER.info("Finish testRegisterEmptyFirstNameNegative");
+        LOGGER.info("Finish negative testRegisterEmptyFirstName");
     }
 
     @Test(description = "Unsuccessful registration of a user with an empty registration field last name")
-    public void testRegisterEmptyLastNameNegative() {
-        LOGGER.info("Start testRegisterEmptyLastNameNegative");
+    public void testRegisterEmptyLastName() {
+        LOGGER.info("Start negative testRegisterEmptyLastName");
 
         final String password = RandomUserData.getRandomPassword();
 
@@ -99,12 +99,12 @@ public class NegativeRegisterTest extends BaseTest {
 
         Assert.assertTrue(registerPage.getTextLastNameRequired().contains("Last name is required"));
 
-        LOGGER.info("Finish testRegisterEmptyLastNameNegative");
+        LOGGER.info("Finish negative testRegisterEmptyLastName");
     }
 
     @Test(description = "Unsuccessful registration of a user with an empty registration field email")
-    public void testRegisterEmptyEmailNegative() {
-        LOGGER.info("Start testRegisterEmptyEmailNegative");
+    public void testRegisterEmptyEmail() {
+        LOGGER.info("Start negative testRegisterEmptyEmail");
 
         final String password = RandomUserData.getRandomPassword();
 
@@ -120,12 +120,12 @@ public class NegativeRegisterTest extends BaseTest {
 
         Assert.assertTrue(registerPage.getTextEmailRequired().contains("Email is required"));
 
-        LOGGER.info("Finish testRegisterEmptyEmailNegative");
+        LOGGER.info("Finish negative testRegisterEmptyEmail");
     }
 
     @Test(description = "Unsuccessful registration of a user with an empty registration field password")
-    public void testRegisterEmptyPasswordNegative() {
-        LOGGER.info("Start testRegisterEmptyPasswordNegative");
+    public void testRegisterEmptyPassword() {
+        LOGGER.info("Start negative testRegisterEmptyPassword");
 
         registerPage.openRegisterPageChain()
                 .chooseMaleGenderChain()
@@ -139,12 +139,12 @@ public class NegativeRegisterTest extends BaseTest {
 
         Assert.assertTrue(registerPage.getTextPasswordRequired().contains("Password is required"));
 
-        LOGGER.info("Finish testRegisterEmptyPasswordNegative");
+        LOGGER.info("Finish negative testRegisterEmptyPassword");
     }
 
     @Test(description = "Unsuccessful registration of a user with an empty registration field confirm password")
-    public void testRegisterEmptyConfirmPasswordNegative() {
-        LOGGER.info("Start testRegisterEmptyConfirmPasswordNegative");
+    public void testRegisterEmptyConfirmPassword() {
+        LOGGER.info("Start negative testRegisterEmptyConfirmPassword");
 
         registerPage.openRegisterPageChain()
                 .chooseFemaleGenderChain()
@@ -158,12 +158,12 @@ public class NegativeRegisterTest extends BaseTest {
 
         Assert.assertTrue(registerPage.getTextConfirmPasswordRequired().contains("Password is required"));
 
-        LOGGER.info("Finish testRegisterEmptyConfirmPasswordNegative");
+        LOGGER.info("Finish negative testRegisterEmptyConfirmPassword");
     }
 
     @Test(description = "Unsuccessful registration of an already registered user")
-    public void testRegisterAlreadyRegisteredUserNegative() {
-        LOGGER.info("Start testRegisterAlreadyRegisteredUserNegative");
+    public void testRegisterAlreadyRegisteredUser() {
+        LOGGER.info("Start negative testRegisterAlreadyRegisteredUser");
 
         registerPage.openRegisterPageChain()
                 .chooseMaleGenderChain()
@@ -178,6 +178,6 @@ public class NegativeRegisterTest extends BaseTest {
 
         Assert.assertTrue(registerPage.getTextErrorMessage().contains("The specified email already exists"));
 
-        LOGGER.info("Finish testRegisterAlreadyRegisteredUserNegative");
+        LOGGER.info("Finish negative testRegisterAlreadyRegisteredUser");
     }
 }

@@ -18,7 +18,7 @@
 - Для авторизации существующего пользователя: https://demowebshop.tricentis.com/login
 - Автоматически открывается страница после успешной авторизации пользователя https://demowebshop.tricentis.com
 
-## Шаги выполнения тест кейса №1 (Написан, метод: testLogInWithoutRememberMePositive)
+## Шаги выполнения тест кейса №1 (Написан, метод: testLogInWithoutRememberMe)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/login
 2) В поле `Email` ввести почту существующего пользователя
@@ -28,7 +28,7 @@
    (откроется главная страница https://demowebshop.tricentis.com.
    Вместо Register отобразится `email` пользователя)
 
-## Шаги выполнения тест кейса №2 (Написан, метод: testLogInWithRememberMePositive)
+## Шаги выполнения тест кейса №2 (Написан, метод: testLogInWithRememberMe)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/login
 2) В поле `Email` ввести почту существующего пользователя
