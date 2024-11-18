@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Objects;
 
 @TestCase(infoAboutCase = "PositiveLogInCases",
         path = "frontendTests/testCases/signInCases/PositiveLogInCases.md")
@@ -74,5 +75,29 @@ public class PositiveLogInTest extends BaseTest {
         ));
 
         LOGGER.info("Finish positive testLogInWithRememberMe");
+    }
+
+    @Test(description = "Switching from the authorization page to the registration page")
+    public void testLogInSwitchingToRegisterPage() {
+        LOGGER.info("Start positive testLogInSwitchingToRegisterPage");
+
+        logInPage.openLogInPageChain()
+                .clickRegister();
+
+        Assert.assertTrue(logInPage.atRegisterPageFromLogInPage());
+
+        LOGGER.info("Finish positive testLogInSwitchingToRegisterPage");
+    }
+
+    @Test
+    public void testLogInSwitchingToRecoverPasswordPage() {
+        LOGGER.info("Start positive testLogInSwitchingToRecoverPasswordPage");
+
+        logInPage.openLogInPageChain()
+                .clickForgotPassword();
+
+        Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/passwordrecovery"));
+
+        LOGGER.info("Finish positive testLogInSwitchingToRecoverPasswordPage");
     }
 }

@@ -149,4 +149,8 @@ public class LogInPage {
     public boolean atLogInPage() {
         return Objects.requireNonNull(driver.getCurrentUrl()).contains("/login");
     }
+
+    public boolean atRegisterPageFromLogInPage() {
+        return new RegisterPage(driver).atRegisterPage();
+    }
 }
