@@ -1,5 +1,6 @@
 package frontendTests.tests.positiveTests;
 
+import frontendTests.pages.MyAccountInfoPage;
 import frontendTests.pages.MyAccountPage;
 import frontendTests.pages.RegisterPage;
 import frontendTests.tests.BaseTest;
@@ -15,6 +16,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Objects;
 
 @TestCase(infoAboutCase = "PositiveCustomerInfoCases",
         path = "frontendTests/testCases/myAccountCases/customerInfoCases/PositiveCustomerInfoCases.md")
@@ -22,11 +24,13 @@ public class PositiveCustomerInfoTest extends BaseTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PositiveCustomerInfoTest.class);
 
+    private MyAccountInfoPage myAccountInfoPage;
     private MyAccountPage myAccountPage;
     private RegisterPage registerPage;
 
     @BeforeMethod
     public void setUpMyAccAndLogInPage() {
+        myAccountInfoPage = new MyAccountInfoPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
         registerPage = new RegisterPage(getDriver());
     }
@@ -44,7 +48,7 @@ public class PositiveCustomerInfoTest extends BaseTest {
     }
 
     @Test(description = "Changing all personal data to valid ones on the My account - customer info page")
-    public void testChangeAllDataToValid() {
+    public void testInfoChangeAllDataToValid() {
         LOGGER.info("Start positive testChangeAllDataToValid");
 
         final String emailUser = RandomUserData.getRandomEmail();
@@ -68,6 +72,28 @@ public class PositiveCustomerInfoTest extends BaseTest {
                 .getText().contains(emailUser));
 
         LOGGER.info("Finish positive testChangeAllDataToValid");
+    }
+
+    @Test(description = "Name change on the My account page - information about the client")
+    public void testInfoChangeName() {
+        LOGGER.info("Start positive testInfoChangeName");
+
+        final String firstNameUser = RandomUserData.getRandomFirstName();
+
+        userRegistration();
+
+        myAccountPage.openCustomerInfoChain()
+                .enterFirstNameChain(firstNameUser)
+                .clickSaveButton();
+
+        new WebDriverWait(getDriver(), Duration.ofSeconds(15))
+                .until(ExpectedConditions
+                        .attributeToBe(myAccountInfoPage.getFirstNameInputField(), "value", firstNameUser));
+
+        Assert.assertTrue(Objects.requireNonNull(myAccountInfoPage.getFirstNameInputField()
+                .getAttribute("value")).contains(firstNameUser));
+
+        LOGGER.info("Finish positive testInfoChangeName");
     }
 
 }
