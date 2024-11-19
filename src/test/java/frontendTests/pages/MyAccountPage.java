@@ -55,43 +55,50 @@ public class MyAccountPage {
     }
 
     public void openCustomerInfo() {
-        customerInfo.click();
+        driver.get("https://demowebshop.tricentis.com/customer/info");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
 
+    public MyAccountInfoPage openCustomerInfoChain() {
+        driver.get("https://demowebshop.tricentis.com/customer/info");
+
+        waitForVisibility(By.className("master-wrapper-page"), 25);
+        return new MyAccountInfoPage(driver);
+    }
+
     public void openAddresses() {
-        addresses.click();
+        driver.get("https://demowebshop.tricentis.com/customer/addresses");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
 
     public void openOrders() {
-        orders.click();
+        driver.get("https://demowebshop.tricentis.com/customer/orders");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
 
     public void openDownloadableProducts() {
-        downloadableProducts.click();
+        driver.get("https://demowebshop.tricentis.com/customer/downloadableproducts");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
 
     public void openBackInStockSubscriptions() {
-        backInStockSubscriptions.click();
+        driver.get("https://demowebshop.tricentis.com/customer/backinstocksubscriptions");
 
-        waitForVisibility(By.className("master-wrapper-page"), 25);
+        waitForVisibility(By.className("master-wrapper-page"), 35);
     }
 
     public void openRewardPoints() {
-        rewardPoints.click();
+        driver.get("https://demowebshop.tricentis.com/customer/rewardpoints");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
 
     public void openChangePassword() {
-        changePassword.click();
+        driver.get("https://demowebshop.tricentis.com/customer/changepassword");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
