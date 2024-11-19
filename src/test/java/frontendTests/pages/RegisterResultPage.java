@@ -1,5 +1,6 @@
 package frontendTests.pages;
 
+import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +17,7 @@ import java.util.Objects;
 конструктор: RegisterResultPage, кол-во конструкторов == 1
  */
 // https://demowebshop.tricentis.com/registerresult/1
+@Getter
 public class RegisterResultPage {
 
     private final WebDriver driver;

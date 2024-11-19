@@ -27,6 +27,7 @@ import java.util.Objects;
 Также для каждого метода есть постфикс Chain для цепочки вызовов
  */
 // https://demowebshop.tricentis.com/login
+@Getter
 public class LogInPage {
 
     private final WebDriver driver;
@@ -36,35 +37,27 @@ public class LogInPage {
         PageFactory.initElements(driver, this);
     }
 
-    @Getter
     @FindBy(name = "Email")
     private WebElement emailInputField;
 
-    @Getter
     @FindBy(name = "Password")
     private WebElement passwordInputField;
 
-    @Getter
     @FindBy(name = "RememberMe")
     private WebElement rememberMeCheckBox;
 
-    @Getter
     @FindBy(xpath = "//span[@class='forgot-password']/a")
     private WebElement forgotPasswordLink;
 
-    @Getter
     @FindBy(className = "login-button")
     private WebElement logInButton;
 
-    @Getter
     @FindBy(className = "register-button")
     private WebElement registerButton;
 
-    @Getter
     @FindBy(xpath = "//div[@class='validation-summary-errors']//span")
     private WebElement commonValidationError;
 
-    @Getter
     @FindBy(xpath = "//div[@class='validation-summary-errors']//li")
     private WebElement specificMessageError;
 

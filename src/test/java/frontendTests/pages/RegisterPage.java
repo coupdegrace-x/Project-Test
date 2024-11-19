@@ -33,6 +33,7 @@ import java.util.Objects;
 Также для каждого метода есть постфикс Chain для цепочки вызовов
  */
 // https://demowebshop.tricentis.com/register
+@Getter
 public class RegisterPage {
 
     private final WebDriver driver;
@@ -66,27 +67,21 @@ public class RegisterPage {
     @FindBy(id = "register-button")
     private WebElement registerButton;
 
-    @Getter
     @FindBy(xpath = "//span[@for='FirstName']")
     private WebElement firstNameRequired;
 
-    @Getter
     @FindBy(xpath = "//span[@for='LastName']")
     private WebElement lastNameRequired;
 
-    @Getter
     @FindBy(xpath = "//span[@for='Email']")
     private WebElement emailRequired;
 
-    @Getter
     @FindBy(xpath = "//span[@for='Password']")
     private WebElement passwordRequired;
 
-    @Getter
     @FindBy(xpath = "//span[@for='ConfirmPassword']")
     private WebElement confirmPasswordRequired;
 
-    @Getter
     @FindBy(xpath = "//div[@class='validation-summary-errors']//li")
     private WebElement errorMessage;
 
