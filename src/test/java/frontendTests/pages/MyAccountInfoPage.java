@@ -9,7 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 import java.util.Objects;
 
 @Getter
-public class MyAccountInfoPage extends MyAccountPage{
+public class MyAccountInfoPage extends MyAccountPage {
 
     public MyAccountInfoPage(WebDriver driver) {
         super(driver);
@@ -33,6 +33,15 @@ public class MyAccountInfoPage extends MyAccountPage{
 
     @FindBy(name = "save-info-button")
     private WebElement saveButton;
+
+    @FindBy(xpath = "//span[@for='FirstName']")
+    private WebElement firstNameError;
+
+    @FindBy(xpath = "//span[@for='LastName']")
+    private WebElement lastNameError;
+
+    @FindBy(xpath = "//span[@for='Email']")
+    private WebElement emailError;
 
     public void chooseGenderMale() {
         genderMale.click();
@@ -63,6 +72,33 @@ public class MyAccountInfoPage extends MyAccountPage{
         return this;
     }
 
+    public void clearFirstName() {
+        firstNameInputField.clear();
+    }
+
+    public MyAccountInfoPage clearFirstNameChain() {
+        firstNameInputField.clear();
+        return this;
+    }
+
+    public void clearLastName() {
+        lastNameInputField.clear();
+    }
+
+    public MyAccountInfoPage clearLastNameChain() {
+        lastNameInputField.clear();
+        return this;
+    }
+
+    public void clearEmail() {
+        emailInputField.clear();
+    }
+
+    public MyAccountInfoPage clearEmailChain() {
+        emailInputField.clear();
+        return this;
+    }
+
     public void enterLastName(String lastName) {
         lastNameInputField.clear();
         lastNameInputField.sendKeys(lastName);
@@ -87,6 +123,18 @@ public class MyAccountInfoPage extends MyAccountPage{
 
     public void clickSaveButton() {
         saveButton.click();
+    }
+
+    public String getTextFirstNameError() {
+        return firstNameError.getText();
+    }
+
+    public String getTextLastNameError() {
+        return lastNameError.getText();
+    }
+
+    public String getTextEmailError() {
+        return emailError.getText();
     }
 
     public boolean atCustomerInfoPage() {

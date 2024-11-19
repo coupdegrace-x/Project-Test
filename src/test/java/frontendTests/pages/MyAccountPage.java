@@ -86,10 +86,24 @@ public class MyAccountPage {
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
 
+    public MyAccountInfoPage openOrdersChain() {
+        driver.get("https://demowebshop.tricentis.com/customer/orders");
+
+        waitForVisibility(By.className("master-wrapper-page"), 25);
+        return new MyAccountInfoPage(driver);
+    }
+
     public void openDownloadableProducts() {
         driver.get("https://demowebshop.tricentis.com/customer/downloadableproducts");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
+    }
+
+    public MyAccountInfoPage openDownloadableProductsChain() {
+        driver.get("https://demowebshop.tricentis.com/customer/downloadableproducts");
+
+        waitForVisibility(By.className("master-wrapper-page"), 25);
+        return new MyAccountInfoPage(driver);
     }
 
     public void openBackInStockSubscriptions() {
@@ -98,10 +112,24 @@ public class MyAccountPage {
         waitForVisibility(By.className("master-wrapper-page"), 35);
     }
 
+    public MyAccountInfoPage openBackInStockSubscriptionsChain() {
+        driver.get("https://demowebshop.tricentis.com/customer/backinstocksubscriptions");
+
+        waitForVisibility(By.className("master-wrapper-page"), 35);
+        return new MyAccountInfoPage(driver);
+    }
+
     public void openRewardPoints() {
         driver.get("https://demowebshop.tricentis.com/customer/rewardpoints");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
+    }
+
+    public MyAccountInfoPage openRewardPointsChain() {
+        driver.get("https://demowebshop.tricentis.com/customer/rewardpoints");
+
+        waitForVisibility(By.className("master-wrapper-page"), 25);
+        return new MyAccountInfoPage(driver);
     }
 
     public void openChangePassword() {
@@ -110,5 +138,10 @@ public class MyAccountPage {
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
 
+    public MyAccountInfoPage openChangePasswordChain() {
+        driver.get("https://demowebshop.tricentis.com/customer/changepassword");
 
+        waitForVisibility(By.className("master-wrapper-page"), 25);
+        return new MyAccountInfoPage(driver);
+    }
 }

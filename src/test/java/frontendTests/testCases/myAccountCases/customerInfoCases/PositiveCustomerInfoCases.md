@@ -2,7 +2,7 @@
 
 ## Реализация тест кейсов по автоматизации располагается по пути:
 
-- TODO!!!!!!!!!!
+- `frontendTests/tests/positiveTests/PositiveCustomerInfoTest.java`
 
 ## Ожидаемый результат:
 
