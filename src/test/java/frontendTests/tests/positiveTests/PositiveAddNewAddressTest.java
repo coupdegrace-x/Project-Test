@@ -4,6 +4,7 @@ import frontendTests.pages.MyAccountNewAddressPage;
 import frontendTests.pages.MyAccountPage;
 import frontendTests.pages.RegisterPage;
 import frontendTests.tests.BaseTest;
+import frontendTests.utils.RandomIndexForDropDown;
 import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
 import org.openqa.selenium.By;
@@ -20,7 +21,7 @@ import java.util.Random;
 
 @TestCase(infoAboutCase = "PositiveNewAddressCases",
         path = "frontendTests/testCases/myAccountCases/addressesCases/PositiveNewAddressCases.md")
-public class PositiveAddNewAddressTest extends BaseTest {
+public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexForDropDown {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PositiveAddNewAddressTest.class);
 
@@ -35,7 +36,8 @@ public class PositiveAddNewAddressTest extends BaseTest {
         myAccountPage = new MyAccountPage(getDriver());
     }
 
-    private int getIndexForCountry() {
+    @Override
+    public int getRandomIndexForDropDown() {
         return new Random().nextInt(0, 238);
     }
 
@@ -51,7 +53,7 @@ public class PositiveAddNewAddressTest extends BaseTest {
                 .clickRegisterButton();
     }
 
-    @Test
+    @Test(description = "Adding an address with filling in all fields with valid data")
     public void testAddNewAddressWithAllFieldsValidData() {
         LOGGER.info("Start positive testAddNewAddressWithAllFieldsValidData");
 
@@ -65,7 +67,7 @@ public class PositiveAddNewAddressTest extends BaseTest {
                 .enterLastNameChain(RandomUserData.getRandomLastName())
                 .enterEmailChain(emailUser)
                 .enterCompanyChain(RandomUserData.getCompanyName())
-                .selectCountryChain(getIndexForCountry())
+                .selectCountryChain(getRandomIndexForDropDown())
                 .selectStateOrProvinceChain()
                 .enterCityChain(RandomUserData.getCity())
                 .enterFirstAddressChain(RandomUserData.getFirstAddress())
@@ -83,7 +85,7 @@ public class PositiveAddNewAddressTest extends BaseTest {
         LOGGER.info("Finish positive testAddNewAddressWithAllFieldsValidData");
     }
 
-    @Test
+    @Test(description = "Adding an address with filling in all required fields with valid data")
     public void testAddNewAddressWithRequiredFieldsInvalidData() {
         LOGGER.info("Start positive testAddNewAddressWithRequiredFieldsInvalidData");
 
@@ -96,7 +98,7 @@ public class PositiveAddNewAddressTest extends BaseTest {
                 .enterFirstNameChain(RandomUserData.getRandomFirstName())
                 .enterLastNameChain(RandomUserData.getRandomLastName())
                 .enterEmailChain(emailUser)
-                .selectCountryChain(getIndexForCountry())
+                .selectCountryChain(getRandomIndexForDropDown())
                 .selectStateOrProvinceChain()
                 .enterCityChain(RandomUserData.getCity())
                 .enterFirstAddressChain(RandomUserData.getFirstAddress())
@@ -111,5 +113,4 @@ public class PositiveAddNewAddressTest extends BaseTest {
 
         LOGGER.info("Finish positive testAddNewAddressWithRequiredFieldsInvalidData");
     }
-
 }

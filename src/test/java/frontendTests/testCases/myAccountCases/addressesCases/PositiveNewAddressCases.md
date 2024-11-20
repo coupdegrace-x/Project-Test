@@ -2,7 +2,7 @@
 
 ## Реализация тест кейсов по автоматизации располагается по пути:
 
-- TODO!!!!!!!!!!
+- `frontendTests/tests/positiveTests/PositiveAddNewAddressTest.java`
 
 ## Ожидаемый результат:
 
@@ -23,7 +23,7 @@
 
 ## Тест-кейс №1. Добавление адреса с заполнением всех полей валидными данными
 
-## Шаги выполнения тест кейса №1 (Написан, метод: )
+## Шаги выполнения тест кейса №1 (Написан, метод: testAddNewAddressWithAllFieldsValidData)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти в профиль пользователя https://demowebshop.tricentis.com/customer/info
@@ -48,7 +48,7 @@
 
 ## Тест-кейс №2. Добавление адреса с заполнением всех обязательных полей валидными данными
 
-## Шаги выполнения тест кейса №2 (Написан, метод: )
+## Шаги выполнения тест кейса №2 (Написан, метод: testAddNewAddressWithRequiredFieldsInvalidData)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти в профиль пользователя https://demowebshop.tricentis.com/customer/info

@@ -1,6 +1,7 @@
 package frontendTests.utils;
 
 import com.github.javafaker.Faker;
+import org.apache.commons.lang3.RandomStringUtils;
 
 /*
 Класс RandomUserData предназначен для генерации случайных данных пользователя на основе библиотеки javafaker,
@@ -8,6 +9,7 @@ import com.github.javafaker.Faker;
  */
 public class RandomUserData {
     private static final Faker FAKER = new Faker();
+    private static final String SPECIAL_CHARACTERS = "!@#$%^&*()_+-=[]{}|;:'\",.<>?/";
 
     public static String getRandomFirstName() {
         return FAKER.name().firstName();
@@ -51,6 +53,11 @@ public class RandomUserData {
 
     public static String getFaxNumber() {
         return String.valueOf(FAKER.number().randomNumber(11, true));
+    }
+
+    public static String getSpecialCharacters() {
+        int length = (int) (Math.random() * 10) + 1;
+        return RandomStringUtils.random(length, SPECIAL_CHARACTERS);
     }
 
 }

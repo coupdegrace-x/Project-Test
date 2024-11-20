@@ -60,6 +60,30 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
     @FindBy(className = "save-address-button")
     private WebElement saveButton;
 
+    @FindBy(xpath = "//span[@for='Address_FirstName']")
+    private WebElement firstNameError;
+
+    @FindBy(xpath = "//span[@for='Address_LastName']")
+    private WebElement lastNameError;
+
+    @FindBy(xpath = "//span[@for='Address_Email']")
+    private WebElement emailError;
+
+    @FindBy(xpath = "//span[text()='Country is required.']")
+    private WebElement countryError;
+
+    @FindBy(xpath = "//span[@for='Address_City']")
+    private WebElement cityError;
+
+    @FindBy(xpath = "//span[@for='Address_Address1']")
+    private WebElement firstAddressError;
+
+    @FindBy(xpath = "//span[@for='Address_ZipPostalCode']")
+    private WebElement zipPostalCodeError;
+
+    @FindBy(xpath = "//span[@for='Address_PhoneNumber']")
+    private WebElement phoneNumberError;
+
     public void enterFirstName(String firstName) {
         firstNameInputField.sendKeys(firstName);
     }
@@ -189,5 +213,37 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
     public MyAccountNewAddressPage clickSaveButtonChain() {
         saveButton.click();
         return this;
+    }
+
+    public String getTextErrorFirstName() {
+        return firstNameError.getText();
+    }
+
+    public String getTextErrorLastName() {
+        return lastNameError.getText();
+    }
+
+    public String getTextErrorEmail() {
+        return emailError.getText();
+    }
+
+    public String getTextErrorCountry() {
+        return countryError.getText();
+    }
+
+    public String getTextErrorCity() {
+        return cityError.getText();
+    }
+
+    public String getTextErrorFirstAddress() {
+        return firstAddressError.getText();
+    }
+
+    public String getTextErrorZipCode() {
+        return zipPostalCodeError.getText();
+    }
+
+    public String getTextErrorPhoneNumber() {
+        return phoneNumberError.getText();
     }
 }

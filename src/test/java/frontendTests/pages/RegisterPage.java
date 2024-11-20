@@ -88,14 +88,14 @@ public class RegisterPage {
     public void openRegisterPage() {
         driver.get("https://demowebshop.tricentis.com/register");
 
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.
                 visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
     }
 
     public RegisterPage openRegisterPageChain() {
         driver.get("https://demowebshop.tricentis.com/register");
 
-        new WebDriverWait(driver, Duration.ofSeconds(15)).until(ExpectedConditions.
+        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.
                 visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
         return this;
     }
