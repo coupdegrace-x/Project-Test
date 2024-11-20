@@ -22,6 +22,35 @@ public class RandomUserData {
     }
 
     public static String getRandomPassword() {
-        return FAKER.internet().password();
+        return FAKER.internet().password(6, 15);
     }
+
+    public static String getCompanyName() {
+        return FAKER.company().name();
+    }
+
+    public static String getCity() {
+        return FAKER.address().city();
+    }
+
+    public static String getFirstAddress() {
+        return FAKER.address().streetAddress();
+    }
+
+    public static String getSecondAddress() {
+        return FAKER.address().streetAddressNumber();
+    }
+
+    public static String getZipPostalCode() {
+        return FAKER.address().zipCode();
+    }
+
+    public static String getPhoneNumber() {
+        return FAKER.phoneNumber().phoneNumber();
+    }
+
+    public static String getFaxNumber() {
+        return String.valueOf(FAKER.number().randomNumber(11, true));
+    }
+
 }

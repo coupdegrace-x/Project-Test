@@ -29,7 +29,7 @@ public class PositiveCustomerInfoTest extends BaseTest {
     private RegisterPage registerPage;
 
     @BeforeMethod
-    public void setUpMyAccAndLogInPage() {
+    public void setUpMyAccAndRegPage() {
         myAccountInfoPage = new MyAccountInfoPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
         registerPage = new RegisterPage(getDriver());

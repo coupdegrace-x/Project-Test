@@ -73,11 +73,11 @@ public class MyAccountPage {
         waitForVisibility(By.className("master-wrapper-page"), 25);
     }
 
-    public MyAccountInfoPage openAddressesChain() {
+    public MyAccountNewAddressPage openAddressesChain() {
         driver.get("https://demowebshop.tricentis.com/customer/addresses");
 
         waitForVisibility(By.className("master-wrapper-page"), 25);
-        return new MyAccountInfoPage(driver);
+        return new MyAccountNewAddressPage(driver);
     }
 
     public void openOrders() {
