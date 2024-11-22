@@ -18,18 +18,18 @@ import java.util.Objects;
 
 @TestCase(infoAboutCase = "PositiveFiltersBooks",
         path = "frontendTests/testCases/categories/books/PositiveFiltersBooks.md")
-public class PositiveFilterBook extends BaseTest {
+public class PositiveFiltersForCategories extends BaseTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PositiveFilterBook.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PositiveFiltersForCategories.class);
 
     private BasePageRegisteredUser basePageRegisteredUser;
     private RegisterPage registerPage;
-    private BooksPage booksPage;
+    private Category category;
 
     @BeforeMethod
     public void setUpRegPageAndBooks() {
         basePageRegisteredUser = new BasePageRegisteredUser(getDriver());
-        booksPage = new BooksPage(getDriver());
+        category = new Category(getDriver());
         registerPage = new RegisterPage(getDriver());
     }
 
@@ -53,13 +53,13 @@ public class PositiveFilterBook extends BaseTest {
 
         userRegistration();
 
-        booksPage.openBookCategoryChain()
+        category.openBookCategoryChain()
                 .sortByUnderTwentyFivePrice();
 
-        List<Double> prices = booksPage.getPriceFromCurrentPage();
+        List<Double> prices = category.getPriceFromCurrentPage();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(ExpectedConditions
-                .textToBePresentInElement(booksPage.getRemoveFilter(), booksPage.getRemoveFilter().getText()));
+                .textToBePresentInElement(category.getRemoveFilter(), category.getRemoveFilter().getText()));
 
         Assert.assertTrue(prices.stream()
                 .allMatch(price -> price < priceThreshold));
@@ -79,20 +79,20 @@ public class PositiveFilterBook extends BaseTest {
 
         userRegistration();
 
-        booksPage.openBookCategoryChain()
+        category.openBookCategoryChain()
                 .sortByMiddlePrice();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(ExpectedConditions
-                .textToBePresentInElement(booksPage.getRemoveFilter(), booksPage.getRemoveFilter().getText()));
+                .textToBePresentInElement(category.getRemoveFilter(), category.getRemoveFilter().getText()));
 
-        List<Double> prices = booksPage.getPriceFromCurrentPage();
+        List<Double> prices = category.getPriceFromCurrentPage();
 
         Assert.assertTrue(prices.stream()
                 .allMatch(price -> price < middlePriceMin || price > middlePriceMax));
 
-        booksPage.clickRemoveFilter();
+        category.clickRemoveFilter();
 
-        prices = booksPage.getPriceFromCurrentPage();
+        prices = category.getPriceFromCurrentPage();
 
         Assert.assertTrue(prices.stream()
                 .allMatch(price -> price >= minPrice));
@@ -108,13 +108,13 @@ public class PositiveFilterBook extends BaseTest {
 
         userRegistration();
 
-        booksPage.openBookCategory();
+        category.openBookCategory();
 
-        List<String> notSortedTitlesBooks = booksPage.getBookTitles();
+        List<String> notSortedTitlesBooks = category.getTitlesFromCurrentPage();
 
-        booksPage.sortByZToA();
+        category.sortByZToA();
 
-        List<String> sortedTitlesBooksByZToA = booksPage.getBookTitles();
+        List<String> sortedTitlesBooksByZToA = category.getTitlesFromCurrentPage();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15))
                 .until(ExpectedConditions.urlContains("/books?orderby=6"));

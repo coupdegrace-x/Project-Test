@@ -8,16 +8,16 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 // https://demowebshop.tricentis.com/books
 @Getter
-public class BooksPage extends BasePageRegisteredUser {
+public class Category extends BasePageRegisteredUser {
 
-    private WebDriver driver;
     private Select select;
 
-    public BooksPage(WebDriver driver) {
+    public Category(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
@@ -40,26 +40,17 @@ public class BooksPage extends BasePageRegisteredUser {
     @FindBy(xpath = "//a[contains(@href,'price=50-')]")
     private WebElement filterByPriceOver;
 
-    @FindBy(xpath = "//input[@wfd-id='id4']")
-    private WebElement addToCartInternetBookButton;
-
-    @FindBy(xpath = "//input[@wfd-id='id5']")
-    private WebElement addToCartFictionBookButton;
-
-    @FindBy(xpath = "//input[@wfd-id='id6']")
-    private WebElement addToCartHealthBookButton;
-
     @FindBy(xpath = "//a[text()='1']")
-    private WebElement firstPageButton;
+    private WebElement firstPage;
 
     @FindBy(xpath = "//a[text()='2']")
-    private WebElement secondPageButton;
+    private WebElement secondPage;
 
     @FindBy(xpath = "//a[text()='Previous']")
-    private WebElement previousPageButton;
+    private WebElement previousPage;
 
     @FindBy(xpath = "//a[text()='Next']")
-    private WebElement nextPageButton;
+    private WebElement nextPage;
 
     @FindBy(xpath = "//a[text()='Remove Filter']")
     private WebElement removeFilter;
@@ -70,13 +61,62 @@ public class BooksPage extends BasePageRegisteredUser {
     @FindBy(className = "product-title")
     private List<WebElement> productTitles;
 
+    @FindBy(xpath = "//input[@value='Add to cart']")
+    private List<WebElement> productsAddToCart;
+
+    public WebElement getFirstAvailableProductAddToCart() {
+        WebElement addToCartButton = productsAddToCart.stream()
+                .filter(button -> button.isDisplayed() && button.isEnabled())
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No 'Add to cart' buttons are available"));
+
+        addToCartButton.click();
+        return addToCartButton;
+    }
+
+    public Category getFirstAvailableProductAddToCartChain() {
+        productsAddToCart.stream()
+                .filter(button -> button.isDisplayed() && button.isEnabled())
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("No 'Add to cart' buttons are available"))
+                .click();
+
+        return this;
+    }
+
+    public void addAllAvailableProductsToCart() {
+        productsAddToCart.stream()
+                .filter(button -> button.isDisplayed() && button.isEnabled())
+                .forEach(button -> {
+                    try {
+                        button.click();
+                    } catch (final Exception exception) {
+                        System.out.println("Failed to click 'Add to cart' button: " + exception.getMessage());
+                    }
+                });
+    }
+
+    public Category addAllAvailableProductsToCartChain() {
+        productsAddToCart.stream()
+                .filter(button -> button.isDisplayed() && button.isEnabled())
+                .forEach(button -> {
+                    try {
+                        button.click();
+                    } catch (final Exception exception) {
+                        System.out.println("Failed to click 'Add to cart' button: " + exception.getMessage());
+                    }
+                });
+
+        return this;
+    }
+
     public List<Double> getPriceFromCurrentPage() {
         return actualPrices.stream()
                 .map(priceElement -> Double.parseDouble(priceElement.getText()))
                 .collect(Collectors.toList());
     }
 
-    public List<String> getBookTitles() {
+    public List<String> getTitlesFromCurrentPage() {
         return productTitles.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
@@ -87,7 +127,7 @@ public class BooksPage extends BasePageRegisteredUser {
         select.selectByVisibleText("Name: Z to A");
     }
 
-    public BooksPage sortByZToAChain() {
+    public Category sortByZToAChain() {
         select = new Select(sortByDropDown);
         select.selectByVisibleText("Name: Z to A");
         return this;
@@ -97,7 +137,7 @@ public class BooksPage extends BasePageRegisteredUser {
         filterByPriceUnder.click();
     }
 
-    public BooksPage sortByUnderTwentyFivePriceChain() {
+    public Category sortByUnderTwentyFivePriceChain() {
         filterByPriceUnder.click();
         return this;
     }
@@ -106,7 +146,7 @@ public class BooksPage extends BasePageRegisteredUser {
         filterByPriceMiddle.click();
     }
 
-    public BooksPage sortByMiddlePriceChain() {
+    public Category sortByMiddlePriceChain() {
         filterByPriceMiddle.click();
         return this;
     }
@@ -115,7 +155,7 @@ public class BooksPage extends BasePageRegisteredUser {
         removeFilter.click();
     }
 
-    public BooksPage clickRemoveFilterChain() {
+    public Category clickRemoveFilterChain() {
         removeFilter.click();
         return this;
     }

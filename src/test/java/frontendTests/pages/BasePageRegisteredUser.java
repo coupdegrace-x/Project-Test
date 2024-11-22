@@ -24,8 +24,8 @@ public class BasePageRegisteredUser {
         driver.get("https://demowebshop.tricentis.com/books");
     }
 
-    public BooksPage openBookCategoryChain() {
+    public Category openBookCategoryChain() {
         driver.get("https://demowebshop.tricentis.com/books");
-        return new BooksPage(driver);
+        return new Category(driver);
     }
 }
