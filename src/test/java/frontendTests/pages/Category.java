@@ -5,8 +5,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 public class Category extends BasePageRegisteredUser {
 
     private Select select;
+    private WebDriverWait driverWait;
 
     public Category(WebDriver driver) {
         super(driver);
@@ -40,6 +44,9 @@ public class Category extends BasePageRegisteredUser {
     @FindBy(xpath = "//a[contains(@href,'price=50-')]")
     private WebElement filterByPriceOver;
 
+    @FindBy(className = "current-page")
+    private WebElement currentPage;
+
     @FindBy(xpath = "//a[text()='1']")
     private WebElement firstPage;
 
@@ -55,6 +62,12 @@ public class Category extends BasePageRegisteredUser {
     @FindBy(xpath = "//a[text()='Remove Filter']")
     private WebElement removeFilter;
 
+    @FindBy(className = "cart-qty")
+    private WebElement quantityProductsInCart;
+
+    @FindBy(xpath = "//p[@class='content']")
+    private WebElement popupWarningAddingItemToCart;
+
     @FindBy(className = "actual-price")
     private List<WebElement> actualPrices;
 
@@ -64,17 +77,25 @@ public class Category extends BasePageRegisteredUser {
     @FindBy(xpath = "//input[@value='Add to cart']")
     private List<WebElement> productsAddToCart;
 
-    public WebElement getFirstAvailableProductAddToCart() {
+    @FindBy(className = "item-box")
+    private List<WebElement> quantityProductsCurrentPage;
+
+    public Integer getQuantityProductsFromCurrentPage() {
+        return (int) quantityProductsCurrentPage.stream()
+                .filter(WebElement::isDisplayed)
+                .count();
+    }
+
+    public void addFirstAvailableProductToCart() {
         WebElement addToCartButton = productsAddToCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No 'Add to cart' buttons are available"));
 
         addToCartButton.click();
-        return addToCartButton;
     }
 
-    public Category getFirstAvailableProductAddToCartChain() {
+    public Category addFirstAvailableProductFromCurrentPageToCartChain() {
         productsAddToCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .findFirst()
@@ -84,24 +105,34 @@ public class Category extends BasePageRegisteredUser {
         return this;
     }
 
-    public void addAllAvailableProductsToCart() {
+    public void addAllAvailableProductsFromCurrentPageToCart() {
         productsAddToCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .forEach(button -> {
                     try {
                         button.click();
+
+                        driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+                        driverWait.until(ExpectedConditions.visibilityOf(this.getPopupWarningAddingItemToCart()));
+                        driverWait.until(ExpectedConditions.invisibilityOf(this.getPopupWarningAddingItemToCart()));
                     } catch (final Exception exception) {
                         System.out.println("Failed to click 'Add to cart' button: " + exception.getMessage());
                     }
                 });
     }
 
-    public Category addAllAvailableProductsToCartChain() {
+    public Category addAllAvailableProductsFromCurrentPageToCartChain() {
         productsAddToCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .forEach(button -> {
                     try {
                         button.click();
+
+                        driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+                        driverWait.until(ExpectedConditions.visibilityOf(this.getPopupWarningAddingItemToCart()));
+                        driverWait.until(ExpectedConditions.invisibilityOf(this.getPopupWarningAddingItemToCart()));
                     } catch (final Exception exception) {
                         System.out.println("Failed to click 'Add to cart' button: " + exception.getMessage());
                     }
@@ -110,16 +141,53 @@ public class Category extends BasePageRegisteredUser {
         return this;
     }
 
-    public List<Double> getPriceFromCurrentPage() {
+    public List<Double> getProductPriceFromCurrentPage() {
         return actualPrices.stream()
                 .map(priceElement -> Double.parseDouble(priceElement.getText()))
                 .collect(Collectors.toList());
     }
 
-    public List<String> getTitlesFromCurrentPage() {
+    public List<String> getProductTitlesFromCurrentPage() {
         return productTitles.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    public void selectViewAsList() {
+        select = new Select(viewAsDropDown);
+        select.selectByVisibleText("List");
+    }
+
+    public Category selectViewAsListChain() {
+        select = new Select(viewAsDropDown);
+        select.selectByVisibleText("List");
+        return this;
+    }
+
+    public void selectViewAsGrid() {
+        select = new Select(viewAsDropDown);
+        select.selectByVisibleText("Grid");
+    }
+
+    public Category selectViewAsGridChain() {
+        select = new Select(viewAsDropDown);
+        select.selectByVisibleText("Grid");
+        return this;
+    }
+
+    public String getCurrentPageTitle() {
+        return currentPage.getText();
+    }
+
+    public void selectDisplayFourPerPage() {
+        select = new Select(displayPerPageDropDown);
+        select.selectByVisibleText("4");
+    }
+
+    public Category selectDisplayFourPerPageChain() {
+        select = new Select(displayPerPageDropDown);
+        select.selectByValue("4");
+        return this;
     }
 
     public void sortByZToA() {

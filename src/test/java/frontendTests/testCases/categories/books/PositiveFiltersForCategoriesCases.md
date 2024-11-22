@@ -23,7 +23,7 @@
 
 ## Тест-кейс №1. Сортировка книг по Filter by price на странице товара Books при клике на Under 25.00
 
-## Шаги выполнения тест кейса №1 (Написан, метод: testBookSortByPriceUnderTwentyFive)
+## Шаги выполнения тест кейса №1 (Написан, метод: testCategorySortByPriceUnderTwentyFive)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти во вкладку `Books`по ссылке https://demowebshop.tricentis.com/books
@@ -36,7 +36,7 @@
 
 ## Тест-кейс №2. Отмена фильтрации по Filter by price на странице товара Books при клике на Remove Filter
 
-## Шаги выполнения тест кейса №2 (Написан, метод: testBookCancelFilter)
+## Шаги выполнения тест кейса №2 (Написан, метод: testCategoryCancelFilter)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти во вкладку `Books`по ссылке https://demowebshop.tricentis.com/books
@@ -52,7 +52,7 @@
 
 ## Тест-кейс №3. Сортировка товара книги по Sort by при помощи Name: Z to A на странице Books
 
-## Шаги выполнения тест кейса №3 (Написан, метод: testBookSortBySortByZToA)
+## Шаги выполнения тест кейса №3 (Написан, метод: testCategorySortBySortByZToA)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти во вкладку `Books`по ссылке https://demowebshop.tricentis.com/books
@@ -65,7 +65,7 @@
 
 ## Тест-кейс №4. Сортировка книг по Display per page на странице Books
 
-## Шаги выполнения тест кейса №4 (Написан, метод: )
+## Шаги выполнения тест кейса №4 (Написан, метод: testCategorySortByDisplayFourPerPage)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти во вкладку `Books`по ссылке https://demowebshop.tricentis.com/books
@@ -79,7 +79,7 @@
 
 ## Тест-кейс №5. Сортировка книг по View на странице Books
 
-## Шаги выполнения тест кейса №5 (Написан, метод: )
+## Шаги выполнения тест кейса №5 (Написан, метод: testCategorySortByViewAsList)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти во вкладку `Books`по ссылке https://demowebshop.tricentis.com/books
@@ -90,31 +90,15 @@
 7) После нажатия перекинет по ссылке https://demowebshop.tricentis.com/books?viewmode=list
    Проверить, что на странице книги отображены в виде списка
 
-## Тест-кейс №6. Постраничный переход в разделе Books
+## Тест-кейс №6. Проверка сплывающего предупреждения при добавлении товара в корзину
 
-## Шаги выполнения тест кейса №6 (Написан, метод: )
-
-1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
-2) Перейти во вкладку `Books`по ссылке https://demowebshop.tricentis.com/books
-3) Фильтр View as оставить без изменений
-4) Фильтр Filter by price оставить без изменений
-5) Фильтр Sort by оставить без изменений
-6) Нажать на Display per page. В выпадающем списке фильтра выбрать 4
-7) После нажатия перекинет по ссылке https://demowebshop.tricentis.com/books?pagesize=4
-   Проверить, что на странице отображены не более 4-х книг. В правом нижнем углу появились кнопки перехода между
-   страницами 1, 2, Next
-8) Нажать на `2`.
-9) Проверить, что после нажатия, перекинуло на страницу https://demowebshop.tricentis.com/books?pagesize=4&pagenumber=2,
-   отобразились другие книги и кнопки перехода между страницами изменились на `Previous`, `1`, `2`
-
-## Тест-кейс №7. Добавление товаров в корзину на странице Books при клике на Add to cart
-
-## Шаги выполнения тест кейса №7 (Написан, метод: )
+## Шаги выполнения тест кейса №6 (Написан, метод: testCategoryCheckWarningWhenAddingItemToCart)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти во вкладку `Books`по ссылке https://demowebshop.tricentis.com/books
-3) Нажать на  `Add to cart` под любой из книг.
-4) Ненадолго появляется информационное окно о том, что книга добавлена в корзину.
+3) Нажать на  `Add to cart` под любой из книг
+4) Ненадолго появляется информационное окно о том,
+   что продукт добавлен в корзину с текстом `The product has been added to your shopping cart`
 5) Проверить, что в правом верхнем углу у раздела `Shopping cart` в круглых скобках появилась цифра с количеством
-   добавленных товаров.
+   добавленных товаров
 
