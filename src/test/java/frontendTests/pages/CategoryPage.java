@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 
 // https://demowebshop.tricentis.com/books
 @Getter
-public class Category extends BasePageRegisteredUser {
+public class CategoryPage extends RegisteredUserBasePage {
 
     private Select select;
     private WebDriverWait driverWait;
 
-    public Category(WebDriver driver) {
+    public CategoryPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
@@ -95,7 +95,7 @@ public class Category extends BasePageRegisteredUser {
         addToCartButton.click();
     }
 
-    public Category addFirstAvailableProductFromCurrentPageToCartChain() {
+    public CategoryPage addFirstAvailableProductFromCurrentPageToCartChain() {
         productsAddToCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .findFirst()
@@ -122,7 +122,7 @@ public class Category extends BasePageRegisteredUser {
                 });
     }
 
-    public Category addAllAvailableProductsFromCurrentPageToCartChain() {
+    public CategoryPage addAllAvailableProductsFromCurrentPageToCartChain() {
         productsAddToCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .forEach(button -> {
@@ -158,7 +158,7 @@ public class Category extends BasePageRegisteredUser {
         select.selectByVisibleText("List");
     }
 
-    public Category selectViewAsListChain() {
+    public CategoryPage selectViewAsListChain() {
         select = new Select(viewAsDropDown);
         select.selectByVisibleText("List");
         return this;
@@ -169,7 +169,7 @@ public class Category extends BasePageRegisteredUser {
         select.selectByVisibleText("Grid");
     }
 
-    public Category selectViewAsGridChain() {
+    public CategoryPage selectViewAsGridChain() {
         select = new Select(viewAsDropDown);
         select.selectByVisibleText("Grid");
         return this;
@@ -184,7 +184,7 @@ public class Category extends BasePageRegisteredUser {
         select.selectByVisibleText("4");
     }
 
-    public Category selectDisplayFourPerPageChain() {
+    public CategoryPage selectDisplayFourPerPageChain() {
         select = new Select(displayPerPageDropDown);
         select.selectByValue("4");
         return this;
@@ -195,7 +195,7 @@ public class Category extends BasePageRegisteredUser {
         select.selectByVisibleText("Name: Z to A");
     }
 
-    public Category sortByZToAChain() {
+    public CategoryPage sortByZToAChain() {
         select = new Select(sortByDropDown);
         select.selectByVisibleText("Name: Z to A");
         return this;
@@ -205,7 +205,7 @@ public class Category extends BasePageRegisteredUser {
         filterByPriceUnder.click();
     }
 
-    public Category sortByUnderTwentyFivePriceChain() {
+    public CategoryPage sortByUnderTwentyFivePriceChain() {
         filterByPriceUnder.click();
         return this;
     }
@@ -214,7 +214,7 @@ public class Category extends BasePageRegisteredUser {
         filterByPriceMiddle.click();
     }
 
-    public Category sortByMiddlePriceChain() {
+    public CategoryPage sortByMiddlePriceChain() {
         filterByPriceMiddle.click();
         return this;
     }
@@ -223,7 +223,7 @@ public class Category extends BasePageRegisteredUser {
         removeFilter.click();
     }
 
-    public Category clickRemoveFilterChain() {
+    public CategoryPage clickRemoveFilterChain() {
         removeFilter.click();
         return this;
     }

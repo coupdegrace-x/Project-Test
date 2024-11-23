@@ -24,11 +24,11 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PositiveFiltersForCategoriesTest.class);
 
     private RegisterPage registerPage;
-    private Category category;
+    private CategoryPage categoryPage;
 
     @BeforeMethod
     public void setUpRegPageAndBooks() {
-        category = new Category(getDriver());
+        categoryPage = new CategoryPage(getDriver());
         registerPage = new RegisterPage(getDriver());
     }
 
@@ -52,13 +52,13 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         userRegistration();
 
-        category.openBookCategoryChain()
+        categoryPage.openBookCategoryChain()
                 .sortByUnderTwentyFivePrice();
 
-        List<Double> prices = category.getProductPriceFromCurrentPage();
+        List<Double> prices = categoryPage.getProductPriceFromCurrentPage();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(ExpectedConditions
-                .textToBePresentInElement(category.getRemoveFilter(), category.getRemoveFilter().getText()));
+                .textToBePresentInElement(categoryPage.getRemoveFilter(), categoryPage.getRemoveFilter().getText()));
 
         Assert.assertTrue(prices.stream().allMatch(price -> price < priceThreshold));
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books?price=-25"));
@@ -76,20 +76,20 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         userRegistration();
 
-        category.openBookCategoryChain()
+        categoryPage.openBookCategoryChain()
                 .sortByMiddlePrice();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(ExpectedConditions
-                .textToBePresentInElement(category.getRemoveFilter(), category.getRemoveFilter().getText()));
+                .textToBePresentInElement(categoryPage.getRemoveFilter(), categoryPage.getRemoveFilter().getText()));
 
-        List<Double> prices = category.getProductPriceFromCurrentPage();
+        List<Double> prices = categoryPage.getProductPriceFromCurrentPage();
 
         Assert.assertTrue(prices.stream()
                 .allMatch(price -> price < middlePriceMin || price > middlePriceMax));
 
-        category.clickRemoveFilter();
+        categoryPage.clickRemoveFilter();
 
-        prices = category.getProductPriceFromCurrentPage();
+        prices = categoryPage.getProductPriceFromCurrentPage();
 
         Assert.assertTrue(prices.stream().allMatch(price -> price >= minPrice));
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books"));
@@ -103,13 +103,13 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         userRegistration();
 
-        category.openBookCategory();
+        categoryPage.openBookCategory();
 
-        List<String> notSortedTitlesBooks = category.getProductTitlesFromCurrentPage();
+        List<String> notSortedTitlesBooks = categoryPage.getProductTitlesFromCurrentPage();
 
-        category.sortByZToA();
+        categoryPage.sortByZToA();
 
-        List<String> sortedTitlesBooksByZToA = category.getProductTitlesFromCurrentPage();
+        List<String> sortedTitlesBooksByZToA = categoryPage.getProductTitlesFromCurrentPage();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15))
                 .until(ExpectedConditions.urlContains("/books?orderby=6"));
@@ -126,18 +126,18 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         userRegistration();
 
-        category.openBookCategoryChain()
+        categoryPage.openBookCategoryChain()
                 .selectDisplayFourPerPage();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15))
                 .until(ExpectedConditions
-                        .textToBePresentInElement(category.getNextPage(), category.getNextPage().getText()));
+                        .textToBePresentInElement(categoryPage.getNextPage(), categoryPage.getNextPage().getText()));
 
-        Assert.assertTrue(category.getQuantityProductsFromCurrentPage() <= 4);
+        Assert.assertTrue(categoryPage.getQuantityProductsFromCurrentPage() <= 4);
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books?pagesize=4"));
-        Assert.assertTrue(category.getCurrentPageTitle().contains("1"));
-        Assert.assertTrue(category.getSecondPage().isDisplayed() && category.getSecondPage().isEnabled());
-        Assert.assertTrue(category.getNextPage().isDisplayed() && category.getNextPage().isEnabled());
+        Assert.assertTrue(categoryPage.getCurrentPageTitle().contains("1"));
+        Assert.assertTrue(categoryPage.getSecondPage().isDisplayed() && categoryPage.getSecondPage().isEnabled());
+        Assert.assertTrue(categoryPage.getNextPage().isDisplayed() && categoryPage.getNextPage().isEnabled());
 
         LOGGER.info("Finish positive testSortByDisplayFourPerPage");
     }
@@ -148,7 +148,7 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         userRegistration();
 
-        category.openBookCategoryChain()
+        categoryPage.openBookCategoryChain()
                 .selectViewAsList();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15))
@@ -167,16 +167,16 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         userRegistration();
 
-        category.openBookCategoryChain()
+        categoryPage.openBookCategoryChain()
                 .addFirstAvailableProductToCart();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(15))
                 .until(ExpectedConditions
-                        .visibilityOf(category.getPopupWarningAddingItemToCart()));
+                        .visibilityOf(categoryPage.getPopupWarningAddingItemToCart()));
 
-        Assert.assertTrue(category.getPopupWarningAddingItemToCart()
+        Assert.assertTrue(categoryPage.getPopupWarningAddingItemToCart()
                 .getText().contains("The product has been added to your shopping cart"));
-        Assert.assertTrue(category.getQuantityProductsInCart().getText().contains("1"));
+        Assert.assertTrue(categoryPage.getQuantityProductsInCart().getText().contains("1"));
 
         LOGGER.info("Finish positive testCategoryCheckWarningWhenAddingItemToCart");
     }

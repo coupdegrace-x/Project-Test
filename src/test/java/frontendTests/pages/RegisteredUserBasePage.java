@@ -8,11 +8,11 @@ import org.openqa.selenium.support.PageFactory;
 
 // https://demowebshop.tricentis.com/
 @Getter
-public class BasePageRegisteredUser {
+public class RegisteredUserBasePage {
 
     private final WebDriver driver;
 
-    public BasePageRegisteredUser(WebDriver driver) {
+    public RegisteredUserBasePage(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -24,8 +24,8 @@ public class BasePageRegisteredUser {
         driver.get("https://demowebshop.tricentis.com/books");
     }
 
-    public Category openBookCategoryChain() {
+    public CategoryPage openBookCategoryChain() {
         driver.get("https://demowebshop.tricentis.com/books");
-        return new Category(driver);
+        return new CategoryPage(driver);
     }
 }
