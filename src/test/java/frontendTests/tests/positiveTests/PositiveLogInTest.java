@@ -7,38 +7,32 @@ import frontendTests.utils.TestCase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.Objects;
 
 @TestCase(infoAboutCase = "PositiveLogInCases",
-        path = "frontendTests/testCases/signInCases/PositiveLogInCases.md")
+        path = "frontendTests/testCases/logInCases/PositiveLogInCases.md")
 public class PositiveLogInTest extends BaseTest {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(PositiveLogInTest.class);
 
     private LogInPage logInPage;
 
     @BeforeMethod
-    public void setUpLogInPage() {
+    protected void setUpLogInPage() {
         logInPage = new LogInPage(getDriver());
     }
 
-    public boolean isElementVisibleAndContainsText(By locator, String text, int timeoutInSeconds) {
-        WebElement element = new WebDriverWait(getDriver(), Duration.ofSeconds(timeoutInSeconds))
-                .until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public boolean isElementVisibleAndContainsText(By locator, String text, int waitingSeconds) {
+        WebElement element = waitUtils
+                .waitForConditionAndReturn(ExpectedConditions.visibilityOfElementLocated(locator), waitingSeconds);
         return element.getText().contains(text);
     }
 
     @Test(description = "Authorization without the Remember me button")
     public void testLogInWithoutRememberMe() {
-        LOGGER.info("Start positive testLogInWithoutRememberMe");
+        logger.info("Start positive testLogInWithoutRememberMe");
 
         final String emailUser = ExistingUser.getEmailExistingUser();
 
@@ -53,12 +47,12 @@ public class PositiveLogInTest extends BaseTest {
                 15
         ));
 
-        LOGGER.info("Finish positive testLogInWithoutRememberMe");
+        logger.info("Finish positive testLogInWithoutRememberMe");
     }
 
     @Test(description = "Authorization with the remember me button")
     public void testLogInWithRememberMe() {
-        LOGGER.info("Start positive testLogInWithRememberMe");
+        logger.info("Start positive testLogInWithRememberMe");
 
         final String emailUser = ExistingUser.getEmailExistingUser();
 
@@ -74,30 +68,36 @@ public class PositiveLogInTest extends BaseTest {
                 15
         ));
 
-        LOGGER.info("Finish positive testLogInWithRememberMe");
+        logger.info("Finish positive testLogInWithRememberMe");
     }
 
     @Test(description = "Switching from the authorization page to the registration page")
     public void testLogInSwitchingToRegisterPage() {
-        LOGGER.info("Start positive testLogInSwitchingToRegisterPage");
+        logger.info("Start positive testLogInSwitchingToRegisterPage");
 
         logInPage.openLogInPageChain()
                 .clickRegister();
 
+        waitUtils
+                .waitForCondition(ExpectedConditions.urlContains("/register"), 10);
+
         Assert.assertTrue(logInPage.atRegisterPageFromLogInPage());
 
-        LOGGER.info("Finish positive testLogInSwitchingToRegisterPage");
+        logger.info("Finish positive testLogInSwitchingToRegisterPage");
     }
 
-    @Test
+    @Test(description = "switching to the password recovery page")
     public void testLogInSwitchingToRecoverPasswordPage() {
-        LOGGER.info("Start positive testLogInSwitchingToRecoverPasswordPage");
+        logger.info("Start positive testLogInSwitchingToRecoverPasswordPage");
 
         logInPage.openLogInPageChain()
                 .clickForgotPassword();
 
+        waitUtils
+                .waitForCondition(ExpectedConditions.urlContains("/passwordrecovery"), 10);
+
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/passwordrecovery"));
 
-        LOGGER.info("Finish positive testLogInSwitchingToRecoverPasswordPage");
+        logger.info("Finish positive testLogInSwitchingToRecoverPasswordPage");
     }
 }

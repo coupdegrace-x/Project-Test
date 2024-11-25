@@ -12,7 +12,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 @TestCase(infoAboutCase = "NegativeLogInCases",
-        path = "frontendTests/testCases/signInCases/NegativeLogInCases.md")
+        path = "frontendTests/testCases/logInCases/NegativeLogInCases.md")
 public class NegativeLogInTest extends BaseTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NegativeLogInTest.class);
