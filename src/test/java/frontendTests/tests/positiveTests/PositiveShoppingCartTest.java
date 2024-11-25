@@ -15,6 +15,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
+import java.util.Objects;
 
 @TestCase(infoAboutCase = "PositiveShoppingCartCases",
         path = "frontendTests/testCases/shoppingCartCases/PositiveShoppingCartCases.md")
@@ -45,9 +46,14 @@ public class PositiveShoppingCartTest extends BaseTest {
                 .clickRegisterButton();
     }
 
-    private void addProductToShoppingCart() {
+    private void addAllProductsToShoppingCart() {
         categoryPage.openBookCategoryChain()
-                .addAllAvailableProductsFromCurrentPageToCartChain();
+                .addAllAvailableProductsFromCurrentPageToCart();
+    }
+
+    private void addFirstProductToShoppingCart() {
+        categoryPage.openBookCategoryChain()
+                .addFirstAvailableProductToCart();
     }
 
     @Test(description = "Removing items from the shopping cart when selecting the checkout box in the Remove column")
@@ -56,7 +62,7 @@ public class PositiveShoppingCartTest extends BaseTest {
 
         userRegistration();
 
-        addProductToShoppingCart();
+        addAllProductsToShoppingCart();
 
         shoppingCartPage.openShoppingCartChain()
                 .removeFromCartChain()
@@ -77,10 +83,10 @@ public class PositiveShoppingCartTest extends BaseTest {
 
         userRegistration();
 
-        addProductToShoppingCart();
+        addAllProductsToShoppingCart();
 
         shoppingCartPage.openShoppingCartChain()
-                .removeQtyProductsChain()
+                .removeQuantityProductsChain()
                 .clickUpdateShoppingCart();
 
         new WebDriverWait(getDriver(), Duration.ofSeconds(10))
@@ -90,5 +96,48 @@ public class PositiveShoppingCartTest extends BaseTest {
         Assert.assertTrue(shoppingCartPage.shoppingCartIsEmpty());
 
         LOGGER.info("Finish positive testShopCartRemoveProductQuantity");
+    }
+
+    @Test(description = "Continue shopping by clicking on `Continue shopping` in the shopping cart")
+    public void testShoppingCartContinue() {
+        LOGGER.info("Start positive testShoppingCartContinue");
+
+        userRegistration();
+
+        addAllProductsToShoppingCart();
+
+        shoppingCartPage
+                .openShoppingCartChain()
+                .clickContinueShoppingCart();
+
+        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                .until(ExpectedConditions
+                        .urlContains("/books"));
+
+        Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books"));
+
+        LOGGER.info("Finish positive testShoppingCartContinue");
+    }
+
+    @Test(description = "changing the quantity of the product in the cart when changing the data in the `Qty` field")
+    public void testShoppingCartChangeQuantity() {
+        LOGGER.info("Start positive testShoppingCartChangeQuantity");
+
+        userRegistration();
+
+        addAllProductsToShoppingCart();
+
+        shoppingCartPage.openShoppingCart();
+
+        double totalPriceBeforeChanges = shoppingCartPage.getTotalPriceOfProducts();
+
+        shoppingCartPage.addQuantityProductsChain()
+                .clickUpdateShoppingCart();
+
+        double totalPriceAfterChanges = shoppingCartPage.getTotalPriceOfProducts();
+
+        Assert.assertNotEquals(totalPriceBeforeChanges, totalPriceAfterChanges);
+
+        LOGGER.info("Finish positive testShoppingCartChangeQuantity");
     }
 }

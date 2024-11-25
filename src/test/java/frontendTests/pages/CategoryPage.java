@@ -93,6 +93,10 @@ public class CategoryPage extends RegisteredUserBasePage {
                 .orElseThrow(() -> new NoSuchElementException("No 'Add to cart' buttons are available"));
 
         addToCartButton.click();
+
+        driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        driverWait.until(ExpectedConditions.invisibilityOf(this.getPopupWarningAddingItemToCart()));
     }
 
     public CategoryPage addFirstAvailableProductFromCurrentPageToCartChain() {
@@ -101,6 +105,10 @@ public class CategoryPage extends RegisteredUserBasePage {
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No 'Add to cart' buttons are available"))
                 .click();
+
+        driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+
+        driverWait.until(ExpectedConditions.invisibilityOf(this.getPopupWarningAddingItemToCart()));
 
         return this;
     }

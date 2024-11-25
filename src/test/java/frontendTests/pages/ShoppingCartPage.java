@@ -10,12 +10,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 
 // https://demowebshop.tricentis.com/cart
 @Getter
 public class ShoppingCartPage {
 
-    private WebDriver driver;
+    private final WebDriver driver;
 
     public ShoppingCartPage(WebDriver driver) {
         this.driver = driver;
@@ -25,17 +26,23 @@ public class ShoppingCartPage {
     @FindBy(xpath = "//li[@id='topcartlink']/a[@href='/cart']")
     private WebElement shoppingCart;
 
-    @FindBy(className = "order-summary-content") // может работать на стрице с пустой корзиой так и с заполненной
+    @FindBy(className = "order-summary-content") // может работать на стрице с пустой корзиной так и с заполненной
     private WebElement orderSummary;
 
     @FindBy(name = "updatecart")
     private WebElement buttonUpdateShoppingCart;
 
+    @FindBy(name = "continueshopping")
+    private WebElement buttonContinueShoppingCart;
+
     @FindBy(name = "removefromcart")
-    private List<WebElement> checkboxRemoveFromCart;
+    private List<WebElement> checkboxesRemoveFromCart;
 
     @FindBy(className = "qty-input")
-    private List<WebElement> inputFieldQty;
+    private List<WebElement> inputFieldsQty;
+
+    @FindBy(className = "product-subtotal")
+    private List<WebElement> totalPriceOfProducts;
 
     public void openShoppingCart() {
         getDriver().get("https://demowebshop.tricentis.com/cart");
@@ -47,7 +54,7 @@ public class ShoppingCartPage {
     }
 
     public void removeFromCart() {
-        checkboxRemoveFromCart.stream()
+        checkboxesRemoveFromCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .forEach(button -> {
                     try {
@@ -59,7 +66,7 @@ public class ShoppingCartPage {
     }
 
     public ShoppingCartPage removeFromCartChain() {
-        checkboxRemoveFromCart.stream()
+        checkboxesRemoveFromCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .forEach(button -> {
                     try {
@@ -71,9 +78,9 @@ public class ShoppingCartPage {
         return this;
     }
 
-    public void removeQtyProducts() {
+    public void removeQuantityProducts() {
         final String properQuantityOfProduct = "0";
-        inputFieldQty.stream()
+        inputFieldsQty.stream()
                 .filter(inputField -> inputField.isDisplayed() && inputField.isEnabled())
                 .forEach(inputField -> {
                     try {
@@ -89,9 +96,9 @@ public class ShoppingCartPage {
                 });
     }
 
-    public ShoppingCartPage removeQtyProductsChain() {
+    public ShoppingCartPage removeQuantityProductsChain() {
         final String properQuantityOfProduct = "0";
-        inputFieldQty.stream()
+        inputFieldsQty.stream()
                 .filter(inputField -> inputField.isDisplayed() && inputField.isEnabled())
                 .forEach(inputField -> {
                     try {
@@ -108,6 +115,52 @@ public class ShoppingCartPage {
         return this;
     }
 
+    public void addQuantityProducts() {
+        final String randomQuantityOfProduct = String.valueOf(new Random().nextInt(0,11));
+        inputFieldsQty.stream()
+                .filter(inputField -> inputField.isDisplayed() && inputField.isEnabled())
+                .forEach(inputField -> {
+                    try {
+                        inputField.clear();
+                        inputField.sendKeys(randomQuantityOfProduct);
+
+                        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                                .until(ExpectedConditions
+                                        .attributeToBe(inputField, "value", randomQuantityOfProduct));
+                    } catch (final Exception exception) {
+                        System.out.println("Failed to clear field or to sendKeys: " + exception.getMessage());
+                    }
+                });
+    }
+
+    public ShoppingCartPage addQuantityProductsChain() {
+        final String randomQuantityOfProduct = String.valueOf(new Random().nextInt(2,15));
+        inputFieldsQty.stream()
+                .filter(inputField -> inputField.isDisplayed() && inputField.isEnabled())
+                .forEach(inputField -> {
+                    try {
+                        inputField.clear();
+                        inputField.sendKeys(randomQuantityOfProduct);
+
+                        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
+                                .until(ExpectedConditions
+                                        .attributeToBe(inputField, "value", randomQuantityOfProduct));
+                    } catch (final Exception exception) {
+                        System.out.println("Failed to clear field or to sendKeys: " + exception.getMessage());
+                    }
+                });
+        return this;
+    }
+
+    public Double getTotalPriceOfProducts() {
+        return totalPriceOfProducts.stream()
+                .filter(WebElement::isDisplayed)
+                .mapToDouble(price -> {
+                    String priceText = price.getText();
+                    return Double.parseDouble(priceText);
+                })
+                .sum();
+    }
 
     public void clickUpdateShoppingCart() {
         buttonUpdateShoppingCart.click();
@@ -120,6 +173,15 @@ public class ShoppingCartPage {
 
     public Boolean shoppingCartIsEmpty() {
         return this.getOrderSummary().getText().contains("Your Shopping Cart is empty!");
+    }
+
+    public void clickContinueShoppingCart() {
+        buttonContinueShoppingCart.click();
+    }
+
+    public ShoppingCartPage clickContinueShoppingCartChain() {
+        buttonContinueShoppingCart.click();
+        return this;
     }
 
 
