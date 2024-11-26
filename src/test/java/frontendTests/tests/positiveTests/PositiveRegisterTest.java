@@ -29,10 +29,14 @@ public class PositiveRegisterTest extends BaseTest {
         waitUtils.waitForCondition(ExpectedConditions
                 .urlContains("registerresult/1"), waitingSeconds);
 
-        Assert.assertTrue(registerResultPage.getTextPageTitle().contains(expectedTitle),
+        Assert.assertTrue(registerResultPage.getPageTitle()
+                        .getText()
+                        .contains(expectedTitle),
                 "Incorrect title text");
 
-        Assert.assertTrue(registerResultPage.getTextPageBody().contains(expectedBody),
+        Assert.assertTrue(registerResultPage.getPageBody().
+                        getText()
+                        .contains(expectedBody),
                 "Incorrect body text");
 
         Assert.assertTrue(registerResultPage.atRegisterResultPage());
