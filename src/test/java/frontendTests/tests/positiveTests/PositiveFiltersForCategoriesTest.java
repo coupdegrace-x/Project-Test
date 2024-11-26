@@ -1,19 +1,17 @@
 package frontendTests.tests.positiveTests;
 
-import frontendTests.pages.*;
+import frontendTests.pages.CategoryPage;
+import frontendTests.pages.RegisterPage;
 import frontendTests.tests.BaseTest;
 import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
+import frontendTests.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,15 +19,15 @@ import java.util.Objects;
         path = "frontendTests/testCases/categories/books/PositiveFiltersForCategoriesCases.md")
 public class PositiveFiltersForCategoriesTest extends BaseTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PositiveFiltersForCategoriesTest.class);
-
     private RegisterPage registerPage;
     private CategoryPage categoryPage;
+    private WaitUtils waitUtils;
 
     @BeforeMethod
-    public void setUpRegPageAndBooks() {
+    protected void setUpRegPageAndBooks() {
         categoryPage = new CategoryPage(getDriver());
         registerPage = new RegisterPage(getDriver());
+        waitUtils = new WaitUtils(getDriver());
     }
 
     private void userRegistration() {
@@ -46,7 +44,7 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
     @Test(description = "Sorting books by Filter by price under 25.00 on the Books page")
     public void testCategorySortByPriceUnderTwentyFive() {
-        LOGGER.info("Start positive testSortByPriceUnderTwentyFive");
+        logger.info("Start positive testSortByPriceUnderTwentyFive");
 
         final double priceThreshold = 25.00;
 
@@ -57,18 +55,20 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         List<Double> prices = categoryPage.getProductPriceFromCurrentPage();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(ExpectedConditions
-                .textToBePresentInElement(categoryPage.getRemoveFilter(), categoryPage.getRemoveFilter().getText()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .textToBePresentInElement(categoryPage.getRemoveFilter(),
+                                categoryPage.getRemoveFilter().getText()),
+                15);
 
         Assert.assertTrue(prices.stream().allMatch(price -> price < priceThreshold));
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books?price=-25"));
 
-        LOGGER.info("Finish positive testSortByPriceUnderTwentyFive");
+        logger.info("Finish positive testSortByPriceUnderTwentyFive");
     }
 
     @Test(description = "Canceling filtering by Filter by price on the Books page when clicking on Remove Filter")
     public void testCategoryCancelFilter() {
-        LOGGER.info("Start positive testBookCancelFilter");
+        logger.info("Start positive testBookCancelFilter");
 
         double middlePriceMin = 25.00;
         double middlePriceMax = 50.00;
@@ -79,8 +79,10 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
         categoryPage.openBookCategoryChain()
                 .sortByMiddlePrice();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(15)).until(ExpectedConditions
-                .textToBePresentInElement(categoryPage.getRemoveFilter(), categoryPage.getRemoveFilter().getText()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .textToBePresentInElement(categoryPage.getRemoveFilter(),
+                                categoryPage.getRemoveFilter().getText()),
+                15);
 
         List<Double> prices = categoryPage.getProductPriceFromCurrentPage();
 
@@ -94,12 +96,12 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
         Assert.assertTrue(prices.stream().allMatch(price -> price >= minPrice));
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books"));
 
-        LOGGER.info("Finish positive testBookCancelFilter");
+        logger.info("Finish positive testBookCancelFilter");
     }
 
     @Test(description = "Sort books by Sort by using Name: Z to A on the Books page")
     public void testCategorySortBySortByZToA() {
-        LOGGER.info("Start positive testSortBySortByZToA");
+        logger.info("Start positive testSortBySortByZToA");
 
         userRegistration();
 
@@ -111,27 +113,27 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         List<String> sortedTitlesBooksByZToA = categoryPage.getProductTitlesFromCurrentPage();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(15))
-                .until(ExpectedConditions.urlContains("/books?orderby=6"));
+        waitUtils.waitForCondition(ExpectedConditions.urlContains("/books?orderby=6"), 15);
 
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books?orderby=6"));
         Assert.assertNotEquals(notSortedTitlesBooks, sortedTitlesBooksByZToA);
 
-        LOGGER.info("Finish positive testSortBySortByZToA");
+        logger.info("Finish positive testSortBySortByZToA");
     }
 
     @Test(description = "Sorting books by Display per page on the Books page")
     public void testCategorySortByDisplayFourPerPage() {
-        LOGGER.info("Start positive testSortByDisplayFourPerPage");
+        logger.info("Start positive testSortByDisplayFourPerPage");
 
         userRegistration();
 
         categoryPage.openBookCategoryChain()
                 .selectDisplayFourPerPage();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(15))
-                .until(ExpectedConditions
-                        .textToBePresentInElement(categoryPage.getNextPage(), categoryPage.getNextPage().getText()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .textToBePresentInElement(categoryPage.getNextPage(),
+                                categoryPage.getNextPage().getText()),
+                15);
 
         Assert.assertTrue(categoryPage.getQuantityProductsFromCurrentPage() <= 4);
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books?pagesize=4"));
@@ -139,45 +141,45 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
         Assert.assertTrue(categoryPage.getSecondPage().isDisplayed() && categoryPage.getSecondPage().isEnabled());
         Assert.assertTrue(categoryPage.getNextPage().isDisplayed() && categoryPage.getNextPage().isEnabled());
 
-        LOGGER.info("Finish positive testSortByDisplayFourPerPage");
+        logger.info("Finish positive testSortByDisplayFourPerPage");
     }
 
     @Test(description = "Sorting books by View on the Books page")
     public void testCategorySortByViewAsList() {
-        LOGGER.info("Start positive testSortByViewAsList");
+        logger.info("Start positive testSortByViewAsList");
 
         userRegistration();
 
         categoryPage.openBookCategoryChain()
                 .selectViewAsList();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(15))
-                .until(ExpectedConditions
-                        .presenceOfElementLocated(By.className("product-list")));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .presenceOfElementLocated(By.className("product-list")),
+                15);
 
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books?viewmode=list"));
         Assert.assertTrue(getDriver().findElement(By.className("product-list")).isDisplayed());
 
-        LOGGER.info("Finish positive testSortByViewAsList");
+        logger.info("Finish positive testSortByViewAsList");
     }
 
     @Test(description = "Checking the floating warning when adding an item to the cart")
     public void testCategoryCheckWarningWhenAddingItemToCart() {
-        LOGGER.info("Start positive testCategoryCheckWarningWhenAddingItemToCart");
+        logger.info("Start positive testCategoryCheckWarningWhenAddingItemToCart");
 
         userRegistration();
 
         categoryPage.openBookCategoryChain()
                 .addFirstAvailableProductToCart();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(15))
-                .until(ExpectedConditions
-                        .visibilityOf(categoryPage.getPopupWarningAddingItemToCart()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .visibilityOf(categoryPage.getPopupWarningAddingItemToCart()),
+                15);
 
         Assert.assertTrue(categoryPage.getPopupWarningAddingItemToCart()
                 .getText().contains("The product has been added to your shopping cart"));
         Assert.assertTrue(categoryPage.getQuantityProductsInCart().getText().contains("1"));
 
-        LOGGER.info("Finish positive testCategoryCheckWarningWhenAddingItemToCart");
+        logger.info("Finish positive testCategoryCheckWarningWhenAddingItemToCart");
     }
 }
