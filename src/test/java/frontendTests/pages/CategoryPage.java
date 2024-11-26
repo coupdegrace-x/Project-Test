@@ -1,5 +1,6 @@
 package frontendTests.pages;
 
+import frontendTests.utils.WaitUtils;
 import lombok.Getter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,9 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class CategoryPage extends RegisteredUserBasePage {
 
     private Select select;
-    private WebDriverWait driverWait;
+    private WaitUtils waitUtils;
 
     public CategoryPage(WebDriver driver) {
         super(driver);
@@ -94,9 +93,9 @@ public class CategoryPage extends RegisteredUserBasePage {
 
         addToCartButton.click();
 
-        driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-
-        driverWait.until(ExpectedConditions.invisibilityOf(this.getPopupWarningAddingItemToCart()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .invisibilityOf(this.getPopupWarningAddingItemToCart()),
+                10);
     }
 
     public CategoryPage addFirstAvailableProductFromCurrentPageToCartChain() {
@@ -106,9 +105,9 @@ public class CategoryPage extends RegisteredUserBasePage {
                 .orElseThrow(() -> new NoSuchElementException("No 'Add to cart' buttons are available"))
                 .click();
 
-        driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
-
-        driverWait.until(ExpectedConditions.invisibilityOf(this.getPopupWarningAddingItemToCart()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .invisibilityOf(this.getPopupWarningAddingItemToCart()),
+                10);
 
         return this;
     }
@@ -120,10 +119,14 @@ public class CategoryPage extends RegisteredUserBasePage {
                     try {
                         button.click();
 
-                        driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+                        waitUtils.waitForCondition(ExpectedConditions
+                                        .visibilityOf(this.getPopupWarningAddingItemToCart()),
+                                10);
 
-                        driverWait.until(ExpectedConditions.visibilityOf(this.getPopupWarningAddingItemToCart()));
-                        driverWait.until(ExpectedConditions.invisibilityOf(this.getPopupWarningAddingItemToCart()));
+                        waitUtils.waitForCondition(ExpectedConditions
+                                        .invisibilityOf(this.getPopupWarningAddingItemToCart()),
+                                10);
+
                     } catch (final Exception exception) {
                         System.out.println("Failed to click 'Add to cart' button: " + exception.getMessage());
                     }
@@ -137,10 +140,13 @@ public class CategoryPage extends RegisteredUserBasePage {
                     try {
                         button.click();
 
-                        driverWait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+                        waitUtils.waitForCondition(ExpectedConditions
+                                        .visibilityOf(this.getPopupWarningAddingItemToCart()),
+                                10);
 
-                        driverWait.until(ExpectedConditions.visibilityOf(this.getPopupWarningAddingItemToCart()));
-                        driverWait.until(ExpectedConditions.invisibilityOf(this.getPopupWarningAddingItemToCart()));
+                        waitUtils.waitForCondition(ExpectedConditions
+                                        .invisibilityOf(this.getPopupWarningAddingItemToCart()),
+                                10);
                     } catch (final Exception exception) {
                         System.out.println("Failed to click 'Add to cart' button: " + exception.getMessage());
                     }

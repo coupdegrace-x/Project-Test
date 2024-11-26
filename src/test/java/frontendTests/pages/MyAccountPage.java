@@ -1,5 +1,6 @@
 package frontendTests.pages;
 
+import frontendTests.utils.WaitUtils;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +17,7 @@ import java.time.Duration;
 public class MyAccountPage {
 
     private final WebDriver driver;
+    private WaitUtils waitUtils;
 
     public MyAccountPage(WebDriver driver) {
         this.driver = driver;
@@ -43,9 +45,8 @@ public class MyAccountPage {
     @FindBy(xpath = "//ul[@class='list']//a[@href='/customer/changepassword']")
     private WebElement changePassword;
 
-    private void waitForVisibility(By locator, int timeoutInSeconds) {
-        new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds))
-                .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator));
+    private void waitForVisibility(By locator, int waitingSeconds) {
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOfAllElementsLocatedBy(locator), waitingSeconds);
     }
 
     public void openMyAccountPage() { // страница по дефолту открывает вкладку Customer Info

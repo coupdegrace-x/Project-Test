@@ -16,6 +16,7 @@ import java.util.Objects;
 public class LogInPage {
 
     private final WebDriver driver;
+    private WaitUtils waitUtils;
 
     public LogInPage(WebDriver driver) {
         this.driver = driver;
@@ -49,7 +50,7 @@ public class LogInPage {
     public void openLogInPage() {
         driver.get("https://demowebshop.tricentis.com/login");
 
-        new WaitUtils(driver).waitForCondition(ExpectedConditions
+        waitUtils.waitForCondition(ExpectedConditions
                         .visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
                 20);
     }
@@ -57,7 +58,7 @@ public class LogInPage {
     public LogInPage openLogInPageChain() {
         driver.get("https://demowebshop.tricentis.com/login");
 
-        new WaitUtils(driver).waitForCondition(ExpectedConditions
+        waitUtils.waitForCondition(ExpectedConditions
                         .visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
                 20);
 

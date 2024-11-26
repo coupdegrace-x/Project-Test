@@ -67,19 +67,17 @@ public class RegisterPage {
     public void openRegisterPage() {
         driver.get("https://demowebshop.tricentis.com/register");
 
-        new WaitUtils(driver)
-                .waitForCondition(ExpectedConditions.
-                                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
-                        20);
+        new WaitUtils(driver).waitForCondition(ExpectedConditions.
+                        visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
+                20);
     }
 
     public RegisterPage openRegisterPageChain() {
         driver.get("https://demowebshop.tricentis.com/register");
 
-        new WaitUtils(driver)
-                .waitForCondition(ExpectedConditions.
-                                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
-                        20);
+        new WaitUtils(driver).waitForCondition(ExpectedConditions.
+                        visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
+                20);
 
         return this;
     }
