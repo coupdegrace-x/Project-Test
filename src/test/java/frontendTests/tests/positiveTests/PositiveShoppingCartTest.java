@@ -6,29 +6,25 @@ import frontendTests.pages.ShoppingCartPage;
 import frontendTests.tests.BaseTest;
 import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
+import frontendTests.utils.WaitUtils;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.Objects;
 
 @TestCase(infoAboutCase = "PositiveShoppingCartCases",
         path = "frontendTests/testCases/shoppingCartCases/PositiveShoppingCartCases.md")
 public class PositiveShoppingCartTest extends BaseTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PositiveShoppingCartTest.class);
-
     private RegisterPage registerPage;
     private CategoryPage categoryPage;
     private ShoppingCartPage shoppingCartPage;
+    private WaitUtils waitUtils;
 
     @BeforeMethod
-    public void setUpRegPageAndBooks() {
+    protected void setUpRegPageAndBooks() {
         shoppingCartPage = new ShoppingCartPage(getDriver());
         categoryPage = new CategoryPage(getDriver());
         registerPage = new RegisterPage(getDriver());
@@ -58,7 +54,7 @@ public class PositiveShoppingCartTest extends BaseTest {
 
     @Test(description = "Removing items from the shopping cart when selecting the checkout box in the Remove column")
     public void testShopCartRemoveProduct() {
-        LOGGER.info("Start positive testShopCartRemoveProduct");
+        logger.info("Start positive testShopCartRemoveProduct");
 
         userRegistration();
 
@@ -68,18 +64,18 @@ public class PositiveShoppingCartTest extends BaseTest {
                 .removeFromCartChain()
                 .clickUpdateShoppingCart();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions
-                        .visibilityOf(shoppingCartPage.getOrderSummary()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .visibilityOf(shoppingCartPage.getOrderSummary()),
+                10);
 
         Assert.assertTrue(shoppingCartPage.shoppingCartIsEmpty());
 
-        LOGGER.info("Finish positive testShopCartRemoveProduct");
+        logger.info("Finish positive testShopCartRemoveProduct");
     }
 
     @Test(description = "Removing items from the shopping cart when the quantity of goods in the basket changes")
     public void testShopCartRemoveProductQuantity() {
-        LOGGER.info("Start positive testShopCartRemoveProductQuantity");
+        logger.info("Start positive testShopCartRemoveProductQuantity");
 
         userRegistration();
 
@@ -89,18 +85,18 @@ public class PositiveShoppingCartTest extends BaseTest {
                 .removeQuantityProductsChain()
                 .clickUpdateShoppingCart();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions
-                        .visibilityOf(shoppingCartPage.getOrderSummary()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .visibilityOf(shoppingCartPage.getOrderSummary()),
+                10);
 
         Assert.assertTrue(shoppingCartPage.shoppingCartIsEmpty());
 
-        LOGGER.info("Finish positive testShopCartRemoveProductQuantity");
+        logger.info("Finish positive testShopCartRemoveProductQuantity");
     }
 
     @Test(description = "Continue shopping by clicking on `Continue shopping` in the shopping cart")
     public void testShoppingCartContinue() {
-        LOGGER.info("Start positive testShoppingCartContinue");
+        logger.info("Start positive testShoppingCartContinue");
 
         userRegistration();
 
@@ -110,18 +106,18 @@ public class PositiveShoppingCartTest extends BaseTest {
                 .openShoppingCartChain()
                 .clickContinueShoppingCart();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions
-                        .urlContains("/books"));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .urlContains("/books"),
+                10);
 
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books"));
 
-        LOGGER.info("Finish positive testShoppingCartContinue");
+        logger.info("Finish positive testShoppingCartContinue");
     }
 
     @Test(description = "changing the quantity of the product in the cart when changing the data in the `Qty` field")
     public void testShoppingCartChangeQuantity() {
-        LOGGER.info("Start positive testShoppingCartChangeQuantity");
+        logger.info("Start positive testShoppingCartChangeQuantity");
 
         userRegistration();
 
@@ -138,6 +134,6 @@ public class PositiveShoppingCartTest extends BaseTest {
 
         Assert.assertNotEquals(totalPriceBeforeChanges, totalPriceAfterChanges);
 
-        LOGGER.info("Finish positive testShoppingCartChangeQuantity");
+        logger.info("Finish positive testShoppingCartChangeQuantity");
     }
 }
