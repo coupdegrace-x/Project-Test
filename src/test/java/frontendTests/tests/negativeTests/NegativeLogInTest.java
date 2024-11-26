@@ -6,9 +6,10 @@ import frontendTests.utils.ExistingUser;
 import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
 
 @TestCase(infoAboutCase = "NegativeLogInCases",
         path = "frontendTests/testCases/logInCases/NegativeLogInCases.md")
@@ -25,18 +26,19 @@ public class NegativeLogInTest extends BaseTest {
     }
 
     public void assertVerifyValidationErrors(String specificErrorMessage) {
-        waitUtils
-                .waitForCondition(ExpectedConditions
-                        .visibilityOf(logInPage.getSpecificMessageError()), 10);
+        waitUtils.waitForCondition(
+                ExpectedConditions.visibilityOf(logInPage.getSpecificMessageError()),
+                10
+        );
 
-        Assert.assertTrue(logInPage.getCommonValidationError()
-                .getText()
-                .contains(COMMON_ERROR_MESSAGE),
+        assertTrue(logInPage.getCommonValidationError()
+                        .getText()
+                        .contains(COMMON_ERROR_MESSAGE),
                 "Common validation error message mismatch");
 
-        Assert.assertTrue(logInPage.getSpecificMessageError()
-                .getText()
-                .contains(specificErrorMessage),
+        assertTrue(logInPage.getSpecificMessageError()
+                        .getText()
+                        .contains(specificErrorMessage),
                 "Specific validation error message mismatch");
     }
 

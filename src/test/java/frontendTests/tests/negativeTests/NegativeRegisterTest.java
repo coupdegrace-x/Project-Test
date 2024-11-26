@@ -6,9 +6,10 @@ import frontendTests.utils.ExistingUser;
 import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
 
 @TestCase(infoAboutCase = "NegativeRegisterCases",
         path = "frontendTests/testCases/registerCases/NegativeRegisterCases.md")
@@ -25,18 +26,18 @@ public class NegativeRegisterTest extends BaseTest {
     public void testRegisterEmptyFields() {
         logger.info("Start negative testRegisterEmptyFields");
 
-        registerPage.openRegisterPageChain()
-                .clickRegisterButton();
+        registerPage.openRegisterPageChain().clickRegisterButton();
 
-        waitUtils.
-                waitForCondition(ExpectedConditions
-                        .visibilityOf(registerPage.getFirstNameRequired()), 10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        registerPage.getFirstNameRequired()),
+                10
+        );
 
-        Assert.assertTrue(registerPage.getTextFirstNameRequired().contains("First name is required"));
-        Assert.assertTrue(registerPage.getTextLastNameRequired().contains("Last name is required"));
-        Assert.assertTrue(registerPage.getTextEmailRequired().contains("Email is required"));
-        Assert.assertTrue(registerPage.getTextPasswordRequired().contains("Password is required"));
-        Assert.assertTrue(registerPage.getTextConfirmPasswordRequired().contains("Password is required"));
+        assertTrue(registerPage.getTextFirstNameRequired().contains("First name is required"));
+        assertTrue(registerPage.getTextLastNameRequired().contains("Last name is required"));
+        assertTrue(registerPage.getTextEmailRequired().contains("Email is required"));
+        assertTrue(registerPage.getTextPasswordRequired().contains("Password is required"));
+        assertTrue(registerPage.getTextConfirmPasswordRequired().contains("Password is required"));
 
         logger.info("Finish negative testRegisterEmptyFields");
     }
@@ -55,11 +56,12 @@ public class NegativeRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(password)
                 .clickRegisterButton();
 
-        waitUtils.
-                waitForCondition(ExpectedConditions
-                        .visibilityOf(registerPage.getFirstNameRequired()), 10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        registerPage.getFirstNameRequired()),
+                10
+        );
 
-        Assert.assertTrue(registerPage.getTextFirstNameRequired().contains("First name is required"));
+        assertTrue(registerPage.getTextFirstNameRequired().contains("First name is required"));
 
         logger.info("Finish negative testRegisterEmptyFirstName");
     }
@@ -78,11 +80,12 @@ public class NegativeRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(password)
                 .clickRegisterButton();
 
-        waitUtils.
-                waitForCondition(ExpectedConditions
-                        .visibilityOf(registerPage.getLastNameRequired()), 10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        registerPage.getLastNameRequired()),
+                10
+        );
 
-        Assert.assertTrue(registerPage.getTextLastNameRequired().contains("Last name is required"));
+        assertTrue(registerPage.getTextLastNameRequired().contains("Last name is required"));
 
         logger.info("Finish negative testRegisterEmptyLastName");
     }
@@ -101,11 +104,12 @@ public class NegativeRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(password)
                 .clickRegisterButton();
 
-        waitUtils.
-                waitForCondition(ExpectedConditions
-                        .visibilityOf(registerPage.getEmailRequired()), 10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        registerPage.getEmailRequired()),
+                10
+        );
 
-        Assert.assertTrue(registerPage.getTextEmailRequired().contains("Email is required"));
+        assertTrue(registerPage.getTextEmailRequired().contains("Email is required"));
 
         logger.info("Finish negative testRegisterEmptyEmail");
     }
@@ -122,11 +126,11 @@ public class NegativeRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(RandomUserData.getRandomPassword())
                 .clickRegisterButton();
 
-        waitUtils.
-                waitForCondition(ExpectedConditions
-                        .visibilityOf(registerPage.getPasswordRequired()), 10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        registerPage.getPasswordRequired()),
+                10);
 
-        Assert.assertTrue(registerPage.getTextPasswordRequired().contains("Password is required"));
+        assertTrue(registerPage.getTextPasswordRequired().contains("Password is required"));
 
         logger.info("Finish negative testRegisterEmptyPassword");
     }
@@ -143,11 +147,12 @@ public class NegativeRegisterTest extends BaseTest {
                 .enterPasswordChain(RandomUserData.getRandomPassword())
                 .clickRegisterButton();
 
-        waitUtils.
-                waitForCondition(ExpectedConditions
-                        .visibilityOf(registerPage.getConfirmPasswordRequired()), 10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        registerPage.getConfirmPasswordRequired()),
+                10
+        );
 
-        Assert.assertTrue(registerPage.getTextConfirmPasswordRequired().contains("Password is required"));
+        assertTrue(registerPage.getTextConfirmPasswordRequired().contains("Password is required"));
 
         logger.info("Finish negative testRegisterEmptyConfirmPassword");
     }
@@ -165,11 +170,12 @@ public class NegativeRegisterTest extends BaseTest {
                 .enterConfirmPasswordChain(ExistingUser.getPasswordExistingUser())
                 .clickRegisterButton();
 
-        waitUtils.
-                waitForCondition(ExpectedConditions
-                        .visibilityOf(registerPage.getErrorMessage()), 10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        registerPage.getErrorMessage()),
+                10
+        );
 
-        Assert.assertTrue(registerPage.getTextErrorMessage().contains("The specified email already exists"));
+        assertTrue(registerPage.getTextErrorMessage().contains("The specified email already exists"));
 
         logger.info("Finish negative testRegisterAlreadyRegisteredUser");
     }

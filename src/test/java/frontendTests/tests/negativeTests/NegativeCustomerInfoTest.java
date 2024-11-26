@@ -5,6 +5,7 @@ import frontendTests.pages.MyAccountPage;
 import frontendTests.pages.RegisterPage;
 import frontendTests.tests.BaseTest;
 import frontendTests.utils.RandomUserData;
+import frontendTests.utils.RegistrationOfRandomUser;
 import frontendTests.utils.TestCase;
 import frontendTests.utils.WaitUtils;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -29,23 +30,11 @@ public class NegativeCustomerInfoTest extends BaseTest {
         waitUtils = new WaitUtils(getDriver());
     }
 
-    private void userRegistration() {
-        final String passwordUser = RandomUserData.getRandomPassword();
-
-        registerPage.openRegisterPageChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterEmailChain(RandomUserData.getRandomEmail())
-                .enterPasswordChain(passwordUser)
-                .enterConfirmPasswordChain(passwordUser)
-                .clickRegisterButton();
-    }
-
     @Test(description = "Clear personal data on the My account - customer info page and check for output errors")
     private void testInfoClearDataAndCheckErrors() {
         logger.info("Start negative testInfoClearDataAndCheckErrors");
 
-        userRegistration();
+        new RegistrationOfRandomUser().userRegistration(registerPage);
 
         myAccountPage.openCustomerInfoChain()
                 .clearFirstNameChain()
@@ -53,9 +42,8 @@ public class NegativeCustomerInfoTest extends BaseTest {
                 .clearEmailChain()
                 .clickSaveButton();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .textToBePresentInElement(myAccountInfoPage.getFirstNameError(),
-                                "First name is required"),
+        waitUtils.waitForCondition(ExpectedConditions.textToBePresentInElement(myAccountInfoPage.getFirstNameError(),
+                        "First name is required"),
                 15);
 
         Assert.assertTrue(myAccountInfoPage.getTextFirstNameError().contains("First name is required"));
@@ -70,7 +58,7 @@ public class NegativeCustomerInfoTest extends BaseTest {
     private void testInfoClearFirstNameAndCheckError() {
         logger.info("Start negative testInfoClearFirstNameAndCheckError");
 
-        userRegistration();
+        new RegistrationOfRandomUser().userRegistration(registerPage);
 
         myAccountPage.openCustomerInfoChain()
                 .clearFirstNameChain()
@@ -78,9 +66,8 @@ public class NegativeCustomerInfoTest extends BaseTest {
                 .enterEmailChain(RandomUserData.getRandomEmail())
                 .clickSaveButton();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .textToBePresentInElement(myAccountInfoPage.getFirstNameError(),
-                                "First name is required"),
+        waitUtils.waitForCondition(ExpectedConditions.textToBePresentInElement(myAccountInfoPage.getFirstNameError(),
+                        "First name is required"),
                 15);
 
         Assert.assertTrue(myAccountInfoPage.getTextFirstNameError().contains("First name is required"));
