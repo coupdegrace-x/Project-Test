@@ -12,26 +12,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Objects;
 
-/*
-Класс RegisterPage предназначен для страницы Register, где происходит регистрация пользователя
-метод: openRegisterPage - открывает страницу по ссылке
-метод: chooseMaleGender и chooseFemaleGender - выбирает пол пользователя
-метод: enterFirstName - вводит имя пользователя
-метод: enterLastName - вводит фамилию пользователя
-метод: enterEmail - вводит почту пользователя
-метод: enterPassword - вводит пароль пользователя
-метод: enterConfirmPassword - вводит пароль пользователя для подтверждения
-метод: clickRegisterButton - кликает по кнопке регистрации
-метод: getTextFirstNameRequired - возвращает строку-информацию, что требуется ввести имя
-метод: getTextLastNameRequired - возвращает строку-информацию, что требуется ввести фамилию
-метод: getTextEmailRequired - возвращает строку-информацию, что требуется ввести эмаил
-метод: getTextPasswordRequired - возвращает строку-информацию, что требуется ввести пароль
-метод: getTextConfirmPasswordRequired - возвращает строку-информацию, что требуется подтвердить пароль
-метод: getTextErrorMessage - возвращает строку-информацию, что пользователь с такой почтой уже создан
-метод: atRegisterPage - проверяет находимся ли мы на нужной URL(ссылке), возвращает true или false
-конструктор: RegisterPage, кол-во конструкторов == 1
-Также для каждого метода есть постфикс Chain для цепочки вызовов
- */
 // https://demowebshop.tricentis.com/register
 @Getter
 public class RegisterPage {
@@ -44,28 +24,28 @@ public class RegisterPage {
     }
 
     @FindBy(id = "gender-male")
-    private WebElement maleGenderButton;
+    private WebElement radioButtonMaleGender;
 
     @FindBy(id = "gender-female")
-    private WebElement femaleGenderButton;
+    private WebElement radioButtonFemaleGender;
 
     @FindBy(id = "FirstName")
-    private WebElement firstNameInputField;
+    private WebElement inputFieldFirstName;
 
     @FindBy(id = "LastName")
-    private WebElement lastNameInputField;
+    private WebElement inputFieldLastName;
 
     @FindBy(id = "Email")
-    private WebElement emailInputField;
+    private WebElement inputFieldEmail;
 
     @FindBy(id = "Password")
-    private WebElement passwordInputField;
+    private WebElement inputFieldPassword;
 
     @FindBy(id = "ConfirmPassword")
-    private WebElement confirmPasswordInputField;
+    private WebElement inputFieldConfirmPassword;
 
     @FindBy(id = "register-button")
-    private WebElement registerButton;
+    private WebElement buttonRegister;
 
     @FindBy(xpath = "//span[@for='FirstName']")
     private WebElement firstNameRequired;
@@ -101,74 +81,74 @@ public class RegisterPage {
     }
 
     public void chooseMaleGender() {
-        maleGenderButton.click();
+        radioButtonMaleGender.click();
     }
 
     public RegisterPage chooseMaleGenderChain() {
-        maleGenderButton.click();
+        radioButtonMaleGender.click();
         return this;
     }
 
     public void chooseFemaleGender() {
-        femaleGenderButton.click();
+        radioButtonFemaleGender.click();
     }
 
     public RegisterPage chooseFemaleGenderChain() {
-        femaleGenderButton.click();
+        radioButtonFemaleGender.click();
         return this;
     }
 
     public void enterFirstName(String firstName) {
-        firstNameInputField.sendKeys(firstName);
+        inputFieldFirstName.sendKeys(firstName);
     }
 
     public RegisterPage enterFirstNameChain(String firstName) {
-        firstNameInputField.sendKeys(firstName);
+        inputFieldFirstName.sendKeys(firstName);
         return this;
     }
 
     public void enterLastName(String lastName) {
-        lastNameInputField.sendKeys(lastName);
+        inputFieldLastName.sendKeys(lastName);
     }
 
     public RegisterPage enterLastNameChain(String lastName) {
-        lastNameInputField.sendKeys(lastName);
+        inputFieldLastName.sendKeys(lastName);
         return this;
     }
 
     public void enterEmail(String email) {
-        emailInputField.sendKeys(email);
+        inputFieldEmail.sendKeys(email);
     }
 
     public RegisterPage enterEmailChain(String email) {
-        emailInputField.sendKeys(email);
+        inputFieldEmail.sendKeys(email);
         return this;
     }
 
     public void enterPassword(String password) {
-        passwordInputField.sendKeys(password);
+        inputFieldPassword.sendKeys(password);
     }
 
     public RegisterPage enterPasswordChain(String password) {
-        passwordInputField.sendKeys(password);
+        inputFieldPassword.sendKeys(password);
         return this;
     }
 
     public void enterConfirmPassword(String confirmPassword) {
-        confirmPasswordInputField.sendKeys(confirmPassword);
+        inputFieldConfirmPassword.sendKeys(confirmPassword);
     }
 
     public RegisterPage enterConfirmPasswordChain(String confirmPassword) {
-        confirmPasswordInputField.sendKeys(confirmPassword);
+        inputFieldConfirmPassword.sendKeys(confirmPassword);
         return this;
     }
 
     public void clickRegisterButton() {
-        registerButton.click();
+        buttonRegister.click();
     }
 
     public RegisterPage clickRegisterButtonChain() {
-        registerButton.click();
+        buttonRegister.click();
         return this;
     }
 
