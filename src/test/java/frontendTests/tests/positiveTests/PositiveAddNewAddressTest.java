@@ -4,17 +4,15 @@ import frontendTests.pages.MyAccountNewAddressPage;
 import frontendTests.pages.MyAccountPage;
 import frontendTests.pages.RegisterPage;
 import frontendTests.tests.BaseTest;
-import frontendTests.utils.RandomIndexForDropDown;
-import frontendTests.utils.RandomUserData;
-import frontendTests.utils.TestCase;
-import frontendTests.utils.WaitUtils;
+import frontendTests.utils.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Random;
+
+import static org.testng.Assert.assertTrue;
 
 @TestCase(infoAboutCase = "PositiveNewAddressCases",
         path = "frontendTests/testCases/myAccountCases/addressesCases/PositiveNewAddressCases.md")
@@ -38,23 +36,11 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
         return new Random().nextInt(0, 238);
     }
 
-    private void userRegistration() {
-        final String passwordUser = RandomUserData.getRandomPassword();
-
-        registerPage.openRegisterPageChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterEmailChain(RandomUserData.getRandomEmail())
-                .enterPasswordChain(passwordUser)
-                .enterConfirmPasswordChain(passwordUser)
-                .clickRegisterButton();
-    }
-
     @Test(description = "Adding an address with filling in all fields with valid data")
     public void testAddNewAddressWithAllFieldsValidData() {
         logger.info("Start positive testAddNewAddressWithAllFieldsValidData");
 
-        userRegistration();
+        new RegistrationOfRandomUser().userRegistration(registerPage);
 
         String emailUser = RandomUserData.getRandomEmail();
 
@@ -74,11 +60,12 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
                 .enterFaxNumberChain(RandomUserData.getFaxNumber())
                 .clickSaveButton();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .elementToBeClickable(myAccountNewAddressPage.getAddNewButton()),
-                10);
+        waitUtils.waitForCondition(ExpectedConditions.elementToBeClickable(
+                        myAccountNewAddressPage.getAddNewButton()),
+                10
+        );
 
-        Assert.assertTrue(getDriver().findElement(By.className("email")).getText().contains(emailUser));
+        assertTrue(getDriver().findElement(By.className("email")).getText().contains(emailUser));
 
         logger.info("Finish positive testAddNewAddressWithAllFieldsValidData");
     }
@@ -89,7 +76,7 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
 
         String emailUser = RandomUserData.getRandomEmail();
 
-        userRegistration();
+        new RegistrationOfRandomUser().userRegistration(registerPage);
 
         myAccountPage.openAddressesChain()
                 .clickAddNewButtonChain()
@@ -104,11 +91,12 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
                 .enterPhoneNumberChain(RandomUserData.getPhoneNumber())
                 .clickSaveButton();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .elementToBeClickable(myAccountNewAddressPage.getAddNewButton()),
-                10);
+        waitUtils.waitForCondition(ExpectedConditions.elementToBeClickable(
+                        myAccountNewAddressPage.getAddNewButton()),
+                10
+        );
 
-        Assert.assertTrue(getDriver().findElement(By.className("email")).getText().contains(emailUser));
+        assertTrue(getDriver().findElement(By.className("email")).getText().contains(emailUser));
 
         logger.info("Finish positive testAddNewAddressWithRequiredFieldsInvalidData");
     }

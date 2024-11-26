@@ -6,9 +6,10 @@ import frontendTests.tests.BaseTest;
 import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
 
 @TestCase(infoAboutCase = "PositiveRegisterCases",
         path = "frontendTests/testCases/registerCases/PositiveRegisterCases.md")
@@ -26,20 +27,22 @@ public class PositiveRegisterTest extends BaseTest {
     }
 
     private void verifyRegistrationResult(String expectedTitle, String expectedBody, int waitingSeconds) {
-        waitUtils.waitForCondition(ExpectedConditions
-                .urlContains("registerresult/1"), waitingSeconds);
+        waitUtils.waitForCondition(
+                ExpectedConditions.urlContains("registerresult/1"),
+                waitingSeconds
+        );
 
-        Assert.assertTrue(registerResultPage.getPageTitle()
+        assertTrue(registerResultPage.getPageTitle()
                         .getText()
                         .contains(expectedTitle),
                 "Incorrect title text");
 
-        Assert.assertTrue(registerResultPage.getPageBody().
+        assertTrue(registerResultPage.getPageBody().
                         getText()
                         .contains(expectedBody),
                 "Incorrect body text");
 
-        Assert.assertTrue(registerResultPage.atRegisterResultPage());
+        assertTrue(registerResultPage.atRegisterResultPage());
     }
 
     @Test(description = "Successful user registration based on fake data, male gender")

@@ -7,11 +7,12 @@ import frontendTests.utils.TestCase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Objects;
+
+import static org.testng.Assert.assertTrue;
 
 @TestCase(infoAboutCase = "PositiveLogInCases",
         path = "frontendTests/testCases/logInCases/PositiveLogInCases.md")
@@ -25,8 +26,11 @@ public class PositiveLogInTest extends BaseTest {
     }
 
     public boolean isElementVisibleAndContainsText(By locator, String text, int waitingSeconds) {
-        WebElement element = waitUtils
-                .waitForConditionAndReturn(ExpectedConditions.visibilityOfElementLocated(locator), waitingSeconds);
+        WebElement element = waitUtils.waitForConditionAndReturn(
+                ExpectedConditions.visibilityOfElementLocated(locator),
+                waitingSeconds
+        );
+
         return element.getText().contains(text);
     }
 
@@ -41,7 +45,7 @@ public class PositiveLogInTest extends BaseTest {
                 .enterPasswordChain(ExistingUser.getPasswordExistingUser())
                 .clickLogIn();
 
-        Assert.assertTrue(isElementVisibleAndContainsText(
+        assertTrue(isElementVisibleAndContainsText(
                 By.xpath("//div[@class='header-links']//a[@class='account']"),
                 emailUser,
                 15
@@ -62,7 +66,7 @@ public class PositiveLogInTest extends BaseTest {
                 .chooseRememberMeChain()
                 .clickLogIn();
 
-        Assert.assertTrue(isElementVisibleAndContainsText(
+        assertTrue(isElementVisibleAndContainsText(
                 By.xpath("//div[@class='header-links']//a[@class='account']"),
                 emailUser,
                 15
@@ -75,13 +79,14 @@ public class PositiveLogInTest extends BaseTest {
     public void testLogInSwitchingToRegisterPage() {
         logger.info("Start positive testLogInSwitchingToRegisterPage");
 
-        logInPage.openLogInPageChain()
-                .clickRegister();
+        logInPage.openLogInPageChain().clickRegister();
 
-        waitUtils
-                .waitForCondition(ExpectedConditions.urlContains("/register"), 10);
+        waitUtils.waitForCondition(
+                ExpectedConditions.urlContains("/register"),
+                10
+        );
 
-        Assert.assertTrue(logInPage.atRegisterPageFromLogInPage());
+        assertTrue(logInPage.atRegisterPageFromLogInPage());
 
         logger.info("Finish positive testLogInSwitchingToRegisterPage");
     }
@@ -90,13 +95,14 @@ public class PositiveLogInTest extends BaseTest {
     public void testLogInSwitchingToRecoverPasswordPage() {
         logger.info("Start positive testLogInSwitchingToRecoverPasswordPage");
 
-        logInPage.openLogInPageChain()
-                .chooseForgotPassword();
+        logInPage.openLogInPageChain().chooseForgotPassword();
 
-        waitUtils
-                .waitForCondition(ExpectedConditions.urlContains("/passwordrecovery"), 10);
+        waitUtils.waitForCondition(
+                ExpectedConditions.urlContains("/passwordrecovery"),
+                10
+        );
 
-        Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/passwordrecovery"));
+        assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/passwordrecovery"));
 
         logger.info("Finish positive testLogInSwitchingToRecoverPasswordPage");
     }

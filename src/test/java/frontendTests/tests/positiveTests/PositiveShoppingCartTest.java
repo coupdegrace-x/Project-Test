@@ -4,15 +4,17 @@ import frontendTests.pages.CategoryPage;
 import frontendTests.pages.RegisterPage;
 import frontendTests.pages.ShoppingCartPage;
 import frontendTests.tests.BaseTest;
-import frontendTests.utils.RandomUserData;
+import frontendTests.utils.RegistrationOfRandomUser;
 import frontendTests.utils.TestCase;
 import frontendTests.utils.WaitUtils;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Objects;
+
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertTrue;
 
 @TestCase(infoAboutCase = "PositiveShoppingCartCases",
         path = "frontendTests/testCases/shoppingCartCases/PositiveShoppingCartCases.md")
@@ -31,33 +33,19 @@ public class PositiveShoppingCartTest extends BaseTest {
         waitUtils = new WaitUtils(getDriver());
     }
 
-    private void userRegistration() {
-        final String passwordUser = RandomUserData.getRandomPassword();
-
-        registerPage.openRegisterPageChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterEmailChain(RandomUserData.getRandomEmail())
-                .enterPasswordChain(passwordUser)
-                .enterConfirmPasswordChain(passwordUser)
-                .clickRegisterButton();
-    }
-
     private void addAllProductsToShoppingCart() {
-        categoryPage.openBookCategoryChain()
-                .addAllAvailableProductsFromCurrentPageToCart();
+        categoryPage.openBookCategoryChain().addAllAvailableProductsFromCurrentPageToCart();
     }
 
     private void addFirstProductToShoppingCart() {
-        categoryPage.openBookCategoryChain()
-                .addFirstAvailableProductFromCurrentPageToCart();
+        categoryPage.openBookCategoryChain().addFirstAvailableProductFromCurrentPageToCart();
     }
 
     @Test(description = "Removing items from the shopping cart when selecting the checkout box in the Remove column")
     public void testShopCartRemoveProduct() {
         logger.info("Start positive testShopCartRemoveProduct");
 
-        userRegistration();
+        new RegistrationOfRandomUser().userRegistration(registerPage);
 
         addAllProductsToShoppingCart();
 
@@ -65,11 +53,12 @@ public class PositiveShoppingCartTest extends BaseTest {
                 .removeFromCartChain()
                 .clickUpdateShoppingCart();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .visibilityOf(shoppingCartPage.getOrderSummary()),
-                10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        shoppingCartPage.getOrderSummary()),
+                10
+        );
 
-        Assert.assertTrue(shoppingCartPage.shoppingCartIsEmpty());
+        assertTrue(shoppingCartPage.shoppingCartIsEmpty());
 
         logger.info("Finish positive testShopCartRemoveProduct");
     }
@@ -78,7 +67,7 @@ public class PositiveShoppingCartTest extends BaseTest {
     public void testShopCartRemoveProductQuantity() {
         logger.info("Start positive testShopCartRemoveProductQuantity");
 
-        userRegistration();
+        new RegistrationOfRandomUser().userRegistration(registerPage);
 
         addAllProductsToShoppingCart();
 
@@ -86,11 +75,12 @@ public class PositiveShoppingCartTest extends BaseTest {
                 .removeQuantityProductsChain()
                 .clickUpdateShoppingCart();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .visibilityOf(shoppingCartPage.getOrderSummary()),
-                10);
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
+                        shoppingCartPage.getOrderSummary()),
+                10
+        );
 
-        Assert.assertTrue(shoppingCartPage.shoppingCartIsEmpty());
+        assertTrue(shoppingCartPage.shoppingCartIsEmpty());
 
         logger.info("Finish positive testShopCartRemoveProductQuantity");
     }
@@ -99,7 +89,7 @@ public class PositiveShoppingCartTest extends BaseTest {
     public void testShoppingCartContinue() {
         logger.info("Start positive testShoppingCartContinue");
 
-        userRegistration();
+        new RegistrationOfRandomUser().userRegistration(registerPage);
 
         addAllProductsToShoppingCart();
 
@@ -107,11 +97,12 @@ public class PositiveShoppingCartTest extends BaseTest {
                 .openShoppingCartChain()
                 .clickContinueShoppingCart();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .urlContains("/books"),
-                10);
+        waitUtils.waitForCondition(
+                ExpectedConditions.urlContains("/books"),
+                10
+        );
 
-        Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books"));
+        assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books"));
 
         logger.info("Finish positive testShoppingCartContinue");
     }
@@ -120,7 +111,8 @@ public class PositiveShoppingCartTest extends BaseTest {
     public void testShoppingCartChangeQuantity() {
         logger.info("Start positive testShoppingCartChangeQuantity");
 
-        userRegistration();
+        new RegistrationOfRandomUser()
+                .userRegistration(registerPage);
 
         addAllProductsToShoppingCart();
 
@@ -133,7 +125,7 @@ public class PositiveShoppingCartTest extends BaseTest {
 
         double totalPriceAfterChanges = shoppingCartPage.getTotalPriceOfProducts();
 
-        Assert.assertNotEquals(totalPriceBeforeChanges, totalPriceAfterChanges);
+        assertNotEquals(totalPriceBeforeChanges, totalPriceAfterChanges);
 
         logger.info("Finish positive testShoppingCartChangeQuantity");
     }
