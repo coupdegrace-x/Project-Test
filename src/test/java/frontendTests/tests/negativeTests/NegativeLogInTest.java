@@ -29,11 +29,15 @@ public class NegativeLogInTest extends BaseTest {
                 .waitForCondition(ExpectedConditions
                         .visibilityOf(logInPage.getSpecificMessageError()), 10);
 
-        Assert.assertTrue(logInPage.getTextCommonValidationError()
-                .contains(COMMON_ERROR_MESSAGE), "Common validation error message mismatch");
+        Assert.assertTrue(logInPage.getCommonValidationError()
+                .getText()
+                .contains(COMMON_ERROR_MESSAGE),
+                "Common validation error message mismatch");
 
-        Assert.assertTrue(logInPage.getTextSpecificValidationError()
-                .contains(specificErrorMessage), "Specific validation error message mismatch");
+        Assert.assertTrue(logInPage.getSpecificMessageError()
+                .getText()
+                .contains(specificErrorMessage),
+                "Specific validation error message mismatch");
     }
 
     @Test(description = "Unsuccessful user authorization with empty fields")

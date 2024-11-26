@@ -1,5 +1,6 @@
 package frontendTests.pages;
 
+import frontendTests.utils.WaitUtils;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,25 +8,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.Objects;
 
-/*
-Класс LogInPage предназначен для страницы Log In, где происходит авторизация пользователя
-метод: openLogInPage - открывает страницу по ссылке
-метод: enterEmail - вводит почту пользователя
-метод: enterPassword - вводит пароль пользователя
-метод: clickRememberMe - кликает по чекбоксу
-метод: clickForgotPassword - кликает по строке, которая ведет на страницу для восстановления пароля
-метод: clickLogIn - кликает по кнопе log in
-метод: atLogInPage - проверяет находися ли мы на странице авторизации, возвращает true либо false
-метод: getTextCommonValidationError - возвращает общий текст с ошибкой авторизации
-метод: getTextSpecificValidationError - возвращает конкретизированный текст об ошибки при авторизации
-конструктор: LogInPage, кол-во конструкторов == 1
-Также для каждого метода есть постфикс Chain для цепочки вызовов
- */
 // https://demowebshop.tricentis.com/login
 @Getter
 public class LogInPage {
@@ -38,22 +23,22 @@ public class LogInPage {
     }
 
     @FindBy(name = "Email")
-    private WebElement emailInputField;
+    private WebElement inputFieldEmail;
 
     @FindBy(name = "Password")
-    private WebElement passwordInputField;
+    private WebElement inputFieldPassword;
 
     @FindBy(name = "RememberMe")
-    private WebElement rememberMeCheckBox;
+    private WebElement checkBoxRememberMe;
 
     @FindBy(xpath = "//span[@class='forgot-password']/a")
-    private WebElement forgotPasswordLink;
+    private WebElement linkForgotPassword;
 
     @FindBy(className = "login-button")
-    private WebElement logInButton;
+    private WebElement buttonLogIn;
 
     @FindBy(className = "register-button")
-    private WebElement registerButton;
+    private WebElement buttonRegister;
 
     @FindBy(xpath = "//div[@class='validation-summary-errors']//span")
     private WebElement commonValidationError;
@@ -64,79 +49,74 @@ public class LogInPage {
     public void openLogInPage() {
         driver.get("https://demowebshop.tricentis.com/login");
 
-        new WebDriverWait(driver, Duration.ofSeconds(25)).until(ExpectedConditions.
-                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
+        new WaitUtils(driver).waitForCondition(ExpectedConditions
+                        .visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
+                20);
     }
 
     public LogInPage openLogInPageChain() {
         driver.get("https://demowebshop.tricentis.com/login");
 
-        new WebDriverWait(driver, Duration.ofSeconds(25)).until(ExpectedConditions.
-                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
+        new WaitUtils(driver).waitForCondition(ExpectedConditions
+                        .visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
+                20);
+
         return this;
     }
 
     public void enterEmail(String email) {
-        emailInputField.sendKeys(email);
+        inputFieldEmail.sendKeys(email);
     }
 
     public LogInPage enterEmailChain(String email) {
-        emailInputField.sendKeys(email);
+        inputFieldEmail.sendKeys(email);
         return this;
     }
 
 
     public void enterPassword(String password) {
-        passwordInputField.sendKeys(password);
+        inputFieldPassword.sendKeys(password);
     }
 
     public LogInPage enterPasswordChain(String password) {
-        passwordInputField.sendKeys(password);
+        inputFieldPassword.sendKeys(password);
         return this;
     }
 
-    public void clickRememberMe() {
-        rememberMeCheckBox.click();
+    public void chooseRememberMe() {
+        checkBoxRememberMe.click();
     }
 
-    public LogInPage clickRememberMeChain() {
-        rememberMeCheckBox.click();
+    public LogInPage chooseRememberMeChain() {
+        checkBoxRememberMe.click();
         return this;
     }
 
-    public void clickForgotPassword() {
-        forgotPasswordLink.click();
+    public void chooseForgotPassword() {
+        linkForgotPassword.click();
     }
 
-    public LogInPage clickForgotPasswordChain() {
-        forgotPasswordLink.click();
+    public LogInPage chooseForgotPasswordChain() {
+        linkForgotPassword.click();
         return this;
     }
 
     public void clickLogIn() {
-        logInButton.click();
+        buttonLogIn.click();
     }
 
     public LogInPage clickLogInChain() {
-        logInButton.click();
+        buttonLogIn.click();
         return this;
     }
 
     public void clickRegister() {
-        registerButton.click();
+        buttonRegister.click();
     }
 
     public LogInPage clickRegisterChain() {
-        registerButton.click();
+        buttonRegister.click();
         return this;
-    }
-
-    public String getTextCommonValidationError() {
-        return commonValidationError.getText();
-    }
-
-    public String getTextSpecificValidationError() {
-        return specificMessageError.getText();
     }
 
     public boolean atLogInPage() {

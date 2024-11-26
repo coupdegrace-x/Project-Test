@@ -59,7 +59,7 @@ public class PositiveLogInTest extends BaseTest {
         logInPage.openLogInPageChain()
                 .enterEmailChain(emailUser)
                 .enterPasswordChain(ExistingUser.getPasswordExistingUser())
-                .clickRememberMeChain()
+                .chooseRememberMeChain()
                 .clickLogIn();
 
         Assert.assertTrue(isElementVisibleAndContainsText(
@@ -91,7 +91,7 @@ public class PositiveLogInTest extends BaseTest {
         logger.info("Start positive testLogInSwitchingToRecoverPasswordPage");
 
         logInPage.openLogInPageChain()
-                .clickForgotPassword();
+                .chooseForgotPassword();
 
         waitUtils
                 .waitForCondition(ExpectedConditions.urlContains("/passwordrecovery"), 10);
