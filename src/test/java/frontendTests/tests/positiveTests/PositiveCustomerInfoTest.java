@@ -6,33 +6,30 @@ import frontendTests.pages.RegisterPage;
 import frontendTests.tests.BaseTest;
 import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
+import frontendTests.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.Objects;
 
 @TestCase(infoAboutCase = "PositiveCustomerInfoCases",
         path = "frontendTests/testCases/myAccountCases/customerInfoCases/PositiveCustomerInfoCases.md")
 public class PositiveCustomerInfoTest extends BaseTest {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(PositiveCustomerInfoTest.class);
-
     private MyAccountInfoPage myAccountInfoPage;
     private MyAccountPage myAccountPage;
     private RegisterPage registerPage;
+    private WaitUtils waitUtils;
 
     @BeforeMethod
-    public void setUpMyAccAndRegPage() {
+    protected void setUpMyAccAndRegPage() {
         myAccountInfoPage = new MyAccountInfoPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
         registerPage = new RegisterPage(getDriver());
+        waitUtils = new WaitUtils(getDriver());
     }
 
     private void userRegistration() {
@@ -49,7 +46,7 @@ public class PositiveCustomerInfoTest extends BaseTest {
 
     @Test(description = "Changing all personal data to valid ones on the My account - customer info page")
     public void testInfoChangeAllDataToValid() {
-        LOGGER.info("Start positive testChangeAllDataToValid");
+        logger.info("Start positive testChangeAllDataToValid");
 
         final String emailUser = RandomUserData.getRandomEmail();
 
@@ -62,21 +59,21 @@ public class PositiveCustomerInfoTest extends BaseTest {
                 .enterEmailChain(emailUser)
                 .clickSaveButton();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(15))
-                .until(ExpectedConditions.textToBePresentInElement(getDriver().findElement(
-                                By.xpath("//div[@class='header-links']//a[@class='account']")),
-                        emailUser));
+        waitUtils.waitForCondition(ExpectedConditions.textToBePresentInElement(getDriver().findElement
+                                (By.xpath("//div[@class='header-links']//a[@class='account']")),
+                        emailUser),
+                15);
 
         Assert.assertTrue(getDriver()
                 .findElement(By.xpath("//div[@class='header-links']//a[@class='account']"))
                 .getText().contains(emailUser));
 
-        LOGGER.info("Finish positive testChangeAllDataToValid");
+        logger.info("Finish positive testChangeAllDataToValid");
     }
 
     @Test(description = "Name change on the My account page - information about the client")
     public void testInfoChangeName() {
-        LOGGER.info("Start positive testInfoChangeName");
+        logger.info("Start positive testInfoChangeName");
 
         final String firstNameUser = RandomUserData.getRandomFirstName();
 
@@ -86,14 +83,15 @@ public class PositiveCustomerInfoTest extends BaseTest {
                 .enterFirstNameChain(firstNameUser)
                 .clickSaveButton();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(15))
-                .until(ExpectedConditions
-                        .attributeToBe(myAccountInfoPage.getFirstNameInputField(), "value", firstNameUser));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .attributeToBe(myAccountInfoPage
+                                .getFirstNameInputField(), "value", firstNameUser),
+                15);
 
         Assert.assertTrue(Objects.requireNonNull(myAccountInfoPage.getFirstNameInputField()
                 .getAttribute("value")).contains(firstNameUser));
 
-        LOGGER.info("Finish positive testInfoChangeName");
+        logger.info("Finish positive testInfoChangeName");
     }
 
 }
