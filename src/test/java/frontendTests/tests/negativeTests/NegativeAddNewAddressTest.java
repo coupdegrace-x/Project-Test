@@ -6,31 +6,28 @@ import frontendTests.pages.RegisterPage;
 import frontendTests.tests.BaseTest;
 import frontendTests.utils.RandomIndexForDropDown;
 import frontendTests.utils.RandomUserData;
+import frontendTests.utils.WaitUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.Random;
 
 public class NegativeAddNewAddressTest extends BaseTest implements RandomIndexForDropDown {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NegativeAddNewAddressTest.class);
-
     private RegisterPage registerPage;
     private MyAccountNewAddressPage myAccountNewAddressPage;
     private MyAccountPage myAccountPage;
+    private WaitUtils waitUtils;
 
     @BeforeMethod
-    public void setUpRegMyAccAddressPage() {
+    protected void setUpRegMyAccAddressPage() {
         registerPage = new RegisterPage(getDriver());
         myAccountNewAddressPage = new MyAccountNewAddressPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
+        waitUtils = new WaitUtils(getDriver());
     }
 
     @Override
@@ -52,7 +49,7 @@ public class NegativeAddNewAddressTest extends BaseTest implements RandomIndexFo
 
     @Test(description = "Adding a new address with all empty fields")
     public void testAddNewAddressEmptyFields() {
-        LOGGER.info("Start negative testAddNewAddressEmptyFields");
+        logger.info("Start negative testAddNewAddressEmptyFields");
 
         userRegistration();
 
@@ -60,26 +57,25 @@ public class NegativeAddNewAddressTest extends BaseTest implements RandomIndexFo
                 .clickAddNewButtonChain()
                 .clickSaveButton();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions
-                        .textToBePresentInElement(myAccountNewAddressPage
-                                .getFirstNameError(), "First name is required"));
+        waitUtils.waitForCondition(ExpectedConditions
+                .textToBePresentInElement(myAccountNewAddressPage
+                        .getFirstNameError(), "First name is required"), 10);
 
-        Assert.assertTrue(myAccountNewAddressPage.getTextErrorFirstName().contains("First name is required"));
-        Assert.assertTrue(myAccountNewAddressPage.getTextErrorLastName().contains("Last name is required"));
-        Assert.assertTrue(myAccountNewAddressPage.getTextErrorEmail().contains("Email is required"));
-        Assert.assertTrue(myAccountNewAddressPage.getTextErrorCity().contains("City is required"));
-        Assert.assertTrue(myAccountNewAddressPage.getTextErrorFirstAddress().contains("Street address is required"));
-        Assert.assertTrue(myAccountNewAddressPage.getTextErrorZipCode().contains("Zip / postal code is required"));
-        Assert.assertTrue(myAccountNewAddressPage.getTextErrorPhoneNumber().contains("Phone is required"));
+        Assert.assertTrue(myAccountNewAddressPage.getFirstNameError().getText().contains("First name is required"));
+        Assert.assertTrue(myAccountNewAddressPage.getLastNameError().getText().contains("Last name is required"));
+        Assert.assertTrue(myAccountNewAddressPage.getEmailError().getText().contains("Email is required"));
+        Assert.assertTrue(myAccountNewAddressPage.getCityError().getText().contains("City is required"));
+        Assert.assertTrue(myAccountNewAddressPage.getFirstAddressError().getText().contains("Street address is required"));
+        Assert.assertTrue(myAccountNewAddressPage.getZipPostalCodeError().getText().contains("Zip / postal code is required"));
+        Assert.assertTrue(myAccountNewAddressPage.getPhoneNumberError().getText().contains("Phone is required"));
 
-        LOGGER.info("Finish negative testAddNewAddressEmptyFields");
+        logger.info("Finish negative testAddNewAddressEmptyFields");
     }
 
     @Test(description = "Adding a new address with filling in all fields with valid data" +
             " without specifying the Country field")
     public void testAddNewAddressWithWithoutCountryField() {
-        LOGGER.info("Start negative testAddNewAddressWithWithoutCountryField");
+        logger.info("Start negative testAddNewAddressWithWithoutCountryField");
 
         userRegistration();
 
@@ -97,19 +93,20 @@ public class NegativeAddNewAddressTest extends BaseTest implements RandomIndexFo
                 .enterFaxNumberChain(RandomUserData.getFaxNumber())
                 .clickSaveButton();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions
-                        .textToBePresentInElement(myAccountNewAddressPage
-                                .getCountryError(), "Country is required"));
+        waitUtils
+                .waitForCondition(ExpectedConditions
+                                .textToBePresentInElement(myAccountNewAddressPage
+                                        .getCountryError(), "Country is required"),
+                        15);
 
-        Assert.assertTrue(myAccountNewAddressPage.getTextErrorCountry().contains("Country is required"));
+        Assert.assertTrue(myAccountNewAddressPage.getCountryError().getText().contains("Country is required"));
 
-        LOGGER.info("Finish negative testAddNewAddressWithWithoutCountryField");
+        logger.info("Finish negative testAddNewAddressWithWithoutCountryField");
     }
 
     @Test(description = "Adding a new address with filling in the fields with special characters")
     public void testAddNewAddressWithSpecialCharacters() {
-        LOGGER.info("Start negative testAddNewAddressWithSpecialCharacters");
+        logger.info("Start negative testAddNewAddressWithSpecialCharacters");
 
         final String company = RandomUserData.getCompanyName();
 
@@ -130,14 +127,15 @@ public class NegativeAddNewAddressTest extends BaseTest implements RandomIndexFo
                 .enterFaxNumberChain(RandomUserData.getSpecialCharacters())
                 .clickSaveButton();
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions.elementToBeClickable(myAccountNewAddressPage.getAddNewButton()));
+        waitUtils.waitForCondition(ExpectedConditions
+                        .elementToBeClickable(myAccountNewAddressPage.getAddNewButton()),
+                15);
 
         Assert.assertTrue(getDriver()
                 .findElement(By
                         .xpath("//li[@class='company']"))
                 .getText().contains(company));
 
-        LOGGER.info("Finish negative testAddNewAddressWithSpecialCharacters");
+        logger.info("Finish negative testAddNewAddressWithSpecialCharacters");
     }
 }

@@ -1,5 +1,6 @@
 package frontendTests.pages;
 
+import frontendTests.utils.WaitUtils;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,9 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.Objects;
 
 // https://demowebshop.tricentis.com/register
@@ -68,15 +67,20 @@ public class RegisterPage {
     public void openRegisterPage() {
         driver.get("https://demowebshop.tricentis.com/register");
 
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.
-                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
+        new WaitUtils(driver)
+                .waitForCondition(ExpectedConditions.
+                                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
+                        20);
     }
 
     public RegisterPage openRegisterPageChain() {
         driver.get("https://demowebshop.tricentis.com/register");
 
-        new WebDriverWait(driver, Duration.ofSeconds(20)).until(ExpectedConditions.
-                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")));
+        new WaitUtils(driver)
+                .waitForCondition(ExpectedConditions.
+                                visibilityOfAllElementsLocatedBy(By.className("master-wrapper-page")),
+                        20);
+
         return this;
     }
 

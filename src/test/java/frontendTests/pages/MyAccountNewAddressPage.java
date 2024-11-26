@@ -1,5 +1,6 @@
 package frontendTests.pages;
 
+import frontendTests.utils.WaitUtils;
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,9 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
 
 //https://demowebshop.tricentis.com/customer/addressadd
 @Getter
@@ -134,9 +132,10 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
     public void selectStateOrProvince() {
         Select select = new Select(stateOrProvinceDropDown);
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions
-                        .visibilityOfElementLocated(By.id("Address_StateProvinceId")));
+        new WaitUtils(getDriver())
+                .waitForCondition(ExpectedConditions
+                                .visibilityOfElementLocated(By.id("Address_StateProvinceId")),
+                        10);
 
         select.selectByIndex(0);
     }
@@ -144,9 +143,10 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
     public MyAccountNewAddressPage selectStateOrProvinceChain() {
         Select select = new Select(stateOrProvinceDropDown);
 
-        new WebDriverWait(getDriver(), Duration.ofSeconds(10))
-                .until(ExpectedConditions
-                        .visibilityOfElementLocated(By.id("Address_StateProvinceId")));
+        new WaitUtils(getDriver())
+                .waitForCondition(ExpectedConditions
+                                .visibilityOfElementLocated(By.id("Address_StateProvinceId")),
+                        10);
 
         select.selectByVisibleText("Other (Non US)");
         return this;
@@ -213,37 +213,5 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
     public MyAccountNewAddressPage clickSaveButtonChain() {
         saveButton.click();
         return this;
-    }
-
-    public String getTextErrorFirstName() {
-        return firstNameError.getText();
-    }
-
-    public String getTextErrorLastName() {
-        return lastNameError.getText();
-    }
-
-    public String getTextErrorEmail() {
-        return emailError.getText();
-    }
-
-    public String getTextErrorCountry() {
-        return countryError.getText();
-    }
-
-    public String getTextErrorCity() {
-        return cityError.getText();
-    }
-
-    public String getTextErrorFirstAddress() {
-        return firstAddressError.getText();
-    }
-
-    public String getTextErrorZipCode() {
-        return zipPostalCodeError.getText();
-    }
-
-    public String getTextErrorPhoneNumber() {
-        return phoneNumberError.getText();
     }
 }
