@@ -93,11 +93,10 @@ public class NegativeAddNewAddressTest extends BaseTest implements RandomIndexFo
                 .enterFaxNumberChain(RandomUserData.getFaxNumber())
                 .clickSaveButton();
 
-        waitUtils
-                .waitForCondition(ExpectedConditions
-                                .textToBePresentInElement(myAccountNewAddressPage
-                                        .getCountryError(), "Country is required"),
-                        15);
+        waitUtils.waitForCondition(ExpectedConditions
+                        .textToBePresentInElement(myAccountNewAddressPage
+                                .getCountryError(), "Country is required"),
+                15);
 
         Assert.assertTrue(myAccountNewAddressPage.getCountryError().getText().contains("Country is required"));
 
