@@ -18,10 +18,11 @@ import java.util.stream.Collectors;
 public class CategoryPage extends RegisteredUserBasePage {
 
     private Select select;
-    private WaitUtils waitUtils;
+    private final WaitUtils waitUtils;
 
     public CategoryPage(WebDriver driver) {
         super(driver);
+        waitUtils = new WaitUtils(driver);
         PageFactory.initElements(driver, this);
     }
 
@@ -85,17 +86,13 @@ public class CategoryPage extends RegisteredUserBasePage {
                 .count();
     }
 
-    public void addFirstAvailableProductToCart() {
+    public void addFirstAvailableProductFromCurrentPageToCart() {
         WebElement addToCartButton = productsAddToCart.stream()
                 .filter(button -> button.isDisplayed() && button.isEnabled())
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No 'Add to cart' buttons are available"));
 
         addToCartButton.click();
-
-        waitUtils.waitForCondition(ExpectedConditions
-                        .invisibilityOf(this.getPopupWarningAddingItemToCart()),
-                10);
     }
 
     public CategoryPage addFirstAvailableProductFromCurrentPageToCartChain() {
@@ -104,10 +101,6 @@ public class CategoryPage extends RegisteredUserBasePage {
                 .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("No 'Add to cart' buttons are available"))
                 .click();
-
-        waitUtils.waitForCondition(ExpectedConditions
-                        .invisibilityOf(this.getPopupWarningAddingItemToCart()),
-                10);
 
         return this;
     }

@@ -20,6 +20,7 @@ public class ShoppingCartPage {
 
     public ShoppingCartPage(WebDriver driver) {
         this.driver = driver;
+        waitUtils = new WaitUtils(driver);
         PageFactory.initElements(driver, this);
     }
 

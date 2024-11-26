@@ -153,9 +153,10 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
         categoryPage.openBookCategoryChain()
                 .selectViewAsList();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .presenceOfElementLocated(By.className("product-list")),
-                15);
+        waitUtils.waitForCondition(
+                ExpectedConditions.presenceOfElementLocated(By.className("product-list")),
+                15
+        );
 
         Assert.assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books?viewmode=list"));
         Assert.assertTrue(getDriver().findElement(By.className("product-list")).isDisplayed());
@@ -170,14 +171,17 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
         userRegistration();
 
         categoryPage.openBookCategoryChain()
-                .addFirstAvailableProductToCart();
+                .addFirstAvailableProductFromCurrentPageToCart();
 
-        waitUtils.waitForCondition(ExpectedConditions
-                        .visibilityOf(categoryPage.getPopupWarningAddingItemToCart()),
-                15);
+        waitUtils.waitForCondition(
+                ExpectedConditions.textToBePresentInElement(categoryPage.getPopupWarningAddingItemToCart(),
+                        "The product has been added to your shopping cart"),
+                15
+        );
 
         Assert.assertTrue(categoryPage.getPopupWarningAddingItemToCart()
                 .getText().contains("The product has been added to your shopping cart"));
+
         Assert.assertTrue(categoryPage.getQuantityProductsInCart().getText().contains("1"));
 
         logger.info("Finish positive testCategoryCheckWarningWhenAddingItemToCart");

@@ -16,10 +16,11 @@ import java.util.Objects;
 public class LogInPage {
 
     private final WebDriver driver;
-    private WaitUtils waitUtils;
+    private final WaitUtils waitUtils;
 
     public LogInPage(WebDriver driver) {
         this.driver = driver;
+        waitUtils = new WaitUtils(driver);
         PageFactory.initElements(driver, this);
     }
 

@@ -28,6 +28,7 @@ public class PositiveShoppingCartTest extends BaseTest {
         shoppingCartPage = new ShoppingCartPage(getDriver());
         categoryPage = new CategoryPage(getDriver());
         registerPage = new RegisterPage(getDriver());
+        waitUtils = new WaitUtils(getDriver());
     }
 
     private void userRegistration() {
@@ -49,7 +50,7 @@ public class PositiveShoppingCartTest extends BaseTest {
 
     private void addFirstProductToShoppingCart() {
         categoryPage.openBookCategoryChain()
-                .addFirstAvailableProductToCart();
+                .addFirstAvailableProductFromCurrentPageToCart();
     }
 
     @Test(description = "Removing items from the shopping cart when selecting the checkout box in the Remove column")
