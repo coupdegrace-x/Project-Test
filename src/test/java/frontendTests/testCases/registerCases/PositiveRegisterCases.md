@@ -19,7 +19,7 @@
 - Для регистрации нового пользователя: https://demowebshop.tricentis.com/
 - Страница уведомления об успешной регистрации: https://demowebshop.tricentis.com/registerresult/1
 
-## Шаги выполнения тест кейса №1 (Написан, метод: testRegisterWithMaleGender)
+## Шаги выполнения тест кейса №1 (Написан, метод: testRegister)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/register
 2) В поле `Gender` выбрать пол `Male`
@@ -35,7 +35,7 @@
     содержатся слова об успешной регистрации: `Register`,
     `Your registration completed`
 
-## Шаги выполнения тест кейса №2 (Написан, метод: testRegisterWithFemaleGender)
+## Шаги выполнения тест кейса №2 (Написан, метод: testRegister)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/register
 2) В поле `Gender` выбрать пол `Female`
@@ -51,7 +51,7 @@
     содержатся слова об успешной регистрации: `Register`,
     `Your registration completed`
 
-## Шаги выполнения тест кейса №3 (Написан, метод: testRegisterWithNoGender)
+## Шаги выполнения тест кейса №3 (Написан, метод: testRegister)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/register
 2) В поле `Gender` ничего не выбирать

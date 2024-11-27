@@ -1,9 +1,5 @@
 package frontendTests.utils;
 
-/*
-Класс ExistingUser предназначен для получения реального уже зарегистрированного пользователя
-все методы статические
- */
 public class ExistingUser {
 
     private static final String FIRST_NAME = "Leon";

@@ -3,10 +3,7 @@ package frontendTests.utils;
 import com.github.javafaker.Faker;
 import org.apache.commons.lang3.RandomStringUtils;
 
-/*
-Класс RandomUserData предназначен для генерации случайных данных пользователя на основе библиотеки javafaker,
-все методы статические
- */
+
 public class RandomUserData {
     private static final Faker FAKER = new Faker();
     private static final String SPECIAL_CHARACTERS = "!@#$%^&*()_+-=[]{}|;:'\",.<>?/";
