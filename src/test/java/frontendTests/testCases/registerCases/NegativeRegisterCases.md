@@ -24,13 +24,7 @@
 
 - Для регистрации нового пользователя: https://demowebshop.tricentis.com/
 
-## Шаги выполнения тест кейса №1 (Написан, метод: testRegisterEmptyFields)
-
-1) Перейти по ссылке https://demowebshop.tricentis.com/register
-2) Оставить `все регистрационные поля` пустыми
-3) Нажать на кнопку `Register`
-
-## Шаги выполнения тест кейса №2 (Написан, метод: testRegisterEmptyFirstName)
+## Шаги выполнения тест кейса №1 (Написан, метод: testNegativeRegistration)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/register
 2) В поле `Gender` выбрать любой из полов
@@ -41,7 +35,7 @@
 7) В поле `Confirm password` ввести пароль нового пользователя идентичный паролю в поле Password
 8) Нажать на кнопку `Register`
 
-## Шаги выполнения тест кейса №3 (Написан, метод: testRegisterEmptyLastName)
+## Шаги выполнения тест кейса №2 (Написан, метод: testNegativeRegistration)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/register
 2) В поле `Gender` выбрать любой из полов
@@ -52,7 +46,7 @@
 7) В поле `Confirm password` ввести пароль нового пользователя идентичный паролю в поле Password
 8) Нажать на кнопку `Register`
 
-## Шаги выполнения тест кейса №4 (Написан, метод: testRegisterEmptyEmail)
+## Шаги выполнения тест кейса №3 (Написан, метод: testNegativeRegistration)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/register
 2) В поле `Gender` выбрать любой из полов
@@ -63,7 +57,7 @@
 7) В поле `Confirm password` ввести пароль нового пользователя идентичный паролю в поле Password
 8) Нажать на кнопку `Register`
 
-## Шаги выполнения тест кейса №5 (Написан, метод: testRegisterEmptyPassword)
+## Шаги выполнения тест кейса №4 (Написан, метод: testNegativeRegistration)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/register
 2) В поле `Gender` выбрать любой из полов
@@ -74,7 +68,7 @@
 7) В поле `Confirm password` ввести пароль нового пользователя идентичный паролю в поле Password
 8) Нажать на кнопку `Register`
 
-## Шаги выполнения тест кейса №6 (Написан, метод: testRegisterEmptyConfirmPassword)
+## Шаги выполнения тест кейса №5 (Написан, метод: testNegativeRegistration)
 
 1) Перейти по ссылке https://demowebshop.tricentis.com/register
 2) В поле `Gender` выбрать любой из полов
@@ -85,7 +79,7 @@
 7) В поле `Confirm password` ничего не вводить
 8) Нажать на кнопку `Register`
 
-## Шаги выполнения тест кейса №7 (Написан, метод: testRegisterAlreadyRegisteredUser)
+## Шаги выполнения тест кейса №6 (Написан, метод: testRegisterAlreadyRegisteredUser)
 
 - Примечание: Регистрация уже зарегистрированного пользователя происходит на основе данных из проекта.
   Данные находятся по пути `frontendTests/utils/ExistingUser.java`

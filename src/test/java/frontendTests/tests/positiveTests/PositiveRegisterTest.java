@@ -40,7 +40,7 @@ public class PositiveRegisterTest extends BaseTest {
 
     @Test(dataProvider = "genderOptions",
             description = "Successful user registration based on fake data")
-    public void testPositiveRegister(String gender) {
+    public void testPositiveRegistration(String gender) {
         logger.info("Start positive testPositiveRegister with gender: {}", gender);
 
         if (Objects.equals(gender, "male")) {

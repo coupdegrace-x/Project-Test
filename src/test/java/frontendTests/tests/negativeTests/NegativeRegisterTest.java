@@ -91,7 +91,6 @@ public class NegativeRegisterTest extends BaseTest {
         logger.info("Finish test with missing field: {}", field);
     }
 
-
     @Test(description = "Unsuccessful registration of an already registered user")
     public void testRegisterAlreadyRegisteredUser() {
         logger.info("Start test for already registered user");
@@ -110,6 +109,5 @@ public class NegativeRegisterTest extends BaseTest {
 
         logger.info("Finish test for already registered user");
     }
-
 }
 
