@@ -5,21 +5,21 @@ public class ExistingUser {
     private static final String FIRST_NAME = "Leon";
     private static final String LAST_NAME = "Stein";
     private static final String EMAIL = "LeonidBurshtein@yandex.ru";
-        private static final String PASSWORD = "123456";
+    private static final String PASSWORD = "123456";
 
-    public static String getFirstNameExistingUser() {
+    public static String getFirstName() {
         return FIRST_NAME;
     }
 
-    public static String getLastNameExistingUser() {
+    public static String getLastName() {
         return LAST_NAME;
     }
 
-    public static String getEmailExistingUser() {
+    public static String getEmail() {
         return EMAIL;
     }
 
-    public static String getPasswordExistingUser() {
+    public static String getPassword() {
         return PASSWORD;
     }
 }

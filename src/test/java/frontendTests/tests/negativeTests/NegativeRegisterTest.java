@@ -5,9 +5,13 @@ import frontendTests.tests.BaseTest;
 import frontendTests.utils.ExistingUser;
 import frontendTests.utils.RandomUserData;
 import frontendTests.utils.TestCase;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.Random;
 
 import static org.testng.Assert.assertTrue;
 
@@ -22,161 +26,90 @@ public class NegativeRegisterTest extends BaseTest {
         registerPage = new RegisterPage(getDriver());
     }
 
-    @Test(description = "Unsuccessful user registration with empty registration fields")
-    public void testRegisterEmptyFields() {
-        logger.info("Start negative testRegisterEmptyFields");
-
-        registerPage.openRegisterPageChain().clickRegisterButton();
-
-        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
-                        registerPage.getFirstNameRequired()),
-                10
-        );
-
-        assertTrue(registerPage.getTextFirstNameRequired().contains("First name is required"));
-        assertTrue(registerPage.getTextLastNameRequired().contains("Last name is required"));
-        assertTrue(registerPage.getTextEmailRequired().contains("Email is required"));
-        assertTrue(registerPage.getTextPasswordRequired().contains("Password is required"));
-        assertTrue(registerPage.getTextConfirmPasswordRequired().contains("Password is required"));
-
-        logger.info("Finish negative testRegisterEmptyFields");
+    private String getRandomGender() {
+        String[] genders = {"male", "female"};
+        return genders[new Random().nextInt(genders.length)];
     }
 
-    @Test(description = "Unsuccessful registration of a user with an empty registration field first name")
-    public void testRegisterEmptyFirstName() {
-        logger.info("Start negative testRegisterEmptyFirstName");
-
-        final String password = RandomUserData.getRandomPassword();
-
-        registerPage.openRegisterPageChain()
-                .chooseFemaleGenderChain()
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterEmailChain(RandomUserData.getRandomEmail())
-                .enterPasswordChain(password)
-                .enterConfirmPasswordChain(password)
-                .clickRegisterButton();
-
-        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
-                        registerPage.getFirstNameRequired()),
-                10
-        );
-
-        assertTrue(registerPage.getTextFirstNameRequired().contains("First name is required"));
-
-        logger.info("Finish negative testRegisterEmptyFirstName");
+    private void verifyErrorMessage(WebElement element, String expectedMessage, int timeout) {
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(element), timeout);
+        assertTrue(element.getText().contains(expectedMessage),
+                "Expected error message: " + expectedMessage + ", but got: " + element.getText());
     }
 
-    @Test(description = "Unsuccessful registration of a user with an empty registration field last name")
-    public void testRegisterEmptyLastName() {
-        logger.info("Start negative testRegisterEmptyLastName");
+    private void fillRegistrationForm(String firstName, String lastName, String email,
+                                      String password, String confirmPassword, String gender) {
+        registerPage.openRegisterPage();
 
-        final String password = RandomUserData.getRandomPassword();
+        if (gender != null) {
+            if (gender.equalsIgnoreCase("male")) {
+                registerPage.chooseMaleGender();
+            } else if (gender.equalsIgnoreCase("female")) {
+                registerPage.chooseFemaleGender();
+            }
+        }
 
-        registerPage.openRegisterPageChain()
-                .chooseMaleGenderChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterEmailChain(RandomUserData.getRandomEmail())
-                .enterPasswordChain(password)
-                .enterConfirmPasswordChain(password)
-                .clickRegisterButton();
+        if (firstName != null) registerPage.enterFirstName(firstName);
+        if (lastName != null) registerPage.enterLastName(lastName);
+        if (email != null) registerPage.enterEmail(email);
+        if (password != null) registerPage.enterPassword(password);
+        if (confirmPassword != null) registerPage.enterConfirmPassword(confirmPassword);
 
-        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
-                        registerPage.getLastNameRequired()),
-                10
-        );
-
-        assertTrue(registerPage.getTextLastNameRequired().contains("Last name is required"));
-
-        logger.info("Finish negative testRegisterEmptyLastName");
+        registerPage.clickRegisterButton();
     }
 
-    @Test(description = "Unsuccessful registration of a user with an empty registration field email")
-    public void testRegisterEmptyEmail() {
-        logger.info("Start negative testRegisterEmptyEmail");
-
-        final String password = RandomUserData.getRandomPassword();
-
-        registerPage.openRegisterPageChain()
-                .chooseFemaleGenderChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterPasswordChain(password)
-                .enterConfirmPasswordChain(password)
-                .clickRegisterButton();
-
-        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
-                        registerPage.getEmailRequired()),
-                10
-        );
-
-        assertTrue(registerPage.getTextEmailRequired().contains("Email is required"));
-
-        logger.info("Finish negative testRegisterEmptyEmail");
+    @DataProvider(name = "negativeRegistration")
+    public Object[][] negativeTestCases() {
+        return new Object[][]{
+                {null, "Doe", RandomUserData.getRandomEmail(), "password123", "password123", "First name is required", "FirstName"},
+                {"John", null, RandomUserData.getRandomEmail(), "password123", "password123", "Last name is required", "LastName"},
+                {"John", "Doe", null, "password123", "password123", "Email is required", "Email"},
+                {"John", "Doe", RandomUserData.getRandomEmail(), null, "password123", "Password is required", "Password"},
+                {"John", "Doe", RandomUserData.getRandomEmail(), "password123", null, "Password is required", "ConfirmPassword"}
+        };
     }
 
-    @Test(description = "Unsuccessful registration of a user with an empty registration field password")
-    public void testRegisterEmptyPassword() {
-        logger.info("Start negative testRegisterEmptyPassword");
+    @Test(dataProvider = "negativeRegistration", description = "Negative registration test with missing field")
+    public void testNegativeRegistration(String firstName, String lastName, String email,
+                                         String password, String confirmPassword,
+                                         String expectedMessage, String field) {
+        logger.info("Start test with missing field: {}", field);
 
-        registerPage.openRegisterPageChain()
-                .chooseMaleGenderChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterEmailChain(RandomUserData.getRandomEmail())
-                .enterConfirmPasswordChain(RandomUserData.getRandomPassword())
-                .clickRegisterButton();
+        fillRegistrationForm(firstName, lastName, email, password, confirmPassword, getRandomGender());
 
-        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
-                        registerPage.getPasswordRequired()),
-                10);
+        WebElement errorElement = switch (field) {
+            case "FirstName" -> registerPage.getFirstNameRequired();
+            case "LastName" -> registerPage.getLastNameRequired();
+            case "Email" -> registerPage.getEmailRequired();
+            case "Password" -> registerPage.getPasswordRequired();
+            case "ConfirmPassword" -> registerPage.getConfirmPasswordRequired();
+            default -> throw new IllegalArgumentException("Invalid field: " + field);
+        };
 
-        assertTrue(registerPage.getTextPasswordRequired().contains("Password is required"));
+        verifyErrorMessage(errorElement, expectedMessage, 10);
 
-        logger.info("Finish negative testRegisterEmptyPassword");
+        logger.info("Finish test with missing field: {}", field);
     }
 
-    @Test(description = "Unsuccessful registration of a user with an empty registration field confirm password")
-    public void testRegisterEmptyConfirmPassword() {
-        logger.info("Start negative testRegisterEmptyConfirmPassword");
-
-        registerPage.openRegisterPageChain()
-                .chooseFemaleGenderChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterEmailChain(RandomUserData.getRandomEmail())
-                .enterPasswordChain(RandomUserData.getRandomPassword())
-                .clickRegisterButton();
-
-        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
-                        registerPage.getConfirmPasswordRequired()),
-                10
-        );
-
-        assertTrue(registerPage.getTextConfirmPasswordRequired().contains("Password is required"));
-
-        logger.info("Finish negative testRegisterEmptyConfirmPassword");
-    }
 
     @Test(description = "Unsuccessful registration of an already registered user")
     public void testRegisterAlreadyRegisteredUser() {
-        logger.info("Start negative testRegisterAlreadyRegisteredUser");
+        logger.info("Start test for already registered user");
 
-        registerPage.openRegisterPageChain()
-                .chooseMaleGenderChain()
-                .enterFirstNameChain(ExistingUser.getFirstNameExistingUser())
-                .enterLastNameChain(ExistingUser.getLastNameExistingUser())
-                .enterEmailChain(ExistingUser.getEmailExistingUser())
-                .enterPasswordChain(ExistingUser.getPasswordExistingUser())
-                .enterConfirmPasswordChain(ExistingUser.getPasswordExistingUser())
-                .clickRegisterButton();
-
-        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(
-                        registerPage.getErrorMessage()),
-                10
+        fillRegistrationForm(
+                ExistingUser.getFirstName(), ExistingUser.getLastName(),
+                ExistingUser.getEmail(), ExistingUser.getPassword(),
+                ExistingUser.getPassword(), "male"
         );
 
-        assertTrue(registerPage.getTextErrorMessage().contains("The specified email already exists"));
+        waitUtils.waitForCondition(ExpectedConditions.visibilityOf(registerPage.getErrorMessage()), 10);
 
-        logger.info("Finish negative testRegisterAlreadyRegisteredUser");
+        assertTrue(registerPage.getTextErrorMessage().contains("The specified email already exists"),
+                "Expected error message: 'The specified email already exists', but got: "
+                        + registerPage.getTextErrorMessage());
+
+        logger.info("Finish test for already registered user");
     }
+
 }
+

@@ -39,9 +39,9 @@ public class PositiveRegisterTest extends BaseTest {
     }
 
     @Test(dataProvider = "genderOptions",
-            description = "Successful user registration based on fake data, male gender")
-    public void testRegister(String gender) {
-        logger.info("Start positive testRegister");
+            description = "Successful user registration based on fake data")
+    public void testPositiveRegister(String gender) {
+        logger.info("Start positive testPositiveRegister with gender: {}", gender);
 
         if (Objects.equals(gender, "male")) {
             registerPage.openRegisterPageChain()
@@ -78,6 +78,6 @@ public class PositiveRegisterTest extends BaseTest {
 
         assertTrue(registerResultPage.atRegisterResultPage());
 
-        logger.info("Finish positive testRegister");
+        logger.info("Finish positive testPositiveRegister with gender: {}", gender);
     }
 }

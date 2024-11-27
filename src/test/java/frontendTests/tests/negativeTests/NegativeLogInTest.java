@@ -73,7 +73,7 @@ public class NegativeLogInTest extends BaseTest {
         logger.info("Start negative testLogInWithInvalidPasswordForRegisteredUser");
 
         logInPage.openLogInPageChain()
-                .enterEmailChain(ExistingUser.getEmailExistingUser())
+                .enterEmailChain(ExistingUser.getEmail())
                 .enterPasswordChain(RandomUserData.getRandomPassword())
                 .clickLogIn();
 
@@ -87,7 +87,7 @@ public class NegativeLogInTest extends BaseTest {
         logger.info("Start negative testLogInWithEmptyPassFieldForRegisteredUser");
 
         logInPage.openLogInPageChain()
-                .enterEmailChain(ExistingUser.getEmailExistingUser())
+                .enterEmailChain(ExistingUser.getEmail())
                 .clickLogIn();
 
         assertVerifyValidationErrors("The credentials provided are incorrect");
@@ -100,7 +100,7 @@ public class NegativeLogInTest extends BaseTest {
         logger.info("Start negative testLogInWithEmptyEmailForRegisteredUser");
 
         logInPage.openLogInPageChain()
-                .enterPasswordChain(ExistingUser.getPasswordExistingUser())
+                .enterPasswordChain(ExistingUser.getPassword())
                 .clickLogIn();
 
         assertVerifyValidationErrors("No customer account found");

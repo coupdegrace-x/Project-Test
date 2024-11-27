@@ -38,11 +38,11 @@ public class PositiveLogInTest extends BaseTest {
     public void testLogInWithoutRememberMe() {
         logger.info("Start positive testLogInWithoutRememberMe");
 
-        final String emailUser = ExistingUser.getEmailExistingUser();
+        final String emailUser = ExistingUser.getEmail();
 
         logInPage.openLogInPageChain()
                 .enterEmailChain(emailUser)
-                .enterPasswordChain(ExistingUser.getPasswordExistingUser())
+                .enterPasswordChain(ExistingUser.getPassword())
                 .clickLogIn();
 
         assertTrue(isElementVisibleAndContainsText(
@@ -58,11 +58,11 @@ public class PositiveLogInTest extends BaseTest {
     public void testLogInWithRememberMe() {
         logger.info("Start positive testLogInWithRememberMe");
 
-        final String emailUser = ExistingUser.getEmailExistingUser();
+        final String emailUser = ExistingUser.getEmail();
 
         logInPage.openLogInPageChain()
                 .enterEmailChain(emailUser)
-                .enterPasswordChain(ExistingUser.getPasswordExistingUser())
+                .enterPasswordChain(ExistingUser.getPassword())
                 .chooseRememberMeChain()
                 .clickLogIn();
 
