@@ -23,14 +23,14 @@ public class PositiveRegisterTest extends BaseTest {
     private String passwordRandomUser;
 
     @BeforeMethod
-    protected void setUpRegisterAndResultPage() {
+    protected void setUpPositiveRegisterTest() {
         registerPage = new RegisterPage(getDriver());
         registerResultPage = new RegisterResultPage(getDriver());
         passwordRandomUser = RandomUserData.getRandomPassword();
     }
 
     @DataProvider(name = "genderOptions")
-    private Object[][] genderOptions() {
+    protected Object[][] genderOptions() {
         return new Object[][]{
                 {"male"},
                 {"female"},
@@ -43,15 +43,11 @@ public class PositiveRegisterTest extends BaseTest {
     public void testPositiveRegistration(String gender) {
         logger.info("Start positive testPositiveRegister with gender: {}", gender);
 
-        if (Objects.equals(gender, "male")) {
-            registerPage.openRegisterPageChain()
-                    .chooseMaleGender();
-        } else if (Objects.equals(gender, "female")) {
-            registerPage.openRegisterPageChain()
-                    .chooseFemaleGender();
-        } else {
-            registerPage.openRegisterPage();
-        }
+        registerPage.openRegisterPage();
+
+        if (Objects.equals(gender, "male")) registerPage.chooseMaleGender();
+
+        if (Objects.equals(gender, "female")) registerPage.chooseFemaleGender();
 
         registerPage
                 .enterFirstNameChain(RandomUserData.getRandomFirstName())

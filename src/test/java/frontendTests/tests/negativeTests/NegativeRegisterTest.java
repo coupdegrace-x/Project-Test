@@ -22,17 +22,18 @@ public class NegativeRegisterTest extends BaseTest {
     private RegisterPage registerPage;
 
     @BeforeMethod
-    protected void setUpRegisterPage() {
+    protected void setUpNegativeRegisterTest() {
         registerPage = new RegisterPage(getDriver());
     }
 
     private String getRandomGender() {
-        String[] genders = {"male", "female"};
+        String[] genders = {"male", "female", null};
         return genders[new Random().nextInt(genders.length)];
     }
 
     private void verifyErrorMessage(WebElement element, String expectedMessage, int timeout) {
         waitUtils.waitForCondition(ExpectedConditions.visibilityOf(element), timeout);
+
         assertTrue(element.getText().contains(expectedMessage),
                 "Expected error message: " + expectedMessage + ", but got: " + element.getText());
     }
@@ -59,7 +60,7 @@ public class NegativeRegisterTest extends BaseTest {
     }
 
     @DataProvider(name = "negativeRegistration")
-    public Object[][] negativeTestCases() {
+    protected Object[][] negativeTestCases() {
         return new Object[][]{
                 {null, "Doe", RandomUserData.getRandomEmail(), "password123",
                         "password123", "First name is required", "FirstName"
