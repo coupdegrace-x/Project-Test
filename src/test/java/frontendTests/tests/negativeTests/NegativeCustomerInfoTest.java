@@ -31,7 +31,7 @@ public class NegativeCustomerInfoTest extends BaseTest {
     }
 
     @Test(description = "Clear personal data on the My account - customer info page and check for output errors")
-    private void testInfoClearDataAndCheckErrors() {
+    public void testInfoClearDataAndCheckErrors() {
         logger.info("Start negative testInfoClearDataAndCheckErrors");
 
         new RegistrationOfRandomUser().userRegistration(registerPage);
@@ -55,7 +55,7 @@ public class NegativeCustomerInfoTest extends BaseTest {
 
     @Test(description = "Clear the First name field on the My account " +
             "- customer info page and check the error displayed")
-    private void testInfoClearFirstNameAndCheckError() {
+    public void testInfoClearFirstNameAndCheckError() {
         logger.info("Start negative testInfoClearFirstNameAndCheckError");
 
         new RegistrationOfRandomUser().userRegistration(registerPage);

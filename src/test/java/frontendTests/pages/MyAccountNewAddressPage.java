@@ -132,10 +132,9 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
     public void selectStateOrProvince() {
         Select select = new Select(stateOrProvinceDropDown);
 
-        new WaitUtils(getDriver())
-                .waitForCondition(ExpectedConditions
-                                .visibilityOfElementLocated(By.id("Address_StateProvinceId")),
-                        10);
+        new WaitUtils(getDriver()).waitForCondition(
+                ExpectedConditions.visibilityOfElementLocated(By.id("Address_StateProvinceId")),
+                10);
 
         select.selectByIndex(0);
     }
@@ -143,10 +142,9 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
     public MyAccountNewAddressPage selectStateOrProvinceChain() {
         Select select = new Select(stateOrProvinceDropDown);
 
-        new WaitUtils(getDriver())
-                .waitForCondition(ExpectedConditions
-                                .visibilityOfElementLocated(By.id("Address_StateProvinceId")),
-                        10);
+        new WaitUtils(getDriver()).waitForCondition(
+                ExpectedConditions.visibilityOfElementLocated(By.id("Address_StateProvinceId")),
+                10);
 
         select.selectByVisibleText("Other (Non US)");
         return this;

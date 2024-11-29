@@ -22,13 +22,19 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
     private MyAccountNewAddressPage myAccountNewAddressPage;
     private MyAccountPage myAccountPage;
     private WaitUtils waitUtils;
+    private String emailUser;
 
     @BeforeMethod
-    protected void setUpRegMyAccAddressPage() {
+    protected void setUpPositiveAddNewAddressTest() {
         registerPage = new RegisterPage(getDriver());
         myAccountNewAddressPage = new MyAccountNewAddressPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
+
         waitUtils = new WaitUtils(getDriver());
+
+        emailUser = RandomUserData.getRandomEmail();
+
+        registerRandomUser();
     }
 
     @Override
@@ -36,36 +42,47 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
         return new Random().nextInt(0, 238);
     }
 
-    @Test(description = "Adding an address with filling in all fields with valid data")
-    public void testAddNewAddressWithAllFieldsValidData() {
-        logger.info("Start positive testAddNewAddressWithAllFieldsValidData");
-
+    private void registerRandomUser() {
         new RegistrationOfRandomUser().userRegistration(registerPage);
+    }
 
-        String emailUser = RandomUserData.getRandomEmail();
+    private void addNewAddress(boolean fillAllFields, String emailUser) {
 
         myAccountPage.openAddressesChain()
                 .clickAddNewButtonChain()
                 .enterFirstNameChain(RandomUserData.getRandomFirstName())
                 .enterLastNameChain(RandomUserData.getRandomLastName())
                 .enterEmailChain(emailUser)
-                .enterCompanyChain(RandomUserData.getCompanyName())
                 .selectCountryChain(getRandomIndexForDropDown())
                 .selectStateOrProvinceChain()
                 .enterCityChain(RandomUserData.getCity())
-                .enterFirstAddressChain(RandomUserData.getFirstAddress())
-                .enterSecondAddressChain(RandomUserData.getSecondAddress())
+                .enterFirstAddressChain(RandomUserData.getFirstAddress());
+
+        if (fillAllFields) {
+            myAccountNewAddressPage
+                    .enterSecondAddressChain(RandomUserData.getSecondAddress())
+                    .enterCompanyChain(RandomUserData.getCompanyName())
+                    .enterFaxNumberChain(RandomUserData.getFaxNumber());
+        }
+
+        myAccountNewAddressPage
                 .enterZipPostalCodeChain(RandomUserData.getZipPostalCode())
                 .enterPhoneNumberChain(RandomUserData.getPhoneNumber())
-                .enterFaxNumberChain(RandomUserData.getFaxNumber())
                 .clickSaveButton();
 
-        waitUtils.waitForCondition(ExpectedConditions.elementToBeClickable(
-                        myAccountNewAddressPage.getAddNewButton()),
+        waitUtils.waitForCondition(
+                ExpectedConditions.elementToBeClickable(myAccountNewAddressPage.getAddNewButton()),
                 10
         );
 
         assertTrue(getDriver().findElement(By.className("email")).getText().contains(emailUser));
+    }
+
+    @Test(description = "Adding an address with filling in all fields with valid data")
+    public void testAddNewAddressWithAllFieldsValidData() {
+        logger.info("Start positive testAddNewAddressWithAllFieldsValidData");
+
+        addNewAddress(true, emailUser);
 
         logger.info("Finish positive testAddNewAddressWithAllFieldsValidData");
     }
@@ -74,29 +91,7 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
     public void testAddNewAddressWithRequiredFieldsInvalidData() {
         logger.info("Start positive testAddNewAddressWithRequiredFieldsInvalidData");
 
-        String emailUser = RandomUserData.getRandomEmail();
-
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        myAccountPage.openAddressesChain()
-                .clickAddNewButtonChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterEmailChain(emailUser)
-                .selectCountryChain(getRandomIndexForDropDown())
-                .selectStateOrProvinceChain()
-                .enterCityChain(RandomUserData.getCity())
-                .enterFirstAddressChain(RandomUserData.getFirstAddress())
-                .enterZipPostalCodeChain(RandomUserData.getZipPostalCode())
-                .enterPhoneNumberChain(RandomUserData.getPhoneNumber())
-                .clickSaveButton();
-
-        waitUtils.waitForCondition(ExpectedConditions.elementToBeClickable(
-                        myAccountNewAddressPage.getAddNewButton()),
-                10
-        );
-
-        assertTrue(getDriver().findElement(By.className("email")).getText().contains(emailUser));
+        addNewAddress(false, emailUser);
 
         logger.info("Finish positive testAddNewAddressWithRequiredFieldsInvalidData");
     }
