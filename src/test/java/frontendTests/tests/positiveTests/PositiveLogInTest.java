@@ -21,11 +21,11 @@ public class PositiveLogInTest extends BaseTest {
     private LogInPage logInPage;
 
     @BeforeMethod
-    protected void setUpLogInPage() {
+    protected void setUpPositiveLogInTest() {
         logInPage = new LogInPage(getDriver());
     }
 
-    public boolean isElementVisibleAndContainsText(By locator, String text, int waitingSeconds) {
+    private boolean isElementVisibleAndContainsText(By locator, String text, int waitingSeconds) {
         WebElement element = waitUtils.waitForConditionAndReturn(
                 ExpectedConditions.visibilityOfElementLocated(locator),
                 waitingSeconds

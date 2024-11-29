@@ -17,15 +17,17 @@ public class NegativeLogInTest extends BaseTest {
 
     private static final String COMMON_ERROR_MESSAGE = "Login was unsuccessful. " +
             "Please correct the errors and try again";
+    private static final String SPECIFIC_ERROR_REGISTERED_USER = "The credentials provided are incorrect";
+    private static final String SPECIFIC_ERROR_UNREGISTERED_USER = "No customer account found";
 
     private LogInPage logInPage;
 
     @BeforeMethod
-    protected void setUpLogInPage() {
+    protected void setUpNegativeLogInTest() {
         logInPage = new LogInPage(getDriver());
     }
 
-    public void assertVerifyValidationErrors(String specificErrorMessage) {
+    private void assertVerifyValidationErrors(String specificErrorMessage) {
         waitUtils.waitForCondition(
                 ExpectedConditions.visibilityOf(logInPage.getSpecificMessageError()),
                 10
@@ -42,12 +44,30 @@ public class NegativeLogInTest extends BaseTest {
                 "Specific validation error message mismatch");
     }
 
+    private void performLoginAndVerifyError(String email, String password, String specificErrorMessage) {
+        logInPage.openLogInPage();
+
+        if (email != null) {
+            logInPage.enterEmail(email);
+        }
+        if (password != null) {
+            logInPage.enterPassword(password);
+        }
+
+        logInPage.clickLogIn();
+
+        assertVerifyValidationErrors(specificErrorMessage);
+    }
+
     @Test(description = "Unsuccessful user authorization with empty fields")
     public void testLogInEmptyFields() {
         logger.info("Start negative testLogInEmptyFields");
 
-        logInPage.openLogInPageChain()
-                .clickLogIn();
+        performLoginAndVerifyError(
+                null,
+                null,
+                SPECIFIC_ERROR_UNREGISTERED_USER
+        );
 
         assertVerifyValidationErrors("No customer account found");
 
@@ -58,12 +78,11 @@ public class NegativeLogInTest extends BaseTest {
     public void testLogInWithUnregisteredUser() {
         logger.info("Start negative testLogInWithUnregisteredUser");
 
-        logInPage.openLogInPageChain()
-                .enterEmailChain(RandomUserData.getRandomEmail())
-                .enterPasswordChain(RandomUserData.getRandomPassword())
-                .clickLogIn();
-
-        assertVerifyValidationErrors("No customer account found");
+        performLoginAndVerifyError(
+                RandomUserData.getRandomEmail(),
+                RandomUserData.getRandomPassword(),
+                SPECIFIC_ERROR_UNREGISTERED_USER
+        );
 
         logger.info("Finish negative testLogInWithUnregisteredUser");
     }
@@ -72,12 +91,11 @@ public class NegativeLogInTest extends BaseTest {
     public void testLogInWithInvalidPasswordForRegisteredUser() {
         logger.info("Start negative testLogInWithInvalidPasswordForRegisteredUser");
 
-        logInPage.openLogInPageChain()
-                .enterEmailChain(ExistingUser.getEmail())
-                .enterPasswordChain(RandomUserData.getRandomPassword())
-                .clickLogIn();
-
-        assertVerifyValidationErrors("The credentials provided are incorrect");
+        performLoginAndVerifyError(
+                ExistingUser.getEmail(),
+                RandomUserData.getRandomPassword(),
+                SPECIFIC_ERROR_REGISTERED_USER
+        );
 
         logger.info("Finish negative testLogInWithInvalidPasswordForRegisteredUser");
     }
@@ -86,11 +104,11 @@ public class NegativeLogInTest extends BaseTest {
     public void testLogInWithEmptyPassFieldForRegisteredUser() {
         logger.info("Start negative testLogInWithEmptyPassFieldForRegisteredUser");
 
-        logInPage.openLogInPageChain()
-                .enterEmailChain(ExistingUser.getEmail())
-                .clickLogIn();
-
-        assertVerifyValidationErrors("The credentials provided are incorrect");
+        performLoginAndVerifyError(
+                ExistingUser.getEmail(),
+                null,
+                SPECIFIC_ERROR_REGISTERED_USER
+        );
 
         logger.info("Finish negative testLogInWithEmptyPassFieldForRegisteredUser");
     }
@@ -99,11 +117,11 @@ public class NegativeLogInTest extends BaseTest {
     public void testLogInWithEmptyEmailForRegisteredUser() {
         logger.info("Start negative testLogInWithEmptyEmailForRegisteredUser");
 
-        logInPage.openLogInPageChain()
-                .enterPasswordChain(ExistingUser.getPassword())
-                .clickLogIn();
-
-        assertVerifyValidationErrors("No customer account found");
+        performLoginAndVerifyError(
+                null,
+                ExistingUser.getPassword(),
+                SPECIFIC_ERROR_UNREGISTERED_USER
+        );
 
         logger.info("Finish negative testLogInWithEmptyEmailForRegisteredUser");
     }
