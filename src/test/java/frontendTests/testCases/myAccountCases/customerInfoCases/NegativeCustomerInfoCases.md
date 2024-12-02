@@ -25,7 +25,7 @@
 
 ## Тест-кейс №1. Очистить персональные данные на странице My account - customer info
 
-## Шаги выполнения тест кейса №2 (Написан, метод: testInfoClearDataAndCheckErrors)
+## Шаги выполнения тест кейса №2 (Написан, метод: NegativeCustomerInfoTest)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти по ссылке https://demowebshop.tricentis.com/customer/info
@@ -37,7 +37,7 @@
 
 ## Тест-кейс №2. Очистить поле First name на странице My account - customer info
 
-## Шаги выполнения тест кейса №2 (Написан, метод: testInfoClearFirstNameAndCheckError)
+## Шаги выполнения тест кейса №2 (Написан, метод: NegativeCustomerInfoTest)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти по ссылке https://demowebshop.tricentis.com/customer/info
@@ -46,3 +46,23 @@
 5) В поле `Email` оставить без изменений
 6) Нажать на кнопку `Save`
 7) Проверить, что появляется подсказка рядом с полем `First name` о необходимости заполнить имя пользователя
+
+## Шаги выполнения тест кейса №3 (Написан, метод: NegativeCustomerInfoTest)
+
+1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
+2) Перейти по ссылке https://demowebshop.tricentis.com/customer/info
+3) В поле `First name` оставить без изменений
+4) В поле `Last name` очистить поле. Оставить пустым
+5) В поле `Email` оставить без изменений
+6) Нажать на кнопку `Save`
+7) Проверить, что появляется подсказка рядом с полем `Last name` о необходимости заполнить имя пользователя
+
+## Шаги выполнения тест кейса №4 (Написан, метод: NegativeCustomerInfoTest)
+
+1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
+2) Перейти по ссылке https://demowebshop.tricentis.com/customer/info
+3) В поле `First name` оставить без изменений
+4) В поле `Last name`  оставить без изменений
+5) В поле `Email` очистить поле. Оставить пустым
+6) Нажать на кнопку `Save`
+7) Проверить, что появляется подсказка рядом с полем `Email` о необходимости заполнить имя пользователя
