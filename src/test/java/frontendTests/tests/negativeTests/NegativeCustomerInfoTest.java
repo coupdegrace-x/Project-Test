@@ -23,7 +23,7 @@ public class NegativeCustomerInfoTest extends BaseTest {
     private WaitUtils waitUtils;
 
     @BeforeMethod
-    public void setUpMyAccAndLogInPage() {
+    protected void setUpNegativeCustomerInfoTest() {
         myAccountInfoPage = new MyAccountInfoPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
         registerPage = new RegisterPage(getDriver());

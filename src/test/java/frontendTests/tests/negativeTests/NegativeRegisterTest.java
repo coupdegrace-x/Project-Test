@@ -62,19 +62,19 @@ public class NegativeRegisterTest extends BaseTest {
     @DataProvider(name = "negativeRegistration")
     protected Object[][] negativeTestCases() {
         return new Object[][]{
-                {null, "Doe", RandomUserData.getRandomEmail(), "password123",
+                {null, "Stein", RandomUserData.getRandomEmail(), "password123",
                         "password123", "First name is required", "FirstName"
                 },
-                {"John", null, RandomUserData.getRandomEmail(), "password123",
+                {"Leon", null, RandomUserData.getRandomEmail(), "password123",
                         "password123", "Last name is required", "LastName"
                 },
-                {"John", "Doe", null, "password123",
+                {"Leon", "Stein", null, "password123",
                         "password123", "Email is required", "Email"
                 },
-                {"John", "Doe", RandomUserData.getRandomEmail(), null,
+                {"Leon", "Stein", RandomUserData.getRandomEmail(), null,
                         "password123", "Password is required", "Password"
                 },
-                {"John", "Doe", RandomUserData.getRandomEmail(),
+                {"Leon", "Stein", RandomUserData.getRandomEmail(),
                         "password123", null, "Password is required", "ConfirmPassword"
                 }
         };

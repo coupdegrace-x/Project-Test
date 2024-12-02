@@ -9,10 +9,13 @@ import frontendTests.utils.RegistrationOfRandomUser;
 import frontendTests.utils.TestCase;
 import frontendTests.utils.WaitUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Map;
 import java.util.Objects;
 
 import static org.testng.Assert.assertTrue;
@@ -25,66 +28,102 @@ public class PositiveCustomerInfoTest extends BaseTest {
     private MyAccountPage myAccountPage;
     private RegisterPage registerPage;
     private WaitUtils waitUtils;
+    private String firstName;
+    private String lastName;
+    private String email;
 
     @BeforeMethod
-    protected void setUpMyAccAndRegPage() {
+    protected void setUpPositiveCustomerInfoTest() {
         myAccountInfoPage = new MyAccountInfoPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
         registerPage = new RegisterPage(getDriver());
         waitUtils = new WaitUtils(getDriver());
+
+        registerRandomUser();
+
+        firstName = RandomUserData.getRandomFirstName();
+        lastName = RandomUserData.getRandomLastName();
+        email = RandomUserData.getRandomEmail();
     }
 
-    @Test(description = "Changing all personal data to valid ones on the My account - customer info page")
-    public void testInfoChangeAllDataToValid() {
-        logger.info("Start positive testChangeAllDataToValid");
-
-        final String emailUser = RandomUserData.getRandomEmail();
-
+    private void registerRandomUser() {
         new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        myAccountPage.openCustomerInfoChain()
-                .chooseGenderFemaleChain()
-                .enterFirstNameChain(RandomUserData.getRandomFirstName())
-                .enterLastNameChain(RandomUserData.getRandomLastName())
-                .enterEmailChain(emailUser)
-                .clickSaveButton();
-
-        waitUtils.waitForCondition(ExpectedConditions.textToBePresentInElement(
-                        getDriver().findElement(By.xpath(
-                                "//div[@class='header-links']//a[@class='account']")),
-                        emailUser),
-                15
-        );
-
-        assertTrue(getDriver().findElement(
-                        By.xpath("//div[@class='header-links']//a[@class='account']"))
-                .getText().contains(emailUser)
-        );
-
-        logger.info("Finish positive testChangeAllDataToValid");
     }
 
-    @Test(description = "Name change on the My account page - information about the client")
-    public void testInfoChangeName() {
-        logger.info("Start positive testInfoChangeName");
-
-        final String firstNameUser = RandomUserData.getRandomFirstName();
-
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        myAccountPage.openCustomerInfoChain()
-                .enterFirstNameChain(firstNameUser)
-                .clickSaveButton();
-
-        waitUtils.waitForCondition(ExpectedConditions.attributeToBe(
-                        myAccountInfoPage.getFirstNameInputField(),
-                        "value", firstNameUser),
-                15
+    private void checkForTrue(WebElement webElement, String value) {
+        waitUtils.waitForCondition(
+                ExpectedConditions.attributeToBe(webElement,"value", value),
+                10
         );
 
-        assertTrue(Objects.requireNonNull(myAccountInfoPage.getFirstNameInputField()
-                .getAttribute("value")).contains(firstNameUser));
+        assertTrue(Objects.requireNonNull(
+                webElement.getAttribute("value")).contains(value));
+    }
 
-        logger.info("Finish positive testInfoChangeName");
+    private void changeAllFields() {
+        Map<WebElement, String> personalData = Map.of(
+                myAccountInfoPage.getFirstNameInputField(), firstName,
+                myAccountInfoPage.getLastNameInputField(), lastName,
+                myAccountInfoPage.getEmailInputField(), email
+        );
+
+        myAccountInfoPage
+                .clearFirstNameChain()
+                .clearLastNameChain()
+                .clearEmailChain()
+                .enterFirstNameChain(firstName)
+                .enterLastNameChain(lastName)
+                .enterEmailChain(email)
+                .clickSaveButton();
+
+        personalData.forEach(this::checkForTrue);
+    }
+
+    private void changeField(WebElement field, String newValue) {
+        field.clear();
+        field.sendKeys(newValue);
+        myAccountInfoPage.clickSaveButton();
+        checkForTrue(field, newValue);
+    }
+
+    @DataProvider(name = "positiveChangeData")
+    protected Object[][] positiveChangeData() {
+        return new Object[][]{
+                {"change all data", true, false, false, false},
+                {"change first name", false, true, false, false},
+                {"change last name", false, false, true, false},
+                {"change email", false, false, false, true},
+        };
+    }
+
+    private void changePersonalData(boolean isAllData, boolean isFirstName,
+                                    boolean isLastName, boolean isEmail) {
+        if (isAllData) {
+            changeAllFields();
+        }
+        if (isFirstName) {
+            changeField(myAccountInfoPage.getFirstNameInputField(), firstName);
+            checkForTrue(myAccountInfoPage.getFirstNameInputField(), firstName);
+        }
+        if (isLastName) {
+            changeField(myAccountInfoPage.getLastNameInputField(), lastName);
+            checkForTrue(myAccountInfoPage.getLastNameInputField(), lastName);
+        }
+        if (isEmail) {
+            changeField(myAccountInfoPage.getEmailInputField(), email);
+            checkForTrue(myAccountInfoPage.getEmailInputField(), email);
+        }
+    }
+
+    @Test(dataProvider = "positiveChangeData")
+    public void testPositiveCustomerInfoChangeData(String scenarioName, boolean isAllData, boolean isFirstName,
+                                                   boolean isLastName, boolean isEmail) {
+        logger.info("Start testPositiveCustomerInfoChangeData with scenarioName: {}", scenarioName);
+
+        myAccountPage.openCustomerInfo();
+
+        changePersonalData(isAllData, isFirstName, isLastName, isEmail);
+
+        logger.info("Finish testPositiveCustomerInfoChangeData with scenarioName: {}", scenarioName);
     }
 }
