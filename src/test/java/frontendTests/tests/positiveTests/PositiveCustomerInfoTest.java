@@ -60,12 +60,6 @@ public class PositiveCustomerInfoTest extends BaseTest {
     }
 
     private void changeAllFields() {
-        Map<WebElement, String> personalData = Map.of(
-                myAccountInfoPage.getFirstNameInputField(), firstName,
-                myAccountInfoPage.getLastNameInputField(), lastName,
-                myAccountInfoPage.getEmailInputField(), email
-        );
-
         myAccountInfoPage
                 .clearFirstNameChain()
                 .clearLastNameChain()
@@ -75,6 +69,12 @@ public class PositiveCustomerInfoTest extends BaseTest {
                 .enterEmailChain(email)
                 .clickSaveButton();
 
+        Map<WebElement, String> personalData = Map.of(
+                myAccountInfoPage.getFirstNameInputField(), firstName,
+                myAccountInfoPage.getLastNameInputField(), lastName,
+                myAccountInfoPage.getEmailInputField(), email
+        );
+
         personalData.forEach(this::checkForTrue);
     }
 
@@ -82,17 +82,8 @@ public class PositiveCustomerInfoTest extends BaseTest {
         field.clear();
         field.sendKeys(newValue);
         myAccountInfoPage.clickSaveButton();
-        checkForTrue(field, newValue);
-    }
 
-    @DataProvider(name = "positiveChangeData")
-    protected Object[][] positiveChangeData() {
-        return new Object[][]{
-                {"change all data", true, false, false, false},
-                {"change first name", false, true, false, false},
-                {"change last name", false, false, true, false},
-                {"change email", false, false, false, true},
-        };
+        checkForTrue(field, newValue);
     }
 
     private void changePersonalData(boolean isAllData, boolean isFirstName,
@@ -112,6 +103,16 @@ public class PositiveCustomerInfoTest extends BaseTest {
             changeField(myAccountInfoPage.getEmailInputField(), email);
             checkForTrue(myAccountInfoPage.getEmailInputField(), email);
         }
+    }
+
+    @DataProvider(name = "positiveChangeData")
+    protected Object[][] positiveChangeData() {
+        return new Object[][]{
+                {"change all data", true, false, false, false},
+                {"change first name", false, true, false, false},
+                {"change last name", false, false, true, false},
+                {"change email", false, false, false, true},
+        };
     }
 
     @Test(dataProvider = "positiveChangeData")
