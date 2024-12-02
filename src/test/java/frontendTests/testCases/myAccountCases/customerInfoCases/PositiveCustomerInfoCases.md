@@ -21,7 +21,7 @@
 
 ## Тест-кейс №1. Смена всех персональных данных на валидные на странице My account - customer info
 
-## Шаги выполнения тест кейса №1 (Написан, метод: testInfoChangeAllDataToValid)
+## Шаги выполнения тест кейса №1 (Написан, метод: testPositiveCustomerInfoChangeData)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти по ссылке https://demowebshop.tricentis.com/customer/info
@@ -34,7 +34,7 @@
 
 ## Тест-кейс №2. Смена имени в поле `First name` на странице My account - customer info
 
-## Шаги выполнения тест кейса №2 (Написан, метод: testInfoChangeName)
+## Шаги выполнения тест кейса №2 (Написан, метод: testPositiveCustomerInfoChangeData)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти по ссылке https://demowebshop.tricentis.com/customer/info
@@ -45,7 +45,7 @@
 
 ## Тест-кейс №3. Смена имени в поле `Last name` на странице My account - customer info
 
-## Шаги выполнения тест кейса №3 (Написан, метод: testInfoChangeName)
+## Шаги выполнения тест кейса №3 (Написан, метод: testPositiveCustomerInfoChangeData)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти по ссылке https://demowebshop.tricentis.com/customer/info
@@ -56,7 +56,7 @@
 
 ## Тест-кейс №4. Смена имени в поле `Email` на странице My account - customer info
 
-## Шаги выполнения тест кейса №3 (Написан, метод: testInfoChangeName)
+## Шаги выполнения тест кейса №3 (Написан, метод: testPositiveCustomerInfoChangeData)
 
 1) Зарегистрироваться под новым пользователем по ссылке https://demowebshop.tricentis.com/register
 2) Перейти по ссылке https://demowebshop.tricentis.com/customer/info

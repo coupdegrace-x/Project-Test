@@ -25,6 +25,8 @@ public class NegativeLogInTest extends BaseTest {
     @BeforeMethod
     protected void setUpNegativeLogInTest() {
         logInPage = new LogInPage(getDriver());
+
+        logInPage.openLogInPage();
     }
 
     private void assertVerifyValidationErrors(String specificErrorMessage) {
@@ -45,8 +47,6 @@ public class NegativeLogInTest extends BaseTest {
     }
 
     private void performLoginAndVerifyError(String email, String password, String specificErrorMessage) {
-        logInPage.openLogInPage();
-
         if (email != null) {
             logInPage.enterEmail(email);
         }

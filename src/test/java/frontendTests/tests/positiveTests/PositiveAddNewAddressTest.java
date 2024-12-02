@@ -29,7 +29,6 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
         registerPage = new RegisterPage(getDriver());
         myAccountNewAddressPage = new MyAccountNewAddressPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
-
         waitUtils = new WaitUtils(getDriver());
 
         emailUser = RandomUserData.getRandomEmail();
@@ -47,7 +46,6 @@ public class PositiveAddNewAddressTest extends BaseTest implements RandomIndexFo
     }
 
     private void addNewAddress(boolean fillAllFields, String emailUser) {
-
         myAccountPage.openAddressesChain()
                 .clickAddNewButtonChain()
                 .enterFirstNameChain(RandomUserData.getRandomFirstName())

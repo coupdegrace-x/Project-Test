@@ -31,7 +31,6 @@ public class NegativeAddNewAddressTest extends BaseTest implements RandomIndexFo
         registerPage = new RegisterPage(getDriver());
         myAccountNewAddressPage = new MyAccountNewAddressPage(getDriver());
         myAccountPage = new MyAccountPage(getDriver());
-
         waitUtils = new WaitUtils(getDriver());
 
         registerRandomUser();

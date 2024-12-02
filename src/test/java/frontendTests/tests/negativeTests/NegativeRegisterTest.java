@@ -24,6 +24,8 @@ public class NegativeRegisterTest extends BaseTest {
     @BeforeMethod
     protected void setUpNegativeRegisterTest() {
         registerPage = new RegisterPage(getDriver());
+
+        registerPage.openRegisterPage();
     }
 
     private String getRandomGender() {
@@ -40,8 +42,6 @@ public class NegativeRegisterTest extends BaseTest {
 
     private void fillRegistrationForm(String firstName, String lastName, String email,
                                       String password, String confirmPassword, String gender) {
-        registerPage.openRegisterPage();
-
         if (gender != null) {
             if (gender.equalsIgnoreCase("male")) {
                 registerPage.chooseMaleGender();

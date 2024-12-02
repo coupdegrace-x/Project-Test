@@ -8,7 +8,6 @@ import frontendTests.utils.RandomUserData;
 import frontendTests.utils.RegistrationOfRandomUser;
 import frontendTests.utils.TestCase;
 import frontendTests.utils.WaitUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.BeforeMethod;
@@ -39,11 +38,11 @@ public class PositiveCustomerInfoTest extends BaseTest {
         registerPage = new RegisterPage(getDriver());
         waitUtils = new WaitUtils(getDriver());
 
-        registerRandomUser();
-
         firstName = RandomUserData.getRandomFirstName();
         lastName = RandomUserData.getRandomLastName();
         email = RandomUserData.getRandomEmail();
+
+        registerRandomUser();
     }
 
     private void registerRandomUser() {
@@ -52,7 +51,7 @@ public class PositiveCustomerInfoTest extends BaseTest {
 
     private void checkForTrue(WebElement webElement, String value) {
         waitUtils.waitForCondition(
-                ExpectedConditions.attributeToBe(webElement,"value", value),
+                ExpectedConditions.attributeToBe(webElement, "value", value),
                 10
         );
 
@@ -118,12 +117,12 @@ public class PositiveCustomerInfoTest extends BaseTest {
     @Test(dataProvider = "positiveChangeData")
     public void testPositiveCustomerInfoChangeData(String scenarioName, boolean isAllData, boolean isFirstName,
                                                    boolean isLastName, boolean isEmail) {
-        logger.info("Start testPositiveCustomerInfoChangeData with scenarioName: {}", scenarioName);
+        logger.info("Start positive testPositiveCustomerInfoChangeData with scenarioName: {}", scenarioName);
 
         myAccountPage.openCustomerInfo();
 
         changePersonalData(isAllData, isFirstName, isLastName, isEmail);
 
-        logger.info("Finish testPositiveCustomerInfoChangeData with scenarioName: {}", scenarioName);
+        logger.info("Finish positive testPositiveCustomerInfoChangeData with scenarioName: {}", scenarioName);
     }
 }
