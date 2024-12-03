@@ -134,7 +134,8 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
 
         new WaitUtils(getDriver()).waitForCondition(
                 ExpectedConditions.visibilityOfElementLocated(By.id("Address_StateProvinceId")),
-                10);
+                10
+        );
 
         select.selectByIndex(0);
     }
@@ -144,7 +145,8 @@ public class MyAccountNewAddressPage extends MyAccountAddressesPage {
 
         new WaitUtils(getDriver()).waitForCondition(
                 ExpectedConditions.visibilityOfElementLocated(By.id("Address_StateProvinceId")),
-                10);
+                10
+        );
 
         select.selectByVisibleText("Other (Non US)");
         return this;
