@@ -26,10 +26,17 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
     private WaitUtils waitUtils;
 
     @BeforeMethod
-    protected void setUpRegPageAndBooks() {
+    protected void setUpPositiveFiltersForCategoriesTest() {
         categoryPage = new CategoryPage(getDriver());
         registerPage = new RegisterPage(getDriver());
         waitUtils = new WaitUtils(getDriver());
+
+        registerUserAndOpenCategory();
+    }
+
+    private void registerUserAndOpenCategory() {
+        new RegistrationOfRandomUser().userRegistration(registerPage);
+        categoryPage.openBookCategory();
     }
 
     @Test(description = "Sorting books by Filter by price under 25.00 on the Books page")
@@ -38,12 +45,9 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
 
         final double priceThreshold = 25.00;
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
+        categoryPage.sortByUnderTwentyFivePrice();
 
-        categoryPage.openBookCategoryChain()
-                .sortByUnderTwentyFivePrice();
-
-        List<Double> prices = categoryPage.getProductPriceFromCurrentPage();
+        final List<Double> prices = categoryPage.getProductPriceFromCurrentPage();
 
         waitUtils.waitForCondition(ExpectedConditions.textToBePresentInElement(
                         categoryPage.getRemoveFilter(),
@@ -61,13 +65,11 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
     public void testCategoryCancelFilter() {
         logger.info("Start positive testBookCancelFilter");
 
-        double middlePriceMin = 25.00;
-        double middlePriceMax = 50.00;
-        double minPrice = 10.00;
+        final double middlePriceMin = 25.00;
+        final double middlePriceMax = 50.00;
+        final double minPrice = 10.00;
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        categoryPage.openBookCategoryChain().sortByMiddlePrice();
+        categoryPage.sortByMiddlePrice();
 
         waitUtils.waitForCondition(ExpectedConditions.textToBePresentInElement(
                         categoryPage.getRemoveFilter(),
@@ -94,17 +96,16 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
     public void testCategorySortBySortByZToA() {
         logger.info("Start positive testSortBySortByZToA");
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        categoryPage.openBookCategory();
-
-        List<String> notSortedTitlesBooks = categoryPage.getProductTitlesFromCurrentPage();
+        final List<String> notSortedTitlesBooks = categoryPage.getProductTitlesFromCurrentPage();
 
         categoryPage.sortByZToA();
 
-        List<String> sortedTitlesBooksByZToA = categoryPage.getProductTitlesFromCurrentPage();
+        final List<String> sortedTitlesBooksByZToA = categoryPage.getProductTitlesFromCurrentPage();
 
-        waitUtils.waitForCondition(ExpectedConditions.urlContains("/books?orderby=6"), 15);
+        waitUtils.waitForCondition(
+                ExpectedConditions.urlContains("/books?orderby=6"),
+                15
+        );
 
         assertTrue(Objects.requireNonNull(getDriver().getCurrentUrl()).contains("/books?orderby=6"));
         Assert.assertNotEquals(notSortedTitlesBooks, sortedTitlesBooksByZToA);
@@ -116,9 +117,7 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
     public void testCategorySortByDisplayFourPerPage() {
         logger.info("Start positive testSortByDisplayFourPerPage");
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        categoryPage.openBookCategoryChain().selectDisplayFourPerPage();
+        categoryPage.selectDisplayFourPerPage();
 
         waitUtils.waitForCondition(ExpectedConditions.textToBePresentInElement(
                         categoryPage.getNextPage(),
@@ -139,9 +138,7 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
     public void testCategorySortByViewAsList() {
         logger.info("Start positive testSortByViewAsList");
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        categoryPage.openBookCategoryChain().selectViewAsList();
+        categoryPage.selectViewAsList();
 
         waitUtils.waitForCondition(
                 ExpectedConditions.presenceOfElementLocated(By.className("product-list")),
@@ -158,10 +155,7 @@ public class PositiveFiltersForCategoriesTest extends BaseTest {
     public void testCategoryCheckWarningWhenAddingItemToCart() {
         logger.info("Start positive testCategoryCheckWarningWhenAddingItemToCart");
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        categoryPage.openBookCategoryChain()
-                .addFirstAvailableProductFromCurrentPageToCart();
+        categoryPage.addFirstAvailableProductFromCurrentPageToCart();
 
         waitUtils.waitForCondition(
                 ExpectedConditions.textToBePresentInElement(categoryPage.getPopupWarningAddingItemToCart(),
