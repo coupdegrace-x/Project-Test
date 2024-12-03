@@ -26,11 +26,14 @@ public class PositiveShoppingCartTest extends BaseTest {
     private WaitUtils waitUtils;
 
     @BeforeMethod
-    protected void setUpRegPageAndBooks() {
+    protected void setUpPositiveShoppingCartTest() {
         shoppingCartPage = new ShoppingCartPage(getDriver());
         categoryPage = new CategoryPage(getDriver());
         registerPage = new RegisterPage(getDriver());
         waitUtils = new WaitUtils(getDriver());
+
+        registerRandomUser();
+        addAllProductsAndOpenShoppingCart();
     }
 
     private void addAllProductsToShoppingCart() {
@@ -41,15 +44,20 @@ public class PositiveShoppingCartTest extends BaseTest {
         categoryPage.openBookCategoryChain().addFirstAvailableProductFromCurrentPageToCart();
     }
 
+    private void registerRandomUser() {
+        new RegistrationOfRandomUser().userRegistration(registerPage);
+    }
+
+    private void addAllProductsAndOpenShoppingCart() {
+        addAllProductsToShoppingCart();
+        shoppingCartPage.openShoppingCart();
+    }
+
     @Test(description = "Removing items from the shopping cart when selecting the checkout box in the Remove column")
     public void testShopCartRemoveProduct() {
         logger.info("Start positive testShopCartRemoveProduct");
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        addAllProductsToShoppingCart();
-
-        shoppingCartPage.openShoppingCartChain()
+        shoppingCartPage
                 .removeFromCartChain()
                 .clickUpdateShoppingCart();
 
@@ -67,11 +75,7 @@ public class PositiveShoppingCartTest extends BaseTest {
     public void testShopCartRemoveProductQuantity() {
         logger.info("Start positive testShopCartRemoveProductQuantity");
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        addAllProductsToShoppingCart();
-
-        shoppingCartPage.openShoppingCartChain()
+        shoppingCartPage
                 .removeQuantityProductsChain()
                 .clickUpdateShoppingCart();
 
@@ -89,13 +93,7 @@ public class PositiveShoppingCartTest extends BaseTest {
     public void testShoppingCartContinue() {
         logger.info("Start positive testShoppingCartContinue");
 
-        new RegistrationOfRandomUser().userRegistration(registerPage);
-
-        addAllProductsToShoppingCart();
-
-        shoppingCartPage
-                .openShoppingCartChain()
-                .clickContinueShoppingCart();
+        shoppingCartPage.clickContinueShoppingCart();
 
         waitUtils.waitForCondition(
                 ExpectedConditions.urlContains("/books"),
@@ -111,19 +109,12 @@ public class PositiveShoppingCartTest extends BaseTest {
     public void testShoppingCartChangeQuantity() {
         logger.info("Start positive testShoppingCartChangeQuantity");
 
-        new RegistrationOfRandomUser()
-                .userRegistration(registerPage);
-
-        addAllProductsToShoppingCart();
-
-        shoppingCartPage.openShoppingCart();
-
-        double totalPriceBeforeChanges = shoppingCartPage.getTotalPriceOfProducts();
+        final double totalPriceBeforeChanges = shoppingCartPage.getTotalPriceOfProducts();
 
         shoppingCartPage.addQuantityProductsChain()
                 .clickUpdateShoppingCart();
 
-        double totalPriceAfterChanges = shoppingCartPage.getTotalPriceOfProducts();
+        final double totalPriceAfterChanges = shoppingCartPage.getTotalPriceOfProducts();
 
         assertNotEquals(totalPriceBeforeChanges, totalPriceAfterChanges);
 
